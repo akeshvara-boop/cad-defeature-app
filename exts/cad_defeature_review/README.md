@@ -19,12 +19,24 @@ review-only RTX viewport overlays. It never edits the source CAD model.
 - Amber: insufficient confidence; no operation proposed.
 - Red: detected but disallowed by current policy.
 
-## Current binding mode
+## Binding modes
 
-The manifest presently has transient OpenCascade `face_index` values, not stable
-USD mesh-face mappings. The extension therefore creates transparent, non-editing
-bounding-box overlay prims under `/World/CadDefeatureReview/Highlights`.
-Selecting an entry selects that overlay and shows its full evidence JSON.
+The extension supports two rendering modes:
 
-The next integration replaces boxes with `UsdGeomSubset` bindings after the CAD
-importer emits stable USD prim paths and mesh face indices.
+1. **Exact face highlighting** — a bound manifest includes `usd_binding` with a
+   USD mesh prim path plus mesh face indices. The extension creates a
+   `UsdGeomSubset` and binds the transparent review material directly to those
+   faces.
+2. **Bounding-box fallback** — an unbound manifest creates transparent,
+   non-editing overlay boxes under `/World/CadDefeatureReview/Highlights`.
+
+Create a bound manifest only from an importer-produced face map. The importer
+must establish and retain the mapping from the inventory-run OpenCascade
+`face_index` to USD mesh-face indices; never infer it from bounds alone.
+
+```powershell
+python -m cad_defeature.cli bind-usd `
+  --manifest data\reports\large-base-plate-highlights.json `
+  --face-map data\import\large-base-plate-usd-face-map.json `
+  --output data\reports\large-base-plate-highlights-bound.json
+```

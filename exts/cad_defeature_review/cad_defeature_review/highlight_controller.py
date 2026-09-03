@@ -29,6 +29,9 @@ class HighlightController:
             raise RuntimeError("No USD stage is open. Open/import the CAD model first.")
         UsdGeom.Xform.Define(stage, self.OVERLAY_ROOT)
         for item in highlights:
+            if item.get("usd_binding"):
+                self._render_face_subset(stage, item)
+                continue
             bounds = item["details"]["face_bounding_box"]
             overlay_path = f"{self.OVERLAY_ROOT}/{item['highlight_id']}"
             cube = UsdGeom.Cube.Define(stage, overlay_path)
@@ -49,6 +52,22 @@ class HighlightController:
             cube.GetPrim().SetCustomDataByKey("cad_defeature", item)
             self._overlay_paths[item["highlight_id"]] = overlay_path
 
+    def _render_face_subset(self, stage, item):
+        """Bind a preview material to exact imported USD mesh face indices."""
+        from pxr import UsdGeom
+
+        binding = item["usd_binding"]
+        mesh = stage.GetPrimAtPath(binding["usd_prim_path"])
+        if not mesh.IsValid() or not mesh.IsA(UsdGeom.Mesh):
+            raise RuntimeError(f"USD mesh was not found: {binding['usd_prim_path']}")
+        subset_path = f"{mesh.GetPath()}/CadDefeature_{item['highlight_id']}"
+        subset = UsdGeom.Subset.CreateGeomSubset(
+            UsdGeom.Mesh(mesh), subset_path.name, UsdGeom.Tokens.face, binding["usd_face_indices"]
+        )
+        self._bind_material(stage, subset, item["color"], item["opacity"])
+        subset.GetPrim().SetCustomDataByKey("cad_defeature", item)
+        self._overlay_paths[item["highlight_id"]] = str(subset.GetPath())
+
     def select(self, highlight_id: str):
         import omni.usd
 
@@ -68,4 +87,4 @@ class HighlightController:
         shader.CreateInput("diffuseColor", UsdShade.Tokens.color3f).Set(Gf.Vec3f(red, green, blue))
         shader.CreateInput("opacity", UsdShade.Tokens.float).Set(opacity)
         material.CreateSurfaceOutput().ConnectToSource(shader.ConnectableAPI(), "surface")
-        UsdShade.MaterialBindingAPI(cube).Bind(material)
+        UsdShade.MaterialBindingAPI(cube.GetPrim()).Bind(material)

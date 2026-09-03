@@ -13,6 +13,7 @@ from cad_defeature.highlights import build_highlight_manifest, load_inventory
 from cad_defeature.inventory import inventory_features
 from cad_defeature.model import read_defeaturing_solid
 from cad_defeature.policy import load_policy, policy_summary
+from cad_defeature.usd_bindings import attach_usd_bindings, load_face_map
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -55,6 +56,13 @@ def build_parser() -> argparse.ArgumentParser:
     highlights_parser.add_argument("--inventory", required=True, help="Path to an existing feature inventory JSON report.")
     highlights_parser.add_argument("--model", required=True, help="Original CAD model path recorded by the manifest.")
     highlights_parser.add_argument("--output", required=True, help="New JSON manifest path; existing files are never overwritten.")
+
+    bind_parser = subcommands.add_parser(
+        "bind-usd", help="Attach importer-provided USD mesh-face bindings to a highlight manifest."
+    )
+    bind_parser.add_argument("--manifest", required=True, help="Existing highlight manifest JSON path.")
+    bind_parser.add_argument("--face-map", required=True, help="Importer-produced OpenCascade-face to USD-face mapping JSON path.")
+    bind_parser.add_argument("--output", required=True, help="New bound manifest path; existing files are never overwritten.")
     return parser
 
 
@@ -90,6 +98,15 @@ def main(argv: list[str] | None = None) -> None:
         manifest = build_highlight_manifest(load_inventory(args.inventory), args.model)
         output.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
         print(json.dumps({"status": "highlight_manifest_written", "report_path": str(output), "summary": manifest["summary"]}, indent=2))
+    elif args.command == "bind-usd":
+        output = Path(args.output)
+        if output.exists():
+            raise FileExistsError(f"Refusing to overwrite existing bound manifest: {output}")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        manifest = load_inventory(args.manifest)
+        bound_manifest = attach_usd_bindings(manifest, load_face_map(args.face_map))
+        output.write_text(json.dumps(bound_manifest, indent=2, sort_keys=True), encoding="utf-8")
+        print(json.dumps({"status": "usd_bindings_attached", "report_path": str(output), "summary": bound_manifest["usd_binding_summary"]}, indent=2))
 
 
 if __name__ == "__main__":
