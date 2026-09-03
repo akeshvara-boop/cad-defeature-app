@@ -181,6 +181,8 @@
   "unclassified_revolution_count": 204,
   "unclassified_revolutions": [
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -188,6 +190,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302442,
       "face_bounding_box": {
         "xmax": -355.5999998973951,
         "xmin": -368.3000001,
@@ -197,9 +200,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 1,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -207,6 +213,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302427,
       "face_bounding_box": {
         "xmax": -210.25555545859515,
         "xmin": -222.9555556612,
@@ -216,9 +223,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 3,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -226,6 +236,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302399,
       "face_bounding_box": {
         "xmax": -196.84999989739518,
         "xmin": -209.55000009999998,
@@ -235,9 +246,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 4,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -245,6 +259,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302442,
       "face_bounding_box": {
         "xmax": -355.5999998973951,
         "xmin": -368.3000001,
@@ -254,9 +269,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 5,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -264,6 +282,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302413,
       "face_bounding_box": {
         "xmax": -210.25555545859518,
         "xmin": -222.9555556612,
@@ -273,9 +292,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 6,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -283,6 +305,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302442,
       "face_bounding_box": {
         "xmax": -327.0249998973951,
         "xmin": -339.7250001,
@@ -292,9 +315,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 7,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -302,6 +328,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302406,
       "face_bounding_box": {
         "xmax": 105.83333344440481,
         "xmin": 93.1333332418,
@@ -311,9 +338,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 8,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -321,6 +351,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302427,
       "face_bounding_box": {
         "xmax": 261.05555566380485,
         "xmin": 248.3555554612,
@@ -330,9 +361,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 9,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -340,6 +374,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302427,
       "face_bounding_box": {
         "xmax": 247.65000010260485,
         "xmin": 234.9499999,
@@ -349,9 +384,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 10,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -359,6 +397,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.35000010130242,
       "face_bounding_box": {
         "xmax": 105.83333344440484,
         "xmin": 93.1333332418,
@@ -368,9 +407,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 11,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -378,6 +420,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302399,
       "face_bounding_box": {
         "xmax": 261.05555566380485,
         "xmin": 248.35555546120005,
@@ -387,9 +430,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 12,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -397,6 +443,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302417,
       "face_bounding_box": {
         "xmax": 76.20000010260483,
         "xmin": 63.4999999,
@@ -406,9 +453,12 @@
         "zmin": -9.999999689137553e-08
       },
       "face_index": 13,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -416,6 +466,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700099999999,
       "face_bounding_box": {
         "xmax": 53.35270009999999,
         "xmin": 48.247299899999994,
@@ -425,9 +476,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 14,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -435,6 +489,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999956,
       "face_bounding_box": {
         "xmax": 82.98603344179999,
         "xmin": 77.8806332418,
@@ -444,9 +499,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 15,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -454,6 +512,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999814,
       "face_bounding_box": {
         "xmax": 224.80270009999998,
         "xmin": 219.69729990000002,
@@ -463,9 +522,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 16,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -473,6 +535,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999814,
       "face_bounding_box": {
         "xmax": 383.5527001,
         "xmin": 378.4472999,
@@ -482,9 +545,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 17,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -492,6 +558,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700099999967,
       "face_bounding_box": {
         "xmax": 238.20825566119996,
         "xmin": 233.10285546120002,
@@ -501,9 +568,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 18,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -511,6 +581,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999814,
       "face_bounding_box": {
         "xmax": 383.5527001,
         "xmin": 378.4472999,
@@ -520,9 +591,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 19,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -530,6 +604,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700100000038,
       "face_bounding_box": {
         "xmax": 317.2304778806,
         "xmin": 312.12507768059993,
@@ -539,9 +614,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 20,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -549,6 +627,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700099999953,
       "face_bounding_box": {
         "xmax": 238.20825566119996,
         "xmin": 233.10285546120005,
@@ -558,9 +637,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 21,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -568,6 +650,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.55270010000001,
       "face_bounding_box": {
         "xmax": 162.0082556612,
         "xmin": 156.90285546119998,
@@ -577,9 +660,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 22,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -587,6 +673,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999885,
       "face_bounding_box": {
         "xmax": 82.98603344179999,
         "xmin": 77.88063324180001,
@@ -596,9 +683,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 23,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -606,6 +696,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999956,
       "face_bounding_box": {
         "xmax": 82.98603344179999,
         "xmin": 77.8806332418,
@@ -615,9 +706,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 24,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -625,6 +719,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700099999953,
       "face_bounding_box": {
         "xmax": 238.20825566119996,
         "xmin": 233.10285546120005,
@@ -634,9 +729,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 25,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -644,6 +742,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999814,
       "face_bounding_box": {
         "xmax": 383.5527001,
         "xmin": 378.4472999,
@@ -653,9 +752,12 @@
         "zmin": -1.0000000442959299e-07
       },
       "face_index": 26,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -663,6 +765,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000069,
       "face_bounding_box": {
         "xmax": -374.56109989999993,
         "xmin": -387.43890010000007,
@@ -672,9 +775,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 27,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -682,6 +788,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -377.6217999,
         "xmin": -384.3782001,
@@ -691,9 +798,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 28,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -701,6 +811,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000069,
       "face_bounding_box": {
         "xmax": -374.56109989999993,
         "xmin": -387.43890010000007,
@@ -710,9 +821,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 29,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -720,6 +834,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -377.6217999,
         "xmin": -384.3782001,
@@ -729,9 +844,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 30,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -739,6 +857,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999991,
       "face_bounding_box": {
         "xmax": -73.9944332418,
         "xmin": -86.87223344179998,
@@ -748,9 +867,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 31,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -758,6 +880,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -77.0551332418,
         "xmin": -83.8115334418,
@@ -767,9 +890,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 32,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -777,6 +903,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -73.9944332418,
         "xmin": -86.87223344179999,
@@ -786,9 +913,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 33,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -796,6 +926,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000008,
       "face_bounding_box": {
         "xmax": -77.0551332418,
         "xmin": -83.81153344180001,
@@ -805,9 +936,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 34,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -815,6 +949,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -229.2166554612,
         "xmin": -242.0944556612,
@@ -824,9 +959,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 35,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -834,6 +972,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -232.2773554612,
         "xmin": -239.0337556612,
@@ -843,9 +982,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 36,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -853,6 +995,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000005,
       "face_bounding_box": {
         "xmax": -44.36109989999999,
         "xmin": -57.2389001,
@@ -862,9 +1005,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 37,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -872,6 +1018,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -47.421799899999996,
         "xmin": -54.1782001,
@@ -881,9 +1028,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 38,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -891,6 +1041,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000012,
       "face_bounding_box": {
         "xmax": -308.23887768059996,
         "xmin": -321.1166778806,
@@ -900,9 +1051,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 39,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -910,6 +1064,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.3782000999999866,
       "face_bounding_box": {
         "xmax": -311.29957768059995,
         "xmin": -318.0559778805999,
@@ -919,9 +1074,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 40,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -929,6 +1087,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -229.2166554612,
         "xmin": -242.0944556612,
@@ -938,9 +1097,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 41,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -948,6 +1110,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -232.2773554612,
         "xmin": -239.0337556612,
@@ -957,9 +1120,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 42,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -967,6 +1133,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -153.0166554612,
         "xmin": -165.8944556612,
@@ -976,9 +1143,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 43,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -986,6 +1156,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -156.0773554612,
         "xmin": -162.8337556612,
@@ -995,9 +1166,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 44,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1005,6 +1179,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -73.9944332418,
         "xmin": -86.87223344179999,
@@ -1014,9 +1189,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 45,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1024,6 +1202,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -77.0551332418,
         "xmin": -83.8115334418,
@@ -1033,9 +1212,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 46,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1043,6 +1225,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -229.2166554612,
         "xmin": -242.0944556612,
@@ -1052,9 +1235,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 47,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1062,6 +1248,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.3782001000000292,
       "face_bounding_box": {
         "xmax": -232.2773554612,
         "xmin": -239.03375566120005,
@@ -1071,9 +1258,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 48,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1081,6 +1271,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000069,
       "face_bounding_box": {
         "xmax": -374.56109989999993,
         "xmin": -387.43890010000007,
@@ -1090,9 +1281,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 49,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1100,6 +1294,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -377.6217999,
         "xmin": -384.3782001,
@@ -1109,9 +1304,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 50,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1119,6 +1317,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000055,
       "face_bounding_box": {
         "xmax": -215.81109989999996,
         "xmin": -228.68890010000007,
@@ -1128,9 +1327,12 @@
         "zmin": 3.7817676475999984
       },
       "face_index": 51,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.781767947600001,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1138,6 +1340,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.3782000999999724,
       "face_bounding_box": {
         "xmax": -218.8717999,
         "xmin": -225.62820009999996,
@@ -1147,9 +1350,12 @@
         "zmin": -1.0000000263806172e-07
       },
       "face_index": 52,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 6.350000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1157,6 +1363,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.35000010260481,
       "face_bounding_box": {
         "xmax": -50.799999900000024,
         "xmin": -63.50000009739515,
@@ -1166,9 +1373,12 @@
         "zmin": -9.99999955591079e-08
       },
       "face_index": 55,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 6.350000200000003,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -1176,6 +1386,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000101302413,
       "face_bounding_box": {
         "xmax": 63.50000010260482,
         "xmin": 50.799999899999996,
@@ -1185,9 +1396,12 @@
         "zmin": -9.999999378275106e-08
       },
       "face_index": 59,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199999994,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1195,6 +1409,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 26.987500100000005,
       "face_bounding_box": {
         "xmax": -22.224999899999997,
         "xmin": -25.40000010065121,
@@ -1204,9 +1419,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 66,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199999994,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1214,6 +1432,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 26.987500100000005,
       "face_bounding_box": {
         "xmax": -25.39999989934879,
         "xmin": -28.5750001,
@@ -1223,9 +1442,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 67,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999764,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1233,6 +1455,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 139.70000010000004,
       "face_bounding_box": {
         "xmax": -50.79999990000035,
         "xmin": -330.2000001000004,
@@ -1242,9 +1465,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 70,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000201221394,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1252,6 +1478,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 139.7000001,
       "face_bounding_box": {
         "xmax": -50.7999998999999,
         "xmin": -330.2000000999999,
@@ -1261,9 +1488,12 @@
         "zmin": -1.0122139454106218e-07
       },
       "face_index": 71,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001993488013,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1271,6 +1501,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 104.7750001,
       "face_bounding_box": {
         "xmax": -352.42499989999993,
         "xmin": -355.6000001013024,
@@ -1280,9 +1511,12 @@
         "zmin": -9.934880179353058e-08
       },
       "face_index": 74,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000201221394,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1290,6 +1524,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 104.7750001,
       "face_bounding_box": {
         "xmax": -355.59999990057014,
         "xmin": -358.7750001,
@@ -1299,9 +1534,12 @@
         "zmin": -1.0122139454106218e-07
       },
       "face_index": 75,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000201221394,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1309,6 +1547,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699999,
       "face_bounding_box": {
         "xmax": -301.97777768059996,
         "xmin": -330.20000009999995,
@@ -1318,9 +1557,12 @@
         "zmin": -1.0122139454106218e-07
       },
       "face_index": 78,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000075,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1328,6 +1570,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209700027,
       "face_bounding_box": {
         "xmax": -301.9777776806,
         "xmin": -330.20000010000007,
@@ -1337,9 +1580,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 79,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1347,6 +1593,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": -276.5777776799488,
         "xmin": -279.75277788060004,
@@ -1356,9 +1603,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 82,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001993488013,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1366,6 +1616,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.3750001,
       "face_bounding_box": {
         "xmax": -273.40277768059997,
         "xmin": -276.5777778819024,
@@ -1375,9 +1626,12 @@
         "zmin": -9.934880179353058e-08
       },
       "face_index": 83,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999933,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1385,6 +1639,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": -222.9555554612,
         "xmin": -251.17777788059996,
@@ -1394,9 +1649,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 86,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000075,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1404,6 +1662,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": -222.95555546120005,
         "xmin": -251.17777788060002,
@@ -1413,9 +1672,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 87,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999764,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1423,6 +1685,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": -194.3805554612,
         "xmin": -197.55555566185117,
@@ -1432,9 +1695,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 90,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000201221394,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1442,6 +1708,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.3750001,
       "face_bounding_box": {
         "xmax": -197.55555546177018,
         "xmin": -200.73055566119996,
@@ -1451,9 +1718,12 @@
         "zmin": -1.0122139454106218e-07
       },
       "face_index": 91,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199999979,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1461,6 +1731,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": -143.93333324179997,
         "xmin": -172.15555566119994,
@@ -1470,9 +1741,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 94,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001993488013,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1480,6 +1754,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": -143.93333324180003,
         "xmin": -172.1555556612,
@@ -1489,9 +1764,12 @@
         "zmin": -9.934880179353058e-08
       },
       "face_index": 95,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1499,6 +1777,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": -118.5333332411488,
         "xmin": -121.7083334418,
@@ -1508,9 +1787,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 98,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1518,6 +1800,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": -115.35833324180001,
         "xmin": -118.5333334424512,
@@ -1527,9 +1810,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 99,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1537,6 +1823,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699999,
       "face_bounding_box": {
         "xmax": -64.91111102239995,
         "xmin": -93.13333344179995,
@@ -1546,9 +1833,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 102,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199348787,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1556,6 +1846,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699992,
       "face_bounding_box": {
         "xmax": -64.91111102240004,
         "xmin": -93.13333344180002,
@@ -1565,9 +1856,12 @@
         "zmin": -9.934878758267586e-08
       },
       "face_index": 103,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999977,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1575,6 +1869,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": -36.3361110224,
         "xmin": -39.51111122305121,
@@ -1584,9 +1879,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 106,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1594,6 +1892,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": -39.51111102174879,
         "xmin": -42.6861112224,
@@ -1603,9 +1902,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 107,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199999979,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1613,6 +1915,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111222400002,
       "face_bounding_box": {
         "xmax": 14.111111222400037,
         "xmin": -14.111111222399966,
@@ -1622,9 +1925,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 110,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001993488013,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1632,6 +1938,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111222400002,
       "face_bounding_box": {
         "xmax": 14.111111222399973,
         "xmin": -14.111111222400028,
@@ -1641,9 +1948,12 @@
         "zmin": -9.934880179353058e-08
       },
       "face_index": 111,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999977,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1651,6 +1961,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 39.51111122305121,
         "xmin": 36.3361110224,
@@ -1660,9 +1971,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 114,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1670,6 +1984,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 42.6861112224,
         "xmin": 39.51111102174879,
@@ -1679,9 +1994,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 115,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1689,6 +2007,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699999,
       "face_bounding_box": {
         "xmax": 93.13333344180003,
         "xmin": 64.91111102240004,
@@ -1698,9 +2017,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 118,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000005,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1708,6 +2030,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699999,
       "face_bounding_box": {
         "xmax": 93.13333344179995,
         "xmin": 64.91111102239995,
@@ -1717,9 +2040,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 119,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1727,6 +2053,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 121.7083334418,
         "xmin": 118.5333332411488,
@@ -1736,9 +2063,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 122,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999906,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1746,6 +2076,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 118.5333334424512,
         "xmin": 115.35833324180001,
@@ -1755,9 +2086,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 123,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199999979,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1765,6 +2099,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": 172.1555556612,
         "xmin": 143.93333324180003,
@@ -1774,9 +2109,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 126,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001993488013,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1784,6 +2122,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": 172.15555566119994,
         "xmin": 143.93333324179997,
@@ -1793,9 +2132,12 @@
         "zmin": -9.934880179353058e-08
       },
       "face_index": 127,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999764,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1803,6 +2145,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 197.55555566185117,
         "xmin": 194.3805554612,
@@ -1812,9 +2155,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 130,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1822,6 +2168,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 200.7305556612,
         "xmin": 197.55555546054876,
@@ -1831,9 +2178,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 131,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999933,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1841,6 +2191,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": 251.17777788060002,
         "xmin": 222.95555546120005,
@@ -1850,9 +2201,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 134,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000075,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1860,6 +2214,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699985,
       "face_bounding_box": {
         "xmax": 251.17777788059996,
         "xmin": 222.9555554612,
@@ -1869,9 +2224,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 135,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1879,6 +2237,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 279.75277788060004,
         "xmin": 276.5777776799488,
@@ -1888,9 +2247,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 138,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1898,6 +2260,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 79.37500010000001,
       "face_bounding_box": {
         "xmax": 276.5777778812512,
         "xmin": 273.40277768059997,
@@ -1907,9 +2270,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 139,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000201221394,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -1917,6 +2283,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209699999,
       "face_bounding_box": {
         "xmax": 330.2000001,
         "xmin": 301.9777776806,
@@ -1926,9 +2293,12 @@
         "zmin": -1.0122139454106218e-07
       },
       "face_index": 142,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000075,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1936,6 +2306,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 14.111111209700027,
       "face_bounding_box": {
         "xmax": 330.20000009999995,
         "xmin": 301.9777776805999,
@@ -1945,9 +2316,12 @@
         "zmin": -9.99999964023828e-08
       },
       "face_index": 143,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -1955,6 +2329,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 104.77500010000003,
       "face_bounding_box": {
         "xmax": 355.6000001006512,
         "xmin": 352.42499989999993,
@@ -1964,9 +2339,12 @@
         "zmin": -9.999999076244982e-08
       },
       "face_index": 146,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -1974,6 +2352,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 104.77500010000003,
       "face_bounding_box": {
         "xmax": 358.7750001,
         "xmin": 355.5999998993487,
@@ -1983,9 +2362,12 @@
         "zmin": -9.999999076244982e-08
       },
       "face_index": 147,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750001999999764,
       "axis_direction": {
         "x": -1.0,
         "y": 0.0,
@@ -1993,6 +2375,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 139.70000010000004,
       "face_bounding_box": {
         "xmax": 330.20000009999967,
         "xmin": 50.799999899999605,
@@ -2002,9 +2385,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 150,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000005,
       "axis_direction": {
         "x": 1.0,
         "y": 0.0,
@@ -2012,6 +2398,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 139.70000010000004,
       "face_bounding_box": {
         "xmax": 330.2000001000004,
         "xmin": 50.79999990000035,
@@ -2021,9 +2408,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 152,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199999994,
       "axis_direction": {
         "x": 0.0,
         "y": -1.0,
@@ -2031,6 +2421,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 26.987500100000005,
       "face_bounding_box": {
         "xmax": 25.40000010065121,
         "xmin": 22.224999899999997,
@@ -2040,9 +2431,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 154,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000199999994,
       "axis_direction": {
         "x": 0.0,
         "y": 1.0,
@@ -2050,6 +2444,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 26.987500100000005,
       "face_bounding_box": {
         "xmax": 28.5750001,
         "xmin": 25.39999989934879,
@@ -2059,9 +2454,12 @@
         "zmin": -9.999999358241632e-08
       },
       "face_index": 157,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2069,6 +2467,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.3782000999999724,
       "face_bounding_box": {
         "xmax": -218.8717999,
         "xmin": -225.62820009999996,
@@ -2078,9 +2477,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 158,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2088,6 +2490,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000026,
       "face_bounding_box": {
         "xmax": -215.8110999,
         "xmin": -228.68890010000004,
@@ -2097,9 +2500,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 159,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2107,6 +2513,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -377.6217999,
         "xmin": -384.3782001,
@@ -2116,9 +2523,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 160,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2126,6 +2536,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000069,
       "face_bounding_box": {
         "xmax": -374.56109989999993,
         "xmin": -387.43890010000007,
@@ -2135,9 +2546,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 161,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2145,6 +2559,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.3782001000000292,
       "face_bounding_box": {
         "xmax": -232.2773554612,
         "xmin": -239.03375566120005,
@@ -2154,9 +2569,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 162,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2164,6 +2582,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -229.2166554612,
         "xmin": -242.0944556612,
@@ -2173,9 +2592,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 163,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2183,6 +2605,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -77.0551332418,
         "xmin": -83.8115334418,
@@ -2192,9 +2615,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 164,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2202,6 +2628,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -73.9944332418,
         "xmin": -86.87223344179999,
@@ -2211,9 +2638,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 165,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2221,6 +2651,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.3782000999999866,
       "face_bounding_box": {
         "xmax": -156.0773554612,
         "xmin": -162.83375566119997,
@@ -2230,9 +2661,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 166,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2240,6 +2674,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -153.0166554612,
         "xmin": -165.8944556612,
@@ -2249,9 +2684,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 167,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2259,6 +2697,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -232.2773554612,
         "xmin": -239.03375566120002,
@@ -2268,9 +2707,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 168,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2278,6 +2720,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -229.2166554612,
         "xmin": -242.0944556612,
@@ -2287,9 +2730,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 169,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2297,6 +2743,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.3782000999999866,
       "face_bounding_box": {
         "xmax": -311.29957768059995,
         "xmin": -318.0559778805999,
@@ -2306,9 +2753,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 170,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2316,6 +2766,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000012,
       "face_bounding_box": {
         "xmax": -308.23887768059996,
         "xmin": -321.1166778806,
@@ -2325,9 +2776,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 171,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2335,6 +2789,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -47.421799899999996,
         "xmin": -54.1782001,
@@ -2344,9 +2799,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 172,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2354,6 +2812,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -44.3610999,
         "xmin": -57.238900099999995,
@@ -2363,9 +2822,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 173,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2373,6 +2835,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -232.2773554612,
         "xmin": -239.03375566120002,
@@ -2382,9 +2845,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 174,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2392,6 +2858,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -229.2166554612,
         "xmin": -242.0944556612,
@@ -2401,9 +2868,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 175,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2411,6 +2881,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000008,
       "face_bounding_box": {
         "xmax": -77.0551332418,
         "xmin": -83.81153344180001,
@@ -2420,9 +2891,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 176,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2430,6 +2904,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999998,
       "face_bounding_box": {
         "xmax": -73.9944332418,
         "xmin": -86.87223344179999,
@@ -2439,9 +2914,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 177,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2449,6 +2927,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000001,
       "face_bounding_box": {
         "xmax": -77.0551332418,
         "xmin": -83.8115334418,
@@ -2458,9 +2937,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 178,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2468,6 +2950,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900099999991,
       "face_bounding_box": {
         "xmax": -73.9944332418,
         "xmin": -86.87223344179998,
@@ -2477,9 +2960,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 179,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2487,6 +2973,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -377.6217999,
         "xmin": -384.3782001,
@@ -2496,9 +2983,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 180,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2506,6 +2996,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000069,
       "face_bounding_box": {
         "xmax": -374.56109989999993,
         "xmin": -387.43890010000007,
@@ -2515,9 +3006,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 181,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 3.7817679476000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2525,6 +3019,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 3.378200100000015,
       "face_bounding_box": {
         "xmax": -377.6217999,
         "xmin": -384.3782001,
@@ -2534,9 +3029,12 @@
         "zmin": -1.0000000527612344e-07
       },
       "face_index": 182,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 2.5682324524000015,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2544,6 +3042,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.438900100000069,
       "face_bounding_box": {
         "xmax": -374.56109989999993,
         "xmin": -387.43890010000007,
@@ -2553,9 +3052,12 @@
         "zmin": 3.7817676475999966
       },
       "face_index": 183,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2563,6 +3065,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999814,
       "face_bounding_box": {
         "xmax": 383.5527001,
         "xmin": 378.4472999,
@@ -2572,9 +3075,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 184,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2582,6 +3088,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700099999953,
       "face_bounding_box": {
         "xmax": 238.20825566119996,
         "xmin": 233.10285546120005,
@@ -2591,9 +3098,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 185,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2601,6 +3111,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999956,
       "face_bounding_box": {
         "xmax": 82.98603344179999,
         "xmin": 77.8806332418,
@@ -2610,9 +3121,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 186,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2620,6 +3134,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999885,
       "face_bounding_box": {
         "xmax": 82.98603344179999,
         "xmin": 77.88063324180001,
@@ -2629,9 +3144,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 187,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2639,6 +3157,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700100000024,
       "face_bounding_box": {
         "xmax": 162.0082556612,
         "xmin": 156.90285546119995,
@@ -2648,9 +3167,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 188,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2658,6 +3180,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700099999953,
       "face_bounding_box": {
         "xmax": 238.20825566119996,
         "xmin": 233.10285546120005,
@@ -2667,9 +3190,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 189,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2677,6 +3203,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700100000038,
       "face_bounding_box": {
         "xmax": 317.2304778806,
         "xmin": 312.12507768059993,
@@ -2686,9 +3213,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 190,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2696,6 +3226,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999814,
       "face_bounding_box": {
         "xmax": 383.5527001,
         "xmin": 378.4472999,
@@ -2705,9 +3236,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 191,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2715,6 +3249,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999387,
       "face_bounding_box": {
         "xmax": 238.20825566119996,
         "xmin": 233.10285546120008,
@@ -2724,9 +3259,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 192,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2734,6 +3272,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.55270010000001,
       "face_bounding_box": {
         "xmax": 383.5527001,
         "xmin": 378.44729989999996,
@@ -2743,9 +3282,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 193,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2753,6 +3295,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999956,
       "face_bounding_box": {
         "xmax": 224.80270009999998,
         "xmin": 219.6972999,
@@ -2762,9 +3305,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 194,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2772,6 +3318,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.5527000999999885,
       "face_bounding_box": {
         "xmax": 82.98603344179999,
         "xmin": 77.88063324180001,
@@ -2781,9 +3328,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 195,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 3,
+      "axial_span": 6.350000200000005,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2791,6 +3341,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 2.552700099999999,
       "face_bounding_box": {
         "xmax": 53.35270009999999,
         "xmin": 48.247299899999994,
@@ -2800,9 +3351,12 @@
         "zmin": -1.0000000885918598e-07
       },
       "face_index": 196,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2810,6 +3364,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000025,
       "face_bounding_box": {
         "xmax": 209.5500001,
         "xmin": 196.84999990260485,
@@ -2819,9 +3374,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 197,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2829,6 +3387,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442767,
       "face_bounding_box": {
         "xmax": 76.20000010488553,
         "xmin": 63.4999999,
@@ -2838,9 +3397,12 @@
         "zmin": -1e-07
       },
       "face_index": 199,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2848,6 +3410,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": 327.3777778806,
         "xmin": 301.97777768059996,
@@ -2857,9 +3420,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 202,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2867,6 +3433,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": 327.3777778806,
         "xmin": 301.97777768059996,
@@ -2876,9 +3443,12 @@
         "zmin": -1e-07
       },
       "face_index": 204,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2886,6 +3456,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 339.72500009999993,
         "xmin": 327.0249999026048,
@@ -2895,9 +3466,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 207,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2905,6 +3479,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442763,
       "face_bounding_box": {
         "xmax": 261.0555556660856,
         "xmin": 248.35555546120005,
@@ -2914,9 +3489,12 @@
         "zmin": -1e-07
       },
       "face_index": 209,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2924,6 +3502,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000018,
       "face_bounding_box": {
         "xmax": 222.9555556612,
         "xmin": 210.25555546380485,
@@ -2933,9 +3512,12 @@
         "zmin": -9.999999911182158e-08
       },
       "face_index": 212,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2943,6 +3525,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.35000010244277,
       "face_bounding_box": {
         "xmax": 105.83333344668554,
         "xmin": 93.1333332418,
@@ -2952,9 +3535,12 @@
         "zmin": -1e-07
       },
       "face_index": 214,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2962,6 +3548,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 170.74444453879997,
         "xmin": 145.3444443388,
@@ -2971,9 +3558,12 @@
         "zmin": -1e-07
       },
       "face_index": 217,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -2981,6 +3571,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 170.74444453879997,
         "xmin": 145.3444443388,
@@ -2990,9 +3581,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 219,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3000,6 +3594,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999999,
       "face_bounding_box": {
         "xmax": 12.700000099999999,
         "xmin": -12.700000099999999,
@@ -3009,9 +3604,12 @@
         "zmin": -9.999999733546474e-08
       },
       "face_index": 222,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3019,6 +3617,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999999,
       "face_bounding_box": {
         "xmax": 12.700000099999999,
         "xmin": -12.700000099999999,
@@ -3028,9 +3627,12 @@
         "zmin": -1e-07
       },
       "face_index": 224,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3038,6 +3640,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": 93.13333344179999,
         "xmin": 67.7333332418,
@@ -3047,9 +3650,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 227,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3057,6 +3663,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000004,
       "face_bounding_box": {
         "xmax": 93.1333334418,
         "xmin": 67.7333332418,
@@ -3066,9 +3673,12 @@
         "zmin": -1e-07
       },
       "face_index": 229,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3076,6 +3686,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": 93.13333344179999,
         "xmin": 67.7333332418,
@@ -3085,9 +3696,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 232,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3095,6 +3709,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000009999999,
       "face_bounding_box": {
         "xmax": 93.13333344179998,
         "xmin": 67.7333332418,
@@ -3104,9 +3719,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 234,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3114,6 +3732,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 170.74444453879997,
         "xmin": 145.3444443388,
@@ -3123,9 +3742,12 @@
         "zmin": -1e-07
       },
       "face_index": 237,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3133,6 +3755,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999968,
       "face_bounding_box": {
         "xmax": 170.74444453879994,
         "xmin": 145.3444443388,
@@ -3142,9 +3765,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 239,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3152,6 +3778,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000068,
       "face_bounding_box": {
         "xmax": 393.70000010000007,
         "xmin": 368.29999989999993,
@@ -3161,9 +3788,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 242,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3171,6 +3801,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000096,
       "face_bounding_box": {
         "xmax": 393.7000001000001,
         "xmin": 368.29999989999993,
@@ -3180,9 +3811,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 244,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3190,6 +3824,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442749,
       "face_bounding_box": {
         "xmax": 247.6500001048855,
         "xmin": 234.9499999,
@@ -3199,9 +3834,12 @@
         "zmin": -1e-07
       },
       "face_index": 247,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3209,6 +3847,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 368.3000001,
         "xmin": 355.5999999026048,
@@ -3218,9 +3857,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 249,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3228,6 +3870,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 368.3000001,
         "xmin": 355.5999999026048,
@@ -3237,9 +3880,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 252,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3247,6 +3893,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442792,
       "face_bounding_box": {
         "xmax": 261.0555556660856,
         "xmin": 248.3555554612,
@@ -3256,9 +3903,12 @@
         "zmin": -1e-07
       },
       "face_index": 254,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3266,6 +3916,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000068,
       "face_bounding_box": {
         "xmax": 393.70000010000007,
         "xmin": 368.29999989999993,
@@ -3275,9 +3926,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 257,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3285,6 +3939,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000068,
       "face_bounding_box": {
         "xmax": 393.70000010000007,
         "xmin": 368.29999989999993,
@@ -3294,9 +3949,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 259,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3304,6 +3962,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 327.3777778805999,
         "xmin": 301.97777768059996,
@@ -3313,9 +3972,12 @@
         "zmin": -9.999999733546474e-08
       },
       "face_index": 262,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3323,6 +3985,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": 327.3777778806,
         "xmin": 301.97777768059996,
@@ -3332,9 +3995,12 @@
         "zmin": -1e-07
       },
       "face_index": 264,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3342,6 +4008,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 248.3555556612,
         "xmin": 222.95555546120002,
@@ -3351,9 +4018,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 267,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3361,6 +4031,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": 248.35555566120001,
         "xmin": 222.95555546120002,
@@ -3370,9 +4041,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 269,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3380,6 +4054,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": 222.9555556612,
         "xmin": 210.25555546380482,
@@ -3389,9 +4064,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 272,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3399,6 +4077,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442785,
       "face_bounding_box": {
         "xmax": 105.83333344668557,
         "xmin": 93.1333332418,
@@ -3408,9 +4087,12 @@
         "zmin": -1e-07
       },
       "face_index": 274,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3418,6 +4100,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": 248.3555556612,
         "xmin": 222.95555546120002,
@@ -3427,9 +4110,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 277,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3437,6 +4123,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999968,
       "face_bounding_box": {
         "xmax": 248.35555566119996,
         "xmin": 222.95555546120002,
@@ -3446,9 +4133,12 @@
         "zmin": -1e-07
       },
       "face_index": 279,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3456,6 +4146,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000010000004,
       "face_bounding_box": {
         "xmax": -301.97777768059996,
         "xmin": -327.37777788060004,
@@ -3465,9 +4156,12 @@
         "zmin": -9.999999733546474e-08
       },
       "face_index": 282,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3475,6 +4169,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000068,
       "face_bounding_box": {
         "xmax": -301.9777776805999,
         "xmin": -327.37777788060004,
@@ -3484,9 +4179,12 @@
         "zmin": -1e-07
       },
       "face_index": 284,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3494,6 +4192,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000068,
       "face_bounding_box": {
         "xmax": -301.9777776805999,
         "xmin": -327.37777788060004,
@@ -3503,9 +4202,12 @@
         "zmin": -9.999999733546474e-08
       },
       "face_index": 287,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3513,6 +4215,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000068,
       "face_bounding_box": {
         "xmax": -301.9777776805999,
         "xmin": -327.37777788060004,
@@ -3522,9 +4225,12 @@
         "zmin": -1e-07
       },
       "face_index": 289,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3532,6 +4238,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442806,
       "face_bounding_box": {
         "xmax": -327.0249998951144,
         "xmin": -339.7250001,
@@ -3541,9 +4248,12 @@
         "zmin": -1e-07
       },
       "face_index": 292,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3551,6 +4261,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000010000004,
       "face_bounding_box": {
         "xmax": -248.3555554612,
         "xmin": -261.05555565859515,
@@ -3560,9 +4271,12 @@
         "zmin": -9.999999911182158e-08
       },
       "face_index": 294,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3570,6 +4284,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442792,
       "face_bounding_box": {
         "xmax": -210.25555545631443,
         "xmin": -222.9555556612,
@@ -3579,9 +4294,12 @@
         "zmin": -1e-07
       },
       "face_index": 297,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3589,6 +4307,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000009999999,
       "face_bounding_box": {
         "xmax": -93.13333324179999,
         "xmin": -105.83333343919516,
@@ -3598,9 +4317,12 @@
         "zmin": -9.999999911182158e-08
       },
       "face_index": 299,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3608,6 +4330,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000025,
       "face_bounding_box": {
         "xmax": -145.34444433879995,
         "xmin": -170.7444445388,
@@ -3617,9 +4340,12 @@
         "zmin": -1e-07
       },
       "face_index": 302,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3627,6 +4353,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": -145.34444433879997,
         "xmin": -170.7444445388,
@@ -3636,9 +4363,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 304,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3646,6 +4376,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": -145.3444443388,
         "xmin": -170.7444445388,
@@ -3655,9 +4386,12 @@
         "zmin": -1e-07
       },
       "face_index": 307,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3665,6 +4399,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": -145.3444443388,
         "xmin": -170.7444445388,
@@ -3674,9 +4409,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 309,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3684,6 +4422,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": -67.7333332418,
         "xmin": -93.13333344179999,
@@ -3693,9 +4432,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 312,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3703,6 +4445,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000009999999,
       "face_bounding_box": {
         "xmax": -67.73333324180001,
         "xmin": -93.13333344179999,
@@ -3712,9 +4455,12 @@
         "zmin": -1e-07
       },
       "face_index": 314,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3722,6 +4468,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": -67.7333332418,
         "xmin": -93.13333344179999,
@@ -3731,9 +4478,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 317,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3741,6 +4491,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000004,
       "face_bounding_box": {
         "xmax": -67.73333324179998,
         "xmin": -93.13333344179999,
@@ -3750,9 +4501,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 319,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3760,6 +4514,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": -368.2999999,
         "xmin": -393.7000001,
@@ -3769,9 +4524,12 @@
         "zmin": -1e-07
       },
       "face_index": 322,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3779,6 +4537,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": -368.2999999,
         "xmin": -393.7000001,
@@ -3788,9 +4547,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 324,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3798,6 +4560,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": -368.2999999,
         "xmin": -393.7000001,
@@ -3807,9 +4570,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 327,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000013,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3817,6 +4583,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000010000004,
       "face_bounding_box": {
         "xmax": -368.29999989999993,
         "xmin": -393.7000001,
@@ -3826,9 +4593,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 329,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3836,6 +4606,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000010000004,
       "face_bounding_box": {
         "xmax": -234.94999989999994,
         "xmin": -247.65000009739512,
@@ -3845,9 +4616,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 332,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3855,6 +4629,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.3500001024427775,
       "face_bounding_box": {
         "xmax": -355.5999998951144,
         "xmin": -368.3000001,
@@ -3864,9 +4639,12 @@
         "zmin": -1e-07
       },
       "face_index": 334,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3874,6 +4652,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.350000102442763,
       "face_bounding_box": {
         "xmax": -196.84999989511445,
         "xmin": -209.55000009999998,
@@ -3883,9 +4662,12 @@
         "zmin": -1e-07
       },
       "face_index": 337,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3893,6 +4675,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": -63.499999899999985,
         "xmin": -76.20000009739516,
@@ -3902,9 +4685,12 @@
         "zmin": -9.999999955591079e-08
       },
       "face_index": 339,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3912,6 +4698,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": -222.9555554612,
         "xmin": -248.35555566120001,
@@ -3921,9 +4708,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 342,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3931,6 +4721,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": -222.9555554612,
         "xmin": -248.35555566120001,
@@ -3940,9 +4731,12 @@
         "zmin": -1e-07
       },
       "face_index": 344,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.175000200000002,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3950,6 +4744,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000100000011,
       "face_bounding_box": {
         "xmax": -222.9555554612,
         "xmin": -248.35555566120001,
@@ -3959,9 +4754,12 @@
         "zmin": -9.999999822364316e-08
       },
       "face_index": 347,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3969,6 +4767,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999997,
       "face_bounding_box": {
         "xmax": -222.95555546120002,
         "xmin": -248.35555566120001,
@@ -3978,9 +4777,12 @@
         "zmin": -1e-07
       },
       "face_index": 349,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -3988,6 +4790,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.3500001024427775,
       "face_bounding_box": {
         "xmax": -210.25555545631445,
         "xmin": -222.9555556612,
@@ -3997,9 +4800,12 @@
         "zmin": -1e-07
       },
       "face_index": 352,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -4007,6 +4813,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.700000099999983,
       "face_bounding_box": {
         "xmax": -93.1333332418,
         "xmin": -105.83333343919514,
@@ -4016,9 +4823,12 @@
         "zmin": -9.999999911182158e-08
       },
       "face_index": 354,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000004,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -4026,6 +4836,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 6.3500001024427775,
       "face_bounding_box": {
         "xmax": -355.5999998951144,
         "xmin": -368.3000001,
@@ -4035,9 +4846,12 @@
         "zmin": -1e-07
       },
       "face_index": 357,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     },
     {
+      "adjacent_face_count": 4,
+      "axial_span": 3.1750002000000017,
       "axis_direction": {
         "x": 0.0,
         "y": 0.0,
@@ -4045,6 +4859,7 @@
       },
       "basis_curve_base_type": "Geom_Line",
       "basis_curve_radius": null,
+      "estimated_radius": 12.70000010000004,
       "face_bounding_box": {
         "xmax": -248.35555546119994,
         "xmin": -261.0555556585952,
@@ -4054,7 +4869,8 @@
         "zmin": -9.999999911182158e-08
       },
       "face_index": 359,
-      "note": "Unclassified revolution requires topology-aware confirmation before any operation."
+      "note": "Unclassified revolution requires topology-aware confirmation before any operation.",
+      "topology_classification": "topology_map_pending_face_owner_extraction"
     }
   ]
 }

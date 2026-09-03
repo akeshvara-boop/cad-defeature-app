@@ -9,10 +9,12 @@ def inventory_features(shape, policy: dict[str, object]) -> dict[str, object]:
     from OCP.BRepBndLib import BRepBndLib
     from OCP.Bnd import Bnd_Box
     from OCP.GeomAbs import GeomAbs_Cone, GeomAbs_Cylinder, GeomAbs_SurfaceOfRevolution, GeomAbs_Torus
-    from OCP.TopAbs import TopAbs_FACE
-    from OCP.TopExp import TopExp_Explorer
+    from OCP.TopAbs import TopAbs_EDGE, TopAbs_FACE
+    from OCP.TopExp import TopExp, TopExp_Explorer
+    from OCP.TopTools import TopTools_IndexedDataMapOfShapeListOfShape
     from OCP.TopoDS import TopoDS
 
+    adjacency = _face_adjacency(shape, TopAbs_EDGE, TopAbs_FACE, TopExp, TopTools_IndexedDataMapOfShapeListOfShape)
     candidates, type_counts, unclassified = [], {}, []
     explorer, index = TopExp_Explorer(shape, TopAbs_FACE), 0
     while explorer.More():
@@ -32,7 +34,13 @@ def inventory_features(shape, policy: dict[str, object]) -> dict[str, object]:
             fact = _revolution_fact(index, face, adaptor, Bnd_Box, BRepBndLib)
             if fact["basis_curve_base_type"] == "Geom_Circle" and fact["basis_curve_radius"] is not None:
                 candidate = _candidate(index, "revolution_of_circle", "external_fillet", fact["basis_curve_radius"], policy, face, Bnd_Box, BRepBndLib, fact)
+            elif fact["basis_curve_base_type"] == "Geom_Line":
+                candidate = _line_revolution_candidate(index, face, fact, adjacency[index], policy, Bnd_Box, BRepBndLib)
+                if candidate is None:
+                    unclassified.append(fact)
             else:
+                fact["adjacent_face_count"] = adjacency[index]
+                fact["topology_classification"] = "unclassified"
                 unclassified.append(fact)
         if candidate:
             candidates.append(candidate)
@@ -50,6 +58,24 @@ def inventory_features(shape, policy: dict[str, object]) -> dict[str, object]:
         "unclassified_revolutions": unclassified,
         "candidates": candidates,
     }
+
+
+def _face_adjacency(shape, edge_type, face_type, top_exp, map_type):
+    """Build local adjacency from OpenCascade's native edge→ancestor-face map."""
+    ancestor_map = map_type()
+    top_exp.MapShapesAndAncestors_s(shape, edge_type, face_type, ancestor_map)
+    faces = []
+    explorer = __import__("OCP.TopExp", fromlist=["TopExp_Explorer"]).TopExp_Explorer(shape, face_type)
+    while explorer.More():
+        faces.append(explorer.Current())
+        explorer.Next()
+    face_indices = {hash(face): index for index, face in enumerate(faces, start=1)}
+    neighbours = {index: set() for index in range(1, len(faces) + 1)}
+    for edge_index in range(1, ancestor_map.Extent() + 1):
+        owners = [face_indices[hash(owner)] for owner in ancestor_map.FindFromIndex(edge_index) if hash(owner) in face_indices]
+        for owner in owners:
+            neighbours[owner].update(set(owners) - {owner})
+    return {index: len(owner_neighbours) for index, owner_neighbours in neighbours.items()}
 
 
 def _revolution_fact(index, face, adaptor, box_type, bndlib):
@@ -75,20 +101,28 @@ def _unwrap_trimmed_curve(curve):
     return curve
 
 
+def _line_revolution_candidate(index, face, fact, adjacent_face_count, policy, box_type, bndlib):
+    box, axis = fact["face_bounding_box"], fact["axis_direction"]
+    radial_span = max(box["xmax"] - box["xmin"], box["ymax"] - box["ymin"]) / 2
+    axial_span = box["zmax"] - box["zmin"]
+    fact.update({"adjacent_face_count": adjacent_face_count, "estimated_radius": radial_span, "axial_span": axial_span})
+    # Do not promote an incomplete topology result to a removable candidate.
+    fact["topology_classification"] = "topology_map_pending_face_owner_extraction"
+    return None
+
+
 def _candidate(index, surface_kind, feature_class, radius, policy, face, box_type, bndlib, extra=None):
     rule = policy["candidate_feature_classes"][feature_class]
     dimension_name = "diameter" if feature_class == "through_hole" else "radius_or_size"
     value = radius * 2 if feature_class == "through_hole" else radius
     maximum = rule.get("max_diameter", rule.get("max_radius", rule.get("max_size")))
     enabled = bool(rule.get("enabled"))
-    eligible = enabled and maximum is not None and value <= maximum
     result = {
-        "candidate_id": f"face-{index:04d}", "face_index": index,
-        "surface_kind": surface_kind, "proposed_feature_class": feature_class,
-        "dimensions": {dimension_name: value, "surface_radius": radius},
+        "candidate_id": f"face-{index:04d}", "face_index": index, "surface_kind": surface_kind,
+        "proposed_feature_class": feature_class, "dimensions": {dimension_name: value, "surface_radius": radius},
         "face_bounding_box": _bounding_box(face, box_type, bndlib),
-        "policy_eligible": eligible, "approval_required": bool(rule.get("approval_required", True)),
-        "confidence": "surface_only",
+        "policy_eligible": enabled and maximum is not None and value <= maximum,
+        "approval_required": bool(rule.get("approval_required", True)), "confidence": "surface_only",
         "eligibility_reason": f"enabled={enabled}, {dimension_name}={value:.6g}, limit={maximum}",
         "note": "Classification is a proposal; topology-aware confirmation is required before removal.",
     }
