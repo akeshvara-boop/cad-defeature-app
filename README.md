@@ -1,2 +1,3 @@
-# cad-defeature-app
-Brep files to Defeatured CAD 
+# CAD Defeaturing Application
+
+Source-of-truth repository for an auditable STEP/BREP CAD defeaturing pipeline.
