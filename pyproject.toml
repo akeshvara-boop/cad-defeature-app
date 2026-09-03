@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cad-defeature"
+version = "0.1.0"
+description = "Auditable STEP/BREP CAD defeaturing pipeline"
+requires-python = ">=3.10"
+
+[project.scripts]
+cad-defeature = "cad_defeature.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
