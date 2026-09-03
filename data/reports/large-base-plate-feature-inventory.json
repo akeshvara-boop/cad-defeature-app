@@ -1,0 +1,12 @@
+{
+  "candidate_count": 0,
+  "candidates": [],
+  "eligible_candidate_count": 0,
+  "face_surface_type_counts": {
+    "GeomAbs_SurfaceType.GeomAbs_BSplineSurface": 153,
+    "GeomAbs_SurfaceType.GeomAbs_SurfaceOfRevolution": 208
+  },
+  "performed_read_only": true,
+  "policy_name": "power-tools-delta-policy",
+  "policy_version": "1.0"
+}
