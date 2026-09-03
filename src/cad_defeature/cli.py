@@ -16,7 +16,9 @@ def build_parser() -> argparse.ArgumentParser:
     inspect_parser = subcommands.add_parser(
         "inspect", help="Record read-only baseline metadata for a CAD input."
     )
-    inspect_parser.add_argument("input", help="Path to a STEP/STP/BREP/BRP file.")
+    inspect_parser.add_argument(
+        "input", help="Path to a STEP/STP/BREP/BRP/IGES/IGS file."
+    )
     return parser
 
 

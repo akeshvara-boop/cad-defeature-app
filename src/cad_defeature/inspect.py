@@ -100,6 +100,8 @@ def _shape_facts(shape, source_format, analyzer_type, explorer_type, *shape_type
         "vertices": _count(shape, explorer_type, vertex),
     }
     analyzer = analyzer_type(shape)
+    from cad_defeature.connectivity import analyze_connectivity
+
     return {
         "status": "kernel_inspected",
         "source_format": source_format,
@@ -107,6 +109,7 @@ def _shape_facts(shape, source_format, analyzer_type, explorer_type, *shape_type
         "shape_is_valid": analyzer.IsValid(),
         "shape_kind": _shape_kind(shape.ShapeType(), solid, compound, compsolid),
         "topology": counts,
+        "connectivity": analyze_connectivity(shape),
     }
 
 
