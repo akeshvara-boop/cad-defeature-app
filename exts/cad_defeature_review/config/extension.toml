@@ -1,0 +1,15 @@
+[package]
+title = "CAD Defeature Review"
+description = "Manifest-driven CAD defeaturing review overlays and candidate inspector."
+version = "0.1.0"
+category = "CAE"
+reloadable = true
+
+[dependencies]
+"omni.ui" = {}
+"omni.usd" = {}
+"omni.kit.selection" = {}
+"omni.kit.viewport.utility" = {}
+
+[[python.module]]
+name = "cad_defeature_review"
