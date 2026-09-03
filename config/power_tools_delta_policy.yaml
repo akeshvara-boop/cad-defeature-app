@@ -1,0 +1,60 @@
+# Power Tools delta policy — version 1.0
+# This policy is proposal-only. No operation may modify or export geometry until
+# an eligible proposal has been reviewed and independently verified.
+policy:
+  name: power-tools-delta-policy
+  version: "1.0"
+  mode: report_only
+
+input_requirements:
+  require_valid_import: true
+  require_valid_sewn_shell: true
+  require_closed_shell: true
+  require_valid_solid: true
+
+protected_geometry:
+  preserve_bounding_box: true
+  preserve_mounting_interfaces: true
+  preserve_primary_external_faces: true
+  preserve_named_regions: true
+
+candidate_feature_classes:
+  through_hole:
+    enabled: true
+    max_diameter: 6.0
+    approval_required: true
+  blind_hole:
+    enabled: true
+    max_diameter: 6.0
+    max_depth: 6.0
+    approval_required: true
+  external_fillet:
+    enabled: true
+    max_radius: 2.0
+    approval_required: true
+  chamfer:
+    enabled: true
+    max_size: 2.0
+    approval_required: true
+  pocket:
+    enabled: false
+  boss:
+    enabled: false
+  engraving:
+    enabled: false
+
+verification_gates:
+  require_valid_solid: true
+  require_closed_shell: true
+  max_volume_delta_percent: 0.5
+  max_bounding_box_delta: 0.001
+  max_center_of_mass_displacement: 0.001
+  allow_non_manifold_edges: false
+  require_expected_feature_removals_only: true
+
+audit_requirements:
+  record_input_sha256: true
+  record_policy_version: true
+  record_candidate_dimensions: true
+  record_operation_plan: true
+  record_verification_verdict: true

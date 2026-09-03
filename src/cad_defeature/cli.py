@@ -9,6 +9,7 @@ from pathlib import Path
 
 from cad_defeature.audit import build_baseline_report
 from cad_defeature.inspect import inspect_model
+from cad_defeature.policy import load_policy, policy_summary
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -32,6 +33,11 @@ def build_parser() -> argparse.ArgumentParser:
     baseline_parser.add_argument(
         "--output", required=True, help="New JSON report path; existing files are never overwritten."
     )
+
+    policy_parser = subcommands.add_parser(
+        "policy", help="Validate and display a defeaturing delta policy."
+    )
+    policy_parser.add_argument("input", help="Path to the Power Tools delta policy YAML file.")
     return parser
 
 
@@ -48,6 +54,8 @@ def main(argv: list[str] | None = None) -> None:
         report = build_baseline_report(args.input, inspect_model(args.input))
         output.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
         print(json.dumps({"status": "baseline_written", "report_path": str(output)}, indent=2))
+    elif args.command == "policy":
+        print(json.dumps(policy_summary(load_policy(args.input)), indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
