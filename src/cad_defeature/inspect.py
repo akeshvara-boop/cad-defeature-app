@@ -101,6 +101,7 @@ def _shape_facts(shape, source_format, analyzer_type, explorer_type, *shape_type
     }
     analyzer = analyzer_type(shape)
     from cad_defeature.connectivity import analyze_connectivity
+    from cad_defeature.sewing import diagnose_sewing
 
     return {
         "status": "kernel_inspected",
@@ -110,6 +111,7 @@ def _shape_facts(shape, source_format, analyzer_type, explorer_type, *shape_type
         "shape_kind": _shape_kind(shape.ShapeType(), solid, compound, compsolid),
         "topology": counts,
         "connectivity": analyze_connectivity(shape),
+        "sewing": diagnose_sewing(shape),
     }
 
 
