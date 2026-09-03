@@ -9,3 +9,5 @@ reports/*
 !reports/.gitkeep
 
 *.egg-info/
+
+.venv-cad/
