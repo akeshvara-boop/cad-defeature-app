@@ -7,3 +7,5 @@ data/output/*
 !data/output/.gitkeep
 reports/*
 !reports/.gitkeep
+
+*.egg-info/
