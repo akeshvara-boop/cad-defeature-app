@@ -9,6 +9,7 @@ from pathlib import Path
 
 from cad_defeature.audit import build_baseline_report
 from cad_defeature.inspect import inspect_model
+from cad_defeature.highlights import build_highlight_manifest, load_inventory
 from cad_defeature.inventory import inventory_features
 from cad_defeature.model import read_defeaturing_solid
 from cad_defeature.policy import load_policy, policy_summary
@@ -47,6 +48,13 @@ def build_parser() -> argparse.ArgumentParser:
     inventory_parser.add_argument("input", help="Path to a supported CAD input file.")
     inventory_parser.add_argument("--policy", required=True, help="Path to the Power Tools delta policy YAML file.")
     inventory_parser.add_argument("--output", help="Optional new JSON output path; existing files are never overwritten.")
+
+    highlights_parser = subcommands.add_parser(
+        "highlights", help="Create a viewer-neutral face-highlight manifest from an inventory report."
+    )
+    highlights_parser.add_argument("--inventory", required=True, help="Path to an existing feature inventory JSON report.")
+    highlights_parser.add_argument("--model", required=True, help="Original CAD model path recorded by the manifest.")
+    highlights_parser.add_argument("--output", required=True, help="New JSON manifest path; existing files are never overwritten.")
     return parser
 
 
@@ -74,6 +82,14 @@ def main(argv: list[str] | None = None) -> None:
             output.parent.mkdir(parents=True, exist_ok=True)
             output.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
         print(json.dumps(report, indent=2, sort_keys=True))
+    elif args.command == "highlights":
+        output = Path(args.output)
+        if output.exists():
+            raise FileExistsError(f"Refusing to overwrite existing highlight manifest: {output}")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        manifest = build_highlight_manifest(load_inventory(args.inventory), args.model)
+        output.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+        print(json.dumps({"status": "highlight_manifest_written", "report_path": str(output), "summary": manifest["summary"]}, indent=2))
 
 
 if __name__ == "__main__":
