@@ -18,4 +18,8 @@ def test_inspect_existing_step_file(tmp_path) -> None:
     assert result["exists"] is True
     assert result["supported_format"] is True
     assert result["size_bytes"] > 0
-    assert result["status"] == "ready_for_kernel_inspection"
+    # The intentionally minimal STEP text is not valid exchange data. Once an
+    # OpenCascade kernel is available, inspection should report a structured
+    # import diagnostic rather than treating the fixture as a valid model.
+    assert result["status"] == "kernel_import_failed"
+    assert "diagnostic" in result
