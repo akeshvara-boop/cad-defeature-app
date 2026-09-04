@@ -97,7 +97,8 @@ def serve_review(mesh_path: str | Path, manifest_path: str | Path, port: int = 8
                         html.H3("Highlights")
                         vuetify3.VList(items=("highlights",), item_title="label", item_value="highlight_id", v_model=("selected_highlight", None), selectable=True)
                         html.Pre("{{ JSON.stringify(highlights.find(x => x.highlight_id === selected_highlight), null, 2) }}")
-    server.start(port=port, open_browser=False)
+    # Bind all interfaces so Docker's published port is reachable from Brev.
+    server.start(host="0.0.0.0", port=port, open_browser=False)
 
 
 def _highlight_actor(dataset, item, vtk_threshold, vtk_mapper, vtk_actor):
