@@ -6,7 +6,9 @@ dependencies:
   # CadQuery selects its compatible OpenCascade, VTK, and NumPy stack.
   - python=3.11
   - cadquery=2.8.0
-  - ezdxf=1.4.4
   - pip
+  # These packages are published through PyPI rather than conda-forge at the
+  # versions used by this application.
   - pip:
+      - ezdxf==1.4.4
       - trame-vtk==2.11.16
