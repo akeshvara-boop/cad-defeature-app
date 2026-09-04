@@ -19,16 +19,25 @@ DEFAULT_REPAIR_LADDER = (
 )
 
 
-def repair_shape(shape, ladder=DEFAULT_REPAIR_LADDER) -> dict[str, object]:
-    """Run escalating ShapeFix passes and return the best shape plus an audit record."""
+def repair_shape(shape, ladder=DEFAULT_REPAIR_LADDER, max_tolerance_limit: float | None = None) -> dict[str, object]:
+    """Run escalating ShapeFix passes and return the best shape plus an audit record.
+
+    ``max_tolerance_limit`` caps how far the ladder may escalate. Healing passes
+    the currently authorised tolerance ceiling so that repair can never exceed
+    what a human has approved (docs/decisions/ADR-0001).
+    """
     from OCP.ShapeFix import ShapeFix_Shape
 
     before = analyze_validity(shape)
     passes: list[dict[str, object]] = []
+    skipped: list[float] = []
     best_shape = shape
     best_result = before
 
     for precision, max_tolerance in ladder:
+        if max_tolerance_limit is not None and max_tolerance > float(max_tolerance_limit):
+            skipped.append(max_tolerance)
+            continue
         fixer = ShapeFix_Shape(shape)
         fixer.SetPrecision(float(precision))
         fixer.SetMaxTolerance(float(max_tolerance))
@@ -56,6 +65,8 @@ def repair_shape(shape, ladder=DEFAULT_REPAIR_LADDER) -> dict[str, object]:
             "before": before,
             "after": best_result,
             "passes": passes,
+            "skipped_above_authorised_ceiling": skipped,
+            "max_tolerance_limit": max_tolerance_limit,
             "repaired": bool(best_result["overall_valid"]) and not before["overall_valid"],
             "note": "ShapeFix corrects reported topological/tolerance defects only; no features were removed.",
         },

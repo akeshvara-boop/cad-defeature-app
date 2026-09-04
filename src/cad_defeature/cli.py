@@ -13,6 +13,7 @@ from cad_defeature.inspect import inspect_model
 from cad_defeature.highlights import build_highlight_manifest, load_inventory
 from cad_defeature.healing import heal_to_solid
 from cad_defeature.check import analyze_validity
+from cad_defeature.tolerance_gate import DEFAULT_MAX_AUTO_TOLERANCE, ToleranceApprovalRequired
 from cad_defeature.model import read_shape
 from cad_defeature.inventory import inventory_features
 from cad_defeature.model import read_defeaturing_solid
@@ -100,6 +101,10 @@ def build_parser() -> argparse.ArgumentParser:
     heal_parser = subcommands.add_parser("heal", help="Conservatively sew source faces and export a valid BREP solid only when possible.")
     heal_parser.add_argument("input", help="Path to a STEP/STP/IGES/IGS source model.")
     heal_parser.add_argument("--output-dir", required=True, help="New, empty directory for healing artifacts.")
+    heal_parser.add_argument("--max-auto-tolerance", type=float, default=DEFAULT_MAX_AUTO_TOLERANCE, help="Conservative ceiling the agent may use unattended (default: 0.001).")
+    heal_parser.add_argument("--approved-tolerance", type=float, help="Human-approved tolerance ceiling for this run only.")
+    heal_parser.add_argument("--approved-by", help="Accountable human granting the tolerance approval.")
+    heal_parser.add_argument("--approval-note", help="Engineering justification for the approved tolerance.")
     check_parser = subcommands.add_parser("check", help="Report which sub-shapes fail the OpenCascade validity check.")
     check_parser.add_argument("input", help="Path to a STEP/STP/IGES/IGS/BREP model.")
     return parser
@@ -163,7 +168,24 @@ def main(argv: list[str] | None = None) -> None:
         report = run_defeaturing_agent(args.input, args.policy, args.output_dir)
         print(json.dumps(report, indent=2, sort_keys=True))
     elif args.command == "heal":
-        report = heal_to_solid(args.input, args.output_dir)
+        try:
+            report = heal_to_solid(
+                args.input,
+                args.output_dir,
+                max_auto_tolerance=args.max_auto_tolerance,
+                approval=(
+                    {
+                        "approved_tolerance": args.approved_tolerance,
+                        "approved_by": args.approved_by,
+                        "approval_note": args.approval_note,
+                    }
+                    if args.approved_tolerance is not None
+                    else None
+                ),
+            )
+        except ToleranceApprovalRequired as needs_approval:
+            print(json.dumps(needs_approval.request, indent=2, sort_keys=True))
+            raise SystemExit(2) from needs_approval
         print(json.dumps(report, indent=2, sort_keys=True))
     elif args.command == "check":
         report = analyze_validity(read_shape(args.input))
