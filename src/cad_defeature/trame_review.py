@@ -52,7 +52,7 @@ def serve_review(mesh_path: str | Path, manifest_path: str | Path, port: int = 8
     actors = {}
     statuses = {item["status"] for item in manifest["highlights"]}
     for item in manifest["highlights"]:
-        actor = _highlight_actor(dataset, item, vtkThreshold, vtkDataSetMapper)
+        actor = _highlight_actor(dataset, item, vtkThreshold, vtkDataSetMapper, vtkActor)
         if actor:
             renderer.AddActor(actor)
             actors[item["highlight_id"]] = actor
@@ -100,7 +100,7 @@ def serve_review(mesh_path: str | Path, manifest_path: str | Path, port: int = 8
     server.start(port=port, open_browser=False)
 
 
-def _highlight_actor(dataset, item, vtk_threshold, vtk_mapper):
+def _highlight_actor(dataset, item, vtk_threshold, vtk_mapper, vtk_actor):
     threshold = vtk_threshold()
     threshold.SetInputData(dataset)
     threshold.SetInputArrayToProcess(0, 0, 0, 1, "occ_face_index")
@@ -112,7 +112,7 @@ def _highlight_actor(dataset, item, vtk_threshold, vtk_mapper):
         return None
     mapper = vtk_mapper()
     mapper.SetInputConnection(threshold.GetOutputPort())
-    actor = vtkActor()
+    actor = vtk_actor()
     actor.SetMapper(mapper)
     red, green, blue = (int(item["color"][index:index + 2], 16) / 255 for index in (1, 3, 5))
     actor.GetProperty().SetColor(red, green, blue)
