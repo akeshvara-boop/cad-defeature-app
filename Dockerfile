@@ -24,5 +24,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /workspace
-ENTRYPOINT ["micromamba", "run", "--no-capture-output", "--name", "cad-defeature", "cad-defeature"]
+# Invoke the console script directly.  Calling `micromamba run` from the
+# mamba base image's activation wrapper can treat CLI flags such as --help as
+# wrapper options rather than application arguments.
+ENTRYPOINT ["/opt/conda/envs/cad-defeature/bin/cad-defeature"]
 CMD ["--help"]
