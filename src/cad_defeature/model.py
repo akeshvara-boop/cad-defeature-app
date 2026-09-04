@@ -25,6 +25,15 @@ def read_shape(input_path: str | Path):
             raise ValueError(f"OpenCascade could not read STEP file: {path}")
         reader.TransferRoots()
         return reader.OneShape()
+    if suffix in {".brep", ".brp"}:
+        from OCP.BRep import BRep_Builder
+        from OCP.BRepTools import BRepTools
+        from OCP.TopoDS import TopoDS_Shape
+
+        shape = TopoDS_Shape()
+        if not BRepTools.Read_s(shape, str(path), BRep_Builder()):
+            raise ValueError(f"OpenCascade could not read BREP file: {path}")
+        return shape
     raise ValueError(f"Feature inventory does not support format: {suffix}")
 
 
@@ -32,7 +41,7 @@ def read_defeaturing_solid(input_path: str | Path, tolerance: float = 0.001):
     """Read, sew, and construct a valid solid solely in memory for analysis."""
     from OCP.BRepBuilderAPI import BRepBuilderAPI_MakeSolid, BRepBuilderAPI_Sewing
     from OCP.BRepCheck import BRepCheck_Analyzer
-    from OCP.TopAbs import TopAbs_FACE, TopAbs_SHELL
+    from OCP.TopAbs import TopAbs_FACE, TopAbs_SHELL, TopAbs_SOLID
     from OCP.TopExp import TopExp_Explorer
     from OCP.TopoDS import TopoDS
 
