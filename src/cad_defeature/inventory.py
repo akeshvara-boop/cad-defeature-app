@@ -19,7 +19,7 @@ def inventory_features(shape, policy: dict[str, object]) -> dict[str, object]:
     explorer, index = TopExp_Explorer(shape, TopAbs_FACE), 0
     while explorer.More():
         index += 1
-        face = TopoDS.Face_s(explorer.Current())
+        face = TopoDS.Face(explorer.Current())
         adaptor = BRepAdaptor_Surface(face)
         surface_type = adaptor.GetType()
         type_counts[str(surface_type)] = type_counts.get(str(surface_type), 0) + 1
