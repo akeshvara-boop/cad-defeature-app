@@ -7,6 +7,7 @@ import json
 
 from pathlib import Path
 
+from cad_defeature.agent import run_defeaturing_agent
 from cad_defeature.audit import build_baseline_report
 from cad_defeature.inspect import inspect_model
 from cad_defeature.highlights import build_highlight_manifest, load_inventory
@@ -87,6 +88,11 @@ def build_parser() -> argparse.ArgumentParser:
     review_parser.add_argument("--mesh", required=True, help="Path to a .vtp mesh from export-vtk.")
     review_parser.add_argument("--manifest", required=True, help="Path to a highlight manifest from highlights or bind-usd.")
     review_parser.add_argument("--port", type=int, default=8080, help="Web server port (default: 8080).")
+
+    agent_parser = subcommands.add_parser("agent", help="Run the CAD Defeaturing Agent in safe dry-run mode.")
+    agent_parser.add_argument("input", help="Path to the original CAD model.")
+    agent_parser.add_argument("--policy", required=True, help="Path to the Power Tools delta policy YAML file.")
+    agent_parser.add_argument("--output-dir", required=True, help="New, empty directory for versioned agent artifacts.")
     return parser
 
 
@@ -144,6 +150,9 @@ def main(argv: list[str] | None = None) -> None:
         print(json.dumps(export_review_mesh(args.input, args.output), indent=2, sort_keys=True))
     elif args.command == "review-vtk":
         serve_review(args.mesh, args.manifest, args.port)
+    elif args.command == "agent":
+        report = run_defeaturing_agent(args.input, args.policy, args.output_dir)
+        print(json.dumps(report, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
