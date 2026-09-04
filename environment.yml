@@ -3,11 +3,10 @@ channels:
   - conda-forge
 channel_priority: strict
 dependencies:
+  # CadQuery selects its compatible OpenCascade, VTK, and NumPy stack.
   - python=3.11
   - cadquery=2.8.0
   - ezdxf=1.4.4
-  - numpy=2.5.2
-  - vtk=9.6.2
   - pip
   - pip:
       - trame-vtk==2.11.16
