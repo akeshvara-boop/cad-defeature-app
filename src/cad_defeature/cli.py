@@ -11,6 +11,7 @@ from cad_defeature.agent import run_defeaturing_agent
 from cad_defeature.audit import build_baseline_report
 from cad_defeature.inspect import inspect_model
 from cad_defeature.highlights import build_highlight_manifest, load_inventory
+from cad_defeature.healing import heal_to_solid
 from cad_defeature.inventory import inventory_features
 from cad_defeature.model import read_defeaturing_solid
 from cad_defeature.policy import load_policy, policy_summary
@@ -93,6 +94,10 @@ def build_parser() -> argparse.ArgumentParser:
     agent_parser.add_argument("input", help="Path to the original CAD model.")
     agent_parser.add_argument("--policy", required=True, help="Path to the Power Tools delta policy YAML file.")
     agent_parser.add_argument("--output-dir", required=True, help="New, empty directory for versioned agent artifacts.")
+
+    heal_parser = subcommands.add_parser("heal", help="Conservatively sew source faces and export a valid BREP solid only when possible.")
+    heal_parser.add_argument("input", help="Path to a STEP/STP/IGES/IGS source model.")
+    heal_parser.add_argument("--output-dir", required=True, help="New, empty directory for healing artifacts.")
     return parser
 
 
@@ -152,6 +157,9 @@ def main(argv: list[str] | None = None) -> None:
         serve_review(args.mesh, args.manifest, args.port)
     elif args.command == "agent":
         report = run_defeaturing_agent(args.input, args.policy, args.output_dir)
+        print(json.dumps(report, indent=2, sort_keys=True))
+    elif args.command == "heal":
+        report = heal_to_solid(args.input, args.output_dir)
         print(json.dumps(report, indent=2, sort_keys=True))
 
 
