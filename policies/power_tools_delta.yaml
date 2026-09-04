@@ -1,25 +1,45 @@
 policy:
-  id: power_tools_delta
+  name: power_tools_delta
   version: "0.1"
+  mode: report_only
   status: draft
   description: >-
-    Conservative, auditable configuration for future defeaturing operations.
-    All geometry-changing rules are disabled until a CAD kernel and validation
-    workflow are implemented.
+    Conservative, auditable Power Tools delta policy. This version produces
+    read-only classification reports only; it does not alter CAD geometry.
 
-rules:
-  remove_holes:
-    enabled: false
-    max_diameter_mm: null
-  remove_fillets:
-    enabled: false
-    max_radius_mm: null
-  remove_chamfers:
-    enabled: false
-    max_length_mm: null
+input_requirements:
+  supported_extensions: [".step", ".stp", ".brep", ".brp", ".iges", ".igs"]
+  require_readable_geometry: true
+  require_nonempty_input: true
 
-verification:
+protected_geometry:
+  preserve_all_geometry: true
+  protected_feature_classes: ["datums", "interfaces", "threads", "labels"]
+  note: "No geometry is modified while policy mode is report_only."
+
+candidate_feature_classes:
+  through_hole:
+    enabled: false
+    max_diameter: null
+    approval_required: true
+  chamfer:
+    enabled: false
+    max_radius: null
+    approval_required: true
+  external_fillet:
+    enabled: false
+    max_radius: null
+    approval_required: true
+
+verification_gates:
   require_valid_brep: true
   require_solid_count_preserved: true
   require_nonempty_output: true
   require_change_report: true
+  require_human_approval_before_geometry_change: true
+
+audit_requirements:
+  record_policy_name_and_version: true
+  record_candidate_feature_inventory: true
+  record_unclassified_geometry: true
+  immutable_baseline_report: true
