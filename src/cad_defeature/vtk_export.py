@@ -51,7 +51,8 @@ def export_review_mesh(input_path: str | Path, output_path: str | Path) -> dict[
         face = TopoDS.Face(explorer.Current())
         location = TopLoc_Location()
         triangulation = BRep_Tool.Triangulation_s(face, location)
-        if not triangulation.IsNull():
+        # OCP 7.8+ returns Poly_Triangulation directly; no IsNull() handle API.
+        if triangulation is not None and triangulation.NbTriangles() > 0:
             transform = location.Transformation()
             nodes = triangulation.Nodes()
             triangles = triangulation.Triangles()
