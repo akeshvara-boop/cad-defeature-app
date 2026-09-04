@@ -1,49 +1,34 @@
 """Browser-based VTK/Trame viewer for validating CAD defeature findings."""
-
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-
 STATUS_COPY = {
-    "eligible": "Green: proposed for defeaturing; human approval is still required.",
-    "review_required": "Amber: uncertain classification; retain it until reviewed.",
-    "policy_ineligible": "Red: detected, but the active policy says to retain it.",
+    "eligible": "Green — proposed for defeaturing; approval is still required.",
+    "review_required": "Amber — uncertain classification; retain until reviewed.",
+    "policy_ineligible": "Red — detected but retained by the active policy.",
 }
 
 
 def load_manifest(path: str | Path) -> dict[str, object]:
-    """Load and minimally validate a CAD defeature highlight manifest."""
     manifest = json.loads(Path(path).read_text(encoding="utf-8"))
     if manifest.get("manifest_type") != "cad_defeature_face_highlights":
         raise ValueError("Expected a cad_defeature_face_highlights manifest.")
-    if not isinstance(manifest.get("highlights"), list):
-        raise ValueError("Highlight manifest must contain a highlights array.")
     return manifest
 
 
 def serve_review(mesh_path: str | Path, manifest_path: str | Path, port: int = 8080) -> None:
-    """Serve original geometry with selectable, named defeature findings."""
+    """Show original CAD geometry and selectable defeature candidates."""
     from trame.app import get_server
     from trame.ui.vuetify3 import SinglePageLayout
     from trame.widgets import html, vtk, vuetify3
     from vtkmodules.vtkFiltersCore import vtkThreshold
     from vtkmodules.vtkIOXML import vtkXMLPolyDataReader
-    from vtkmodules.vtkRenderingCore import (
-        vtkActor,
-        vtkBillboardTextActor3D,
-        vtkDataSetMapper,
-        vtkPolyDataMapper,
-        vtkRenderer,
-        vtkRenderWindow,
-    )
+    from vtkmodules.vtkRenderingCore import vtkActor, vtkDataSetMapper, vtkPolyDataMapper, vtkRenderer, vtkRenderWindow
 
     mesh = Path(mesh_path)
     manifest = load_manifest(manifest_path)
-    if not mesh.is_file():
-        raise FileNotFoundError(f"VTK review mesh was not found: {mesh}")
-
     reader = vtkXMLPolyDataReader()
     reader.SetFileName(str(mesh))
     reader.Update()
@@ -60,67 +45,59 @@ def serve_review(mesh_path: str | Path, manifest_path: str | Path, port: int = 8
     base_actor = vtkActor()
     base_actor.SetMapper(base_mapper)
     base_actor.GetProperty().SetColor(0.68, 0.70, 0.74)
-    base_actor.GetProperty().SetOpacity(0.62)
+    base_actor.GetProperty().SetOpacity(0.85)
     renderer.AddActor(base_actor)
 
-    actors = {}
     highlights = manifest["highlights"]
-    statuses = sorted({item["status"] for item in highlights})
+    actors = {}
     for item in highlights:
         actor = _highlight_actor(dataset, item, vtkThreshold, vtkDataSetMapper, vtkActor)
         if actor:
             renderer.AddActor(actor)
             actors[item["highlight_id"]] = actor
-
-    label_actor = vtkBillboardTextActor3D()
-    label_actor.GetTextProperty().SetColor(1.0, 1.0, 1.0)
-    label_actor.GetTextProperty().SetFontSize(18)
-    label_actor.GetTextProperty().SetBold(True)
-    label_actor.SetVisibility(False)
-    renderer.AddActor(label_actor)
     renderer.ResetCamera()
+    render_window.Render()
 
     server = get_server("cad_defeature_review")
     state, ctrl = server.state, server.controller
     state.trame__title = "CAD Defeature Review"
     state.visible_statuses = ["eligible"]
-    state.highlights = highlights
+    state.visible_highlights = []
     state.selected_highlight = None
-    state.selected_details = "Select a finding to show its name directly on the original CAD geometry."
-    state.status_guide = [
-        {"status": status.replace("_", " "), "meaning": STATUS_COPY.get(status, "")}
-        for status in statuses
-    ]
+    state.selected_name = "Select a finding to identify its matching face on the original CAD."
 
-    def apply_visibility() -> None:
-        selected = set(state.visible_statuses or [])
+    def refresh() -> None:
+        selected_statuses = set(state.visible_statuses or [])
+        visible = []
         for item in highlights:
+            is_visible = item["status"] in selected_statuses
             actor = actors.get(item["highlight_id"])
             if actor:
-                actor.SetVisibility(item["status"] in selected)
+                actor.SetVisibility(is_visible)
+            if is_visible:
+                visible.append(item)
+        state.visible_highlights = visible
 
     @state.change("visible_statuses")
     def update_visibility(**_):
-        apply_visibility()
-        ctrl.view_update()
+        refresh()
+        if hasattr(ctrl, "view_update"):
+            ctrl.view_update()
 
     @state.change("selected_highlight")
     def select_highlight(**_):
-        selected_item = next(
-            (item for item in highlights if item["highlight_id"] == state.selected_highlight),
-            None,
-        )
+        item = next((entry for entry in highlights if entry["highlight_id"] == state.selected_highlight), None)
         for identifier, actor in actors.items():
             actor.GetProperty().SetLineWidth(5 if identifier == state.selected_highlight else 1)
-        if selected_item:
-            _set_label(label_actor, selected_item)
-            state.selected_details = json.dumps(selected_item, indent=2)
+        if item:
+            state.selected_name = f"Original CAD face {item['face_index']}: {item['label']}"
         else:
-            label_actor.SetVisibility(False)
-            state.selected_details = "Select a finding to show its name directly on the original CAD geometry."
-        ctrl.view_update()
+            state.selected_name = "Select a finding to identify its matching face on the original CAD."
+        if hasattr(ctrl, "view_update"):
+            ctrl.view_update()
 
-    apply_visibility()
+    refresh()
+    statuses = sorted({item["status"] for item in highlights})
     with SinglePageLayout(server) as layout:
         layout.title.set_text("CAD Defeature Review")
         with layout.toolbar:
@@ -129,57 +106,19 @@ def serve_review(mesh_path: str | Path, manifest_path: str | Path, port: int = 8
             with vuetify3.VContainer(fluid=True, classes="fill-height"):
                 with vuetify3.VRow(classes="fill-height"):
                     with vuetify3.VCol(cols=8, classes="fill-height"):
-                        html.P("Grey is the original CAD mesh. Select a finding to place its name on the matching face.")
+                        html.P("Original CAD mesh: grey. Highlight overlays: green = remove candidate; amber/red = retain or review.")
                         view = vtk.VtkLocalView(render_window)
                         ctrl.view_update = view.update
                         view.reset_camera()
                     with vuetify3.VCol(cols=4):
-                        html.H3("Defeature review")
-                        html.P("Start with green candidates. Turn on amber or red only when you want to inspect retained or uncertain geometry.")
-                        vuetify3.VChipGroup(
-                            v_model=("visible_statuses", ["eligible"]),
-                            multiple=True,
-                            column=True,
-                            children=[
-                                vuetify3.VChip(status.replace("_", " "), value=status)
-                                for status in statuses
-                            ],
-                        )
-                        vuetify3.VTable(
-                            children=[
-                                html.Tbody(
-                                    children=[
-                                        html.Tr(children=[html.Td(item["status"]), html.Td(item["meaning"])])
-                                        for item in state.status_guide
-                                    ]
-                                )
-                            ]
-                        )
-                        html.H3("Findings on original CAD")
-                        vuetify3.VList(
-                            items=("highlights",),
-                            item_title="label",
-                            item_value="highlight_id",
-                            v_model=("selected_highlight", None),
-                            selectable=True,
-                        )
-                        html.H3("Selected finding")
-                        html.Pre("{{ selected_details }}")
+                        html.H3("Defeature filters")
+                        vuetify3.VChipGroup(v_model=("visible_statuses", ["eligible"]), multiple=True, column=True, children=[vuetify3.VChip(f"{status}: {STATUS_COPY[status]}", value=status) for status in statuses])
+                        html.H3("Select a CAD finding")
+                        html.P("Only findings enabled by the filters are listed.")
+                        vuetify3.VList(items=("visible_highlights",), item_title="label", item_value="highlight_id", v_model=("selected_highlight", None), selectable=True)
+                        html.H3("Original CAD identification")
+                        html.P("{{ selected_name }}")
     server.start(host="0.0.0.0", port=port, open_browser=False)
-
-
-def _set_label(label_actor, item: dict[str, object]) -> None:
-    """Put a concise finding name at the centre of the matching CAD face."""
-    bbox = item.get("details", {}).get("face_bounding_box", {})
-    if not bbox:
-        label_actor.SetVisibility(False)
-        return
-    x = (bbox["xmin"] + bbox["xmax"]) / 2
-    y = (bbox["ymin"] + bbox["ymax"]) / 2
-    z = (bbox["zmin"] + bbox["zmax"]) / 2
-    label_actor.SetInput(f"{item['highlight_id']}\n{item['label']}")
-    label_actor.SetPosition(x, y, z)
-    label_actor.SetVisibility(True)
 
 
 def _highlight_actor(dataset, item, vtk_threshold, vtk_mapper, vtk_actor):
