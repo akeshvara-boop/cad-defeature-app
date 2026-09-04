@@ -1,0 +1,13 @@
+name: cad-defeature
+channels:
+  - conda-forge
+channel_priority: strict
+dependencies:
+  - python=3.11
+  - cadquery=2.8.0
+  - ezdxf=1.4.4
+  - numpy=2.5.2
+  - vtk=9.6.2
+  - pip
+  - pip:
+      - trame-vtk==2.11.16

@@ -1,0 +1,13 @@
+services:
+  cad-defeature:
+    build:
+      context: .
+    image: cad-defeature:latest
+    volumes:
+      - ./data/input:/workspace/input:ro
+      - ./data/output:/workspace/output
+      - ./reports:/workspace/reports
+    # The current CLI is CPU/OpenCascade based. Uncomment when adding
+    # GPU-backed visualization or rendering inside the container.
+    # gpus: all
+    command: ["--help"]

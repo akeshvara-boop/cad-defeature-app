@@ -1,0 +1,13 @@
+.git
+.venv
+.venv-cad
+__pycache__
+*.py[cod]
+*.egg-info
+.pytest_cache
+reports
+data/input
+data/output
+_build
+_repo
+_cache
