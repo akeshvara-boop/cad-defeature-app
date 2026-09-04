@@ -35,7 +35,7 @@ def diagnose_solid_construction(shape, tolerance: float = 0.001) -> dict[str, ob
             "solid_conversion_candidate": False,
         }
 
-    shell = TopoDS.Shell_s(shell_explorer.Current())
+    shell = TopoDS.Shell(shell_explorer.Current())
     maker = BRepBuilderAPI_MakeSolid(shell)
     if not maker.IsDone():
         return {

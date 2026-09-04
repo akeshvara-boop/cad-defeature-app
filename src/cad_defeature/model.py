@@ -48,7 +48,7 @@ def read_defeaturing_solid(input_path: str | Path, tolerance: float = 0.001):
     shells = TopExp_Explorer(sewing.SewedShape(), TopAbs_SHELL)
     if not shells.More():
         raise ValueError("Sewing produced no shell for feature inventory.")
-    solid = BRepBuilderAPI_MakeSolid(TopoDS.Shell_s(shells.Current())).Solid()
+    solid = BRepBuilderAPI_MakeSolid(TopoDS.Shell(shells.Current())).Solid()
     if solid.IsNull() or not BRepCheck_Analyzer(solid).IsValid():
         raise ValueError("Sewn result could not be validated as a solid.")
     return solid

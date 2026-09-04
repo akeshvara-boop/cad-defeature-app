@@ -14,6 +14,9 @@ from cad_defeature.inventory import inventory_features
 from cad_defeature.model import read_defeaturing_solid
 from cad_defeature.policy import load_policy, policy_summary
 from cad_defeature.usd_bindings import attach_usd_bindings, load_face_map
+from cad_defeature.verification import verify_models
+from cad_defeature.vtk_export import export_review_mesh
+from cad_defeature.trame_review import serve_review
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -63,6 +66,27 @@ def build_parser() -> argparse.ArgumentParser:
     bind_parser.add_argument("--manifest", required=True, help="Existing highlight manifest JSON path.")
     bind_parser.add_argument("--face-map", required=True, help="Importer-produced OpenCascade-face to USD-face mapping JSON path.")
     bind_parser.add_argument("--output", required=True, help="New bound manifest path; existing files are never overwritten.")
+
+    verify_parser = subcommands.add_parser(
+        "verify", help="Independently verify a defeatured CAD candidate without modifying either model."
+    )
+    verify_parser.add_argument("--original", required=True, help="Path to the original CAD model.")
+    verify_parser.add_argument("--candidate", required=True, help="Path to the defeatured CAD candidate.")
+    verify_parser.add_argument("--policy", required=True, help="Path to the Power Tools delta policy YAML file.")
+    verify_parser.add_argument("--output", help="Optional new JSON verification report path; existing files are never overwritten.")
+
+    vtk_parser = subcommands.add_parser(
+        "export-vtk", help="Tessellate CAD into a VTK review mesh with stable OpenCascade face-index cell data."
+    )
+    vtk_parser.add_argument("input", help="Path to a STEP/STP/IGES/IGS CAD model.")
+    vtk_parser.add_argument("--output", required=True, help="New .vtp review mesh path; existing files are never overwritten.")
+
+    review_parser = subcommands.add_parser(
+        "review-vtk", help="Serve the VTK/Trame highlight review application."
+    )
+    review_parser.add_argument("--mesh", required=True, help="Path to a .vtp mesh from export-vtk.")
+    review_parser.add_argument("--manifest", required=True, help="Path to a highlight manifest from highlights or bind-usd.")
+    review_parser.add_argument("--port", type=int, default=8080, help="Web server port (default: 8080).")
     return parser
 
 
@@ -107,6 +131,19 @@ def main(argv: list[str] | None = None) -> None:
         bound_manifest = attach_usd_bindings(manifest, load_face_map(args.face_map))
         output.write_text(json.dumps(bound_manifest, indent=2, sort_keys=True), encoding="utf-8")
         print(json.dumps({"status": "usd_bindings_attached", "report_path": str(output), "summary": bound_manifest["usd_binding_summary"]}, indent=2))
+    elif args.command == "verify":
+        report = verify_models(args.original, args.candidate, args.policy)
+        if args.output:
+            output = Path(args.output)
+            if output.exists():
+                raise FileExistsError(f"Refusing to overwrite existing verification report: {output}")
+            output.parent.mkdir(parents=True, exist_ok=True)
+            output.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
+        print(json.dumps(report, indent=2, sort_keys=True))
+    elif args.command == "export-vtk":
+        print(json.dumps(export_review_mesh(args.input, args.output), indent=2, sort_keys=True))
+    elif args.command == "review-vtk":
+        serve_review(args.mesh, args.manifest, args.port)
 
 
 if __name__ == "__main__":
