@@ -54,14 +54,12 @@ def export_review_mesh(input_path: str | Path, output_path: str | Path) -> dict[
         # OCP 7.8+ returns Poly_Triangulation directly; no IsNull() handle API.
         if triangulation is not None and triangulation.NbTriangles() > 0:
             transform = location.Transformation()
-            nodes = triangulation.Nodes()
-            triangles = triangulation.Triangles()
             for triangle_index in range(1, triangulation.NbTriangles() + 1):
-                triangle = triangles.Value(triangle_index)
+                triangle = triangulation.Triangle(triangle_index)
                 node_indices = triangle.Get()
                 polygons.InsertNextCell(3)
                 for node_index in node_indices:
-                    point = nodes.Value(node_index).Transformed(transform)
+                    point = triangulation.Node(node_index).Transformed(transform)
                     key = (round(point.X(), 12), round(point.Y(), 12), round(point.Z(), 12))
                     vtk_id = point_cache.get(key)
                     if vtk_id is None:
