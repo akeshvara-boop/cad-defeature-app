@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+import json
 from pathlib import Path
 
 from cad_defeature.audit import _sha256
@@ -18,6 +19,7 @@ def verify_models(
     original_path: str | Path,
     candidate_path: str | Path,
     policy_path: str | Path,
+    healing_report_path: str | Path | None = None,
 ) -> dict[str, object]:
     """Compare two CAD models against policy gates without modifying either file."""
     original = Path(original_path)
@@ -38,9 +40,12 @@ def verify_models(
         _non_manifold_check(candidate_inspection, bool(gates["allow_non_manifold_edges"])),
         _bounding_box_check(original_inspection, candidate_inspection, float(gates["max_bounding_box_delta"])),
         _volume_check(original_inspection, candidate_inspection, float(gates["max_volume_delta_percent"])),
+        _tolerance_provenance_check(healing_report_path),
     ]
     failed = [check for check in checks if check["status"] == "fail"]
-    pending = [check for check in checks if check["status"] == "not_assessed"]
+    pending = [
+        check for check in checks if check["status"] in ("not_assessed", "needs_review")
+    ]
     verdict = "pass" if not failed and not pending else "fail" if failed else "needs_review"
 
     return {
@@ -55,6 +60,7 @@ def verify_models(
         },
         "original": _model_record(original, original_inspection),
         "candidate": _model_record(candidate, candidate_inspection),
+        "tolerance_provenance": _load_provenance(healing_report_path),
         "checks": checks,
         "summary": {
             "passed": len([check for check in checks if check["status"] == "pass"]),
@@ -164,3 +170,60 @@ def _volume(inspection: dict[str, object]) -> float | None:
     solid = inspection.get("solid_construction") or {}
     value = solid.get("volume")
     return float(value) if isinstance(value, int | float) else None
+
+
+def _load_provenance(healing_report_path: str | Path | None) -> dict[str, object] | None:
+    """Read the healing report so verification can see how the candidate was built."""
+    if not healing_report_path:
+        return None
+    path = Path(healing_report_path)
+    if not path.is_file():
+        raise VerificationError(f"Healing report was not found: {path}")
+    report = json.loads(path.read_text(encoding="utf-8"))
+    approval = report.get("tolerance_approval")
+    return {
+        "healing_report": str(path),
+        "decision": report.get("decision"),
+        "source_model": report.get("source_model"),
+        "tolerance_approval": approval,
+        "required_human_approval": approval is not None,
+    }
+
+
+def _tolerance_provenance_check(healing_report_path: str | Path | None) -> dict[str, object]:
+    """Flag candidates built under a human tolerance concession.
+
+    Per docs/decisions/ADR-0001 this is reported, never silently accepted: a
+    model healed above the automatic ceiling carries geometric risk that a
+    reviewer must weigh alongside the numeric gates.
+    """
+    provenance = _load_provenance(healing_report_path)
+    if provenance is None:
+        return {
+            "name": "tolerance_provenance",
+            "status": "not_assessed",
+            "observed": None,
+            "requirement": "Pass --healing-report to audit how the candidate solid was produced.",
+        }
+    approval = provenance.get("tolerance_approval")
+    if not approval:
+        return {
+            "name": "tolerance_provenance",
+            "status": "pass",
+            "observed": "healed_within_automatic_tolerance_ceiling",
+        }
+    return {
+        "name": "tolerance_provenance",
+        "status": "needs_review",
+        "observed": {
+            "approved_tolerance": approval.get("approved_tolerance"),
+            "max_auto_tolerance": approval.get("max_auto_tolerance"),
+            "approved_by": approval.get("approved_by"),
+            "approval_note": approval.get("approval_note"),
+        },
+        "requirement": (
+            "This candidate was only buildable under a human tolerance concession above the "
+            "automatic ceiling. Geometry may have moved by up to the approved tolerance, so a "
+            "reviewer must confirm that deviation is acceptable for this part."
+        ),
+    }

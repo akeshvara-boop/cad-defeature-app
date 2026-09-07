@@ -78,6 +78,7 @@ def build_parser() -> argparse.ArgumentParser:
     verify_parser.add_argument("--original", required=True, help="Path to the original CAD model.")
     verify_parser.add_argument("--candidate", required=True, help="Path to the defeatured CAD candidate.")
     verify_parser.add_argument("--policy", required=True, help="Path to the Power Tools delta policy YAML file.")
+    verify_parser.add_argument("--healing-report", help="Optional healing_report.json so verification can audit tolerance provenance.")
     verify_parser.add_argument("--output", help="Optional new JSON verification report path; existing files are never overwritten.")
 
     vtk_parser = subcommands.add_parser(
@@ -152,7 +153,7 @@ def main(argv: list[str] | None = None) -> None:
         output.write_text(json.dumps(bound_manifest, indent=2, sort_keys=True), encoding="utf-8")
         print(json.dumps({"status": "usd_bindings_attached", "report_path": str(output), "summary": bound_manifest["usd_binding_summary"]}, indent=2))
     elif args.command == "verify":
-        report = verify_models(args.original, args.candidate, args.policy)
+        report = verify_models(args.original, args.candidate, args.policy, args.healing_report)
         if args.output:
             output = Path(args.output)
             if output.exists():
