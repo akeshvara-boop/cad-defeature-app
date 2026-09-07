@@ -66,6 +66,26 @@ def _inprocess_available() -> bool:
         return False
 
 
+def _cad_runtime_available() -> tuple[bool, str]:
+    """Check for OpenCascade, the binary runtime every CAD command needs.
+
+    Importing cad_defeature succeeds without OCP because the package imports
+    it lazily. Probing the spec here keeps the failure at preflight, where it
+    is actionable, instead of mid-run inside a geometry call.
+    """
+    try:
+        if importlib.util.find_spec("OCP") is not None:
+            return True, "OpenCascade (OCP) runtime is importable"
+    except (ImportError, ValueError):
+        pass
+    return False, (
+        "OpenCascade (OCP) is not importable. It is a large binary wheel that "
+        "cannot be downloaded under this sandbox egress policy. If it is absent "
+        "from the sandbox image, rebuild the sandbox from an image that already "
+        "contains the CAD runtime: nemoclaw onboard --from <Dockerfile>."
+    )
+
+
 def _docker_available() -> tuple[bool, str]:
     """True when a working docker CLI can see the pipeline image."""
     binary = shutil.which("docker")
@@ -142,7 +162,10 @@ def diagnose() -> dict[str, object]:
     is installed" and "the skill can actually run" are different claims, and the
     gap between them is the most likely first failure in a fresh sandbox.
     """
-    inprocess = _inprocess_available()
+    package_ok = _inprocess_available()
+    cad_ok, cad_detail = _cad_runtime_available()
+    # In-process execution requires BOTH the package and the CAD runtime.
+    inprocess = package_ok and cad_ok
     docker_ok, docker_detail = _docker_available()
     requested = os.environ.get("CAD_DEFEATURE_BACKEND", "auto").strip().lower()
 
@@ -158,7 +181,11 @@ def diagnose() -> dict[str, object]:
 
     repo = _locate_repo()
     remedy = None
-    if selected is None:
+    if package_ok and not cad_ok:
+        # The package installed cleanly but the geometry runtime is absent.
+        selected = None
+        remedy = cad_detail
+    elif selected is None:
         if repo:
             remedy = (
                 "Install the pipeline into this sandbox from the local checkout "
@@ -183,7 +210,14 @@ def diagnose() -> dict[str, object]:
                 + " Set CAD_DEFEATURE_REPO if the checkout lives elsewhere."
             )
     elif selected == "inprocess" and not inprocess:
-        remedy = "CAD_DEFEATURE_BACKEND=inprocess was requested but cad_defeature is not importable."
+        remedy = (
+            "CAD_DEFEATURE_BACKEND=inprocess was requested but "
+            + (
+                "cad_defeature is not importable."
+                if not package_ok
+                else cad_detail
+            )
+        )
     elif selected == "docker" and not docker_ok:
         remedy = f"CAD_DEFEATURE_BACKEND=docker was requested but: {docker_detail}"
 
@@ -194,10 +228,15 @@ def diagnose() -> dict[str, object]:
             "inprocess": {
                 "available": inprocess,
                 "detail": (
-                    "cad_defeature is importable"
+                    "cad_defeature and the OpenCascade runtime are both importable"
                     if inprocess
                     else "cad_defeature is not importable in this interpreter"
+                    if not package_ok
+                    else "cad_defeature is installed but the CAD runtime is missing"
                 ),
+                "package_importable": package_ok,
+                "cad_runtime_importable": cad_ok,
+                "cad_runtime_detail": cad_detail,
             },
             "docker": {"available": docker_ok, "detail": docker_detail},
         },

@@ -1,0 +1,53 @@
+# syntax=docker/dockerfile:1.7
+# NemoClaw sandbox image with the OpenCascade CAD runtime pre-installed.
+#
+# WHY THIS EXISTS
+# ---------------
+# The stock NemoClaw sandbox image has no CAD runtime, and OpenShell blocks
+# outbound network access by policy. `cadquery-ocp` is a large binary wheel, so
+# it cannot be fetched from inside the sandbox at install time.
+#
+# The correct fix is to bake the runtime into the sandbox image rather than to
+# widen the egress policy. Network access happens HERE, on the host, at image
+# build time - where it is expected and reviewable - not inside the running
+# agent sandbox.
+#
+# BUILD (on the Brev host, which has network access):
+#   nemoclaw onboard --from ./nemoclaw/Dockerfile.sandbox --recreate-sandbox
+#
+# NemoClaw uses the Dockerfile's parent directory as the build context, so this
+# file intentionally references nothing outside ./nemoclaw/.
+#
+# The pipeline source is NOT baked in. It is uploaded or shared at runtime so it
+# stays editable without an image rebuild:
+#   nemoclaw <sandbox> upload ~/cad-defeature-app /sandbox/cad-defeature-app
+
+ARG NEMOCLAW_BASE=ghcr.io/nvidia/nemoclaw-sandbox:latest
+FROM ${NEMOCLAW_BASE}
+
+USER root
+
+# OpenCascade needs these shared libraries for offscreen geometry and meshing.
+# Installed from the base distro repositories at build time.
+RUN apt-get update \
+    && apt-get install --no-install-recommends --yes \
+        libgl1 \
+        libglu1-mesa \
+        libxrender1 \
+        libxext6 \
+        libsm6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Pin to the same versions the cad-defeature container uses, so geometry results
+# are reproducible across the two environments. A version drift here would mean
+# the agent and the reference pipeline could disagree about the same model.
+RUN python3 -m pip install --no-cache-dir \
+        "cadquery-ocp==7.9.3.1.1" \
+        "cadquery==2.8.0" \
+        "numpy==2.5.2" \
+        "pyyaml>=6.0"
+
+# Fail the build rather than ship a sandbox that looks correct but cannot do CAD.
+RUN python3 -c "import OCP; from OCP.TopoDS import TopoDS; print('OpenCascade runtime OK')"
+
+USER sandbox
