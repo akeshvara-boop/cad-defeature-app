@@ -13,6 +13,9 @@ RUN micromamba create --yes --file /tmp/environment.yml --name cad-defeature \
 COPY --chown=$MAMBA_USER:$MAMBA_USER pyproject.toml README.md ./
 COPY --chown=$MAMBA_USER:$MAMBA_USER src ./src
 COPY --chown=$MAMBA_USER:$MAMBA_USER policies ./policies
+# NemoClaw skill definition + entrypoint script. Baked into the image so the
+# sandboxed agent can install it via `nemoclaw <name> skill install`.
+COPY --chown=$MAMBA_USER:$MAMBA_USER nemoclaw ./nemoclaw
 
 RUN micromamba run --name cad-defeature python -m pip install --no-cache-dir . \
     && mkdir -p /workspace/input /workspace/output /workspace/reports \

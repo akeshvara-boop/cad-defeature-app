@@ -36,7 +36,33 @@ The application presents the original model, defeatured output, geometry differe
   - 0 detected shells
   - 0 detected solids
 
-The current model is therefore readable but is presently classified as surface/wire-style geometry rather than a closed solid. CAD healing or a surface-safe workflow must be addressed before robust solid defeaturing.
+### Status update (2026-09-07)
+
+The healing blocker described above is **resolved, with a recorded caveat**.
+
+- The IGES model could not be sewn into a valid solid within the conservative
+  automatic tolerance ceiling of 0.001 mm.
+- It was healed successfully only under a **human-approved tolerance concession
+  of 0.5 mm** (500x the automatic ceiling), recorded in `healing_report.json`
+  with the approver's identity and justification.
+- The approval note reads "Test approval on non-production fixture". Treat the
+  resulting solid as a **pipeline test fixture, not a faithful representation of
+  the part**: geometry may have moved by up to 0.5 mm.
+
+The human-in-the-loop tolerance gate is specified in
+`docs/decisions/ADR-0001-tolerance-human-approval.md` and enforced in code.
+
+**Acquiring a native closed-solid STEP AP242 or BREP export remains the highest
+priority action**, because it removes the tolerance debt entirely rather than
+managing it.
+
+### Threshold ratification status
+
+The numeric acceptance gates in `policies/power_tools_delta.yaml` are
+**agent-proposed and unratified**. `threshold_provenance.pending_owner` is the
+placeholder `AgentReviewer`, which the code explicitly refuses to accept as an
+approver. Until a named engineer ratifies them, a `pass` verdict carries no
+engineering authority. See `REVIEWER_NOTES.md`.
 
 ---
 
@@ -229,9 +255,35 @@ Validate reliability across representative CAD inputs and package a demonstrable
 
 ## Immediate next steps
 
-1. Confirm and integrate NemoClaw into the Docker image and dependency configuration.
-2. Commit the OpenCascade compatibility correction.
-3. Implement CAD Health Report generation, including explicit handling for models with no detected solids.
-4. Define the first Power Tools delta policy: feature classes, thresholds, exclusions, and acceptance criteria.
-5. Implement NemoClaw agent contracts and artifact schemas.
-6. Add at least one closed-solid STEP or BREP model to the test corpus for the first end-to-end workflow.
+Status legend: DONE / PARTIAL / BLOCKED / OPEN.
+
+1. **DONE** - Integrate NemoClaw. Delivered as an OpenClaw agent skill under
+   `nemoclaw/skills/cad-defeature/`, not as a pip dependency: NemoClaw is an
+   installer-driven OpenShell runtime that hosts the agent, so the pipeline is
+   exposed *to* it rather than importing it. See `nemoclaw/README.md`.
+2. **DONE** - Commit the OpenCascade `TopoDS.Shell` compatibility correction.
+3. **DONE** - CAD Health Report generation, including the no-solid route
+   (`classify_health` covers proceed / heal / surface_safe_review / reject).
+4. **PARTIAL** - Power Tools delta policy defined, but its numeric thresholds are
+   unratified placeholders and `min_feature_size` is undeclared.
+5. **PARTIAL** - Agent contracts and artifact schemas exist for defeaturing,
+   healing and verification. Four Phase 3 artifacts are still missing:
+   `verification_summary.md`, `geometry_comparison.json`,
+   `residual_features.json`, `final_decision.json`. `conditional pass` is not
+   yet implemented.
+6. **BLOCKED (external)** - Add a closed-solid STEP AP242 or BREP model to the
+   test corpus. Requires a native export from the source CAD system; cannot be
+   produced by healing the existing IGES file.
+
+### Ordered plan
+
+| # | Action | Blocked on | Unblocks |
+|---|---|---|---|
+| 1 | Install NemoClaw on the Brev host and install the skill into the sandbox | `nvapi-*` key | Phase 0 exit |
+| 2 | Obtain a native closed-solid export | Source CAD system access | Phases 2 and 5 |
+| 3 | Ratify `min_feature_size` and the acceptance deltas | Named engineering owner | Policy leaving report_only |
+| 4 | Implement the four missing Phase 3 artifacts + `conditional pass` | Nothing | Phase 3 exit |
+| 5 | Backfill tests for tolerance gate, gates and provenance; fill empty `test_cli.py` | Nothing | Phase 5 |
+
+Actions 4 and 5 need no external input and can proceed immediately. Actions 1-3
+are genuinely blocked on inputs that only a human can supply.
