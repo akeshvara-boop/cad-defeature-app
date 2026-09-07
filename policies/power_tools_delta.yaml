@@ -71,6 +71,18 @@ threshold_provenance:
   status: agent_proposed_unapproved
   approved_by: null
   approved_at_utc: null
+
+  # Placeholder routing target only. "AgentReviewer" is NOT an accountable
+  # engineering owner and must never be written into approved_by. It exists so
+  # reports and tickets have somewhere to point while the real owner is TBD.
+  pending_owner: AgentReviewer
+  pending_owner_is_placeholder: true
+  pending_owner_note: >-
+    Ownership of the Power Tools delta thresholds has not been assigned. Replace
+    pending_owner with the named engineer who can ratify minimum feature size and
+    the acceptance deltas, then set status to engineer_approved and populate
+    approved_by and approved_at_utc.
+
   sourced_defaults:
     healing_gap_tolerance_reference_mm: 0.01
     healing_gap_tolerance_source: >-

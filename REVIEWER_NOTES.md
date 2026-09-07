@@ -99,12 +99,32 @@ Agent "must not own: repairing the geometry it verifies".
 
 ## 7. Open questions requiring an engineering owner
 
+**Current owner: `AgentReviewer` — this is a PLACEHOLDER, not a person.**
+
+`threshold_provenance.pending_owner` is set to `AgentReviewer` purely so that
+reports and tickets have somewhere to point while real ownership is undecided. It
+carries **no engineering accountability**. The code enforces this: `AgentReviewer`
+(and `agent`, `assistant`, `nemoclaw`, `system`, `tbd`, `unassigned`, `none`) are
+rejected as approvers, and writing one into `approved_by` makes the
+`threshold_provenance` check **fail** rather than pass.
+
+Open questions for whoever eventually takes ownership:
+
 - What is the real minimum feature size that must survive defeaturing?
 - What volume delta, if any, is acceptable — and per use case?
 - Should `max_bounding_box_delta` be exact zero, or allow numerical noise
   (kernel operations can perturb the envelope by ~1e-9 mm)?
 - Which feature classes are protected for this part family?
 - Who is the accountable owner able to ratify these thresholds?
+
+### How to hand over from the placeholder
+
+1. Replace `threshold_provenance.pending_owner` with the named engineer.
+2. Have them rule on the open questions above and set the gate values.
+3. Set `status: engineer_approved`, populate `approved_by` and
+   `approved_at_utc`, and remove `pending_owner_is_placeholder`.
+4. The `reviewer_notice` banner then disappears from reports automatically — it
+   cannot be suppressed any other way.
 
 Until these are answered by a named owner, this pipeline should be regarded as
 **structurally sound but not qualified for production geometry decisions**.

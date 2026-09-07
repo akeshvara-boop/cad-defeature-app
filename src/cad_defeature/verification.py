@@ -315,11 +315,40 @@ REVIEWER_NOTICE_UNAPPROVED = (
 )
 
 
+# Placeholder identities that look like an owner but carry no accountability.
+# Ratification by any of these is rejected outright.
+PLACEHOLDER_OWNERS = {
+    "agentreviewer",
+    "agent",
+    "assistant",
+    "nemoclaw",
+    "system",
+    "tbd",
+    "unassigned",
+    "none",
+}
+
+
+def _is_real_owner(identity: object) -> bool:
+    """True only for a named human; placeholders never confer approval."""
+    if not isinstance(identity, str) or not identity.strip():
+        return False
+    return identity.strip().lower() not in PLACEHOLDER_OWNERS
+
+
 def _reviewer_notice(policy: dict[str, object]) -> str | None:
     """Surface an unmissable warning while thresholds remain unratified."""
     provenance = policy.get("threshold_provenance") or {}
-    if provenance.get("status") == "engineer_approved" and provenance.get("approved_by"):
+    if provenance.get("status") == "engineer_approved" and _is_real_owner(
+        provenance.get("approved_by")
+    ):
         return None
+    pending = provenance.get("pending_owner")
+    if pending and not _is_real_owner(pending):
+        return (
+            REVIEWER_NOTICE_UNAPPROVED
+            + f" Threshold ownership is currently a placeholder ({pending}); no accountable engineering owner has been assigned."
+        )
     return REVIEWER_NOTICE_UNAPPROVED
 
 
@@ -327,16 +356,33 @@ def _threshold_provenance_check(policy: dict[str, object]) -> dict[str, object]:
     """Treat unratified thresholds as an explicit review item, not silence."""
     provenance = policy.get("threshold_provenance") or {}
     approved_by = provenance.get("approved_by")
-    if provenance.get("status") == "engineer_approved" and approved_by:
+    pending_owner = provenance.get("pending_owner")
+    if provenance.get("status") == "engineer_approved" and _is_real_owner(approved_by):
         return {
             "name": "threshold_provenance",
             "status": "pass",
             "observed": {"approved_by": approved_by, "approved_at_utc": provenance.get("approved_at_utc")},
         }
+    if approved_by and not _is_real_owner(approved_by):
+        return {
+            "name": "threshold_provenance",
+            "status": "fail",
+            "observed": {"approved_by": approved_by},
+            "requirement": (
+                "Thresholds were marked approved by a placeholder identity. Approval requires a named, accountable human owner."
+            ),
+        }
     return {
         "name": "threshold_provenance",
         "status": "needs_review",
-        "observed": {"status": provenance.get("status"), "approved_by": approved_by},
+        "observed": {
+            "status": provenance.get("status"),
+            "approved_by": approved_by,
+            "pending_owner": pending_owner,
+            "pending_owner_is_placeholder": bool(
+                pending_owner and not _is_real_owner(pending_owner)
+            ),
+        },
         "requirement": (
             "The numeric gates used to judge this model have not been ratified by a named "
             "engineering owner, so a pass verdict carries no engineering authority."
