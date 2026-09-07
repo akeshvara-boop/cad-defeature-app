@@ -43,6 +43,18 @@ Resolve the script path: `<skill_dir>/scripts/cad_agent.py`
 All commands emit a single JSON object on stdout. Always parse it and check the
 `status` field before reporting to the user.
 
+### 0. Preflight — run this first in a new sandbox
+
+```bash
+python <skill_dir>/scripts/cad_agent.py doctor
+```
+
+The skill being *installed* and the skill being *able to run* are different
+things. `doctor` reports whether the CAD pipeline is reachable from this
+sandbox, and if not, gives the exact remedy. If `status` is `error`, report the
+`message` to the user and stop — do not attempt CAD commands, they will all fail
+the same way.
+
 ### 1. Inspect model health
 
 ```bash

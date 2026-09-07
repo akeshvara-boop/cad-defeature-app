@@ -60,6 +60,33 @@ The command validates the `SKILL.md` frontmatter (a `name` field is required)
 and uploads the directory into the agent's skill path. Re-running it updates the
 skill in place and preserves chat history.
 
+## Verify the skill can actually run
+
+Installing a skill uploads files; it does not prove the skill can reach the CAD
+pipeline. The sandbox is a different environment from the `cad-defeature:latest`
+image, so `import cad_defeature` may not resolve there.
+
+Run the preflight first:
+
+```bash
+python ~/.openclaw/skills/cad-defeature/scripts/cad_agent.py doctor
+```
+
+Or simply ask the agent: *"run the cad-defeature doctor check"*.
+
+A `usable: false` result names the remedy. The two supported backends are:
+
+| Backend | When it applies | How to enable |
+|---|---|---|
+| `inprocess` | `cad_defeature` importable in the sandbox | `pip install /path/to/cad-defeature-app` inside the sandbox |
+| `docker` | sandbox can reach a docker CLI + built image | `docker build -t cad-defeature:latest .` on the host |
+
+**OpenShell blocks docker socket access by default**, so for a hardened sandbox
+the in-process install is normally the correct path. Do not widen the network or
+socket policy just to make the docker backend reachable.
+
+Override detection with `CAD_DEFEATURE_BACKEND=inprocess|docker` if needed.
+
 ## Network policy note
 
 OpenShell blocks egress by default and logs denials. This skill performs **no

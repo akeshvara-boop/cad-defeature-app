@@ -68,3 +68,25 @@ def test_errors_are_structured_json(args: tuple[str, ...]) -> None:
     assert payload["status"] == "error"
     assert payload["message"]
     assert "Traceback" not in payload["message"]
+
+
+def test_doctor_always_reports_both_backends() -> None:
+    """Preflight must be actionable whether or not the pipeline is reachable."""
+    payload = run_skill("doctor")
+    diagnosis = payload["diagnosis"]
+    assert set(diagnosis["backends"]) == {"inprocess", "docker"}
+    for backend in diagnosis["backends"].values():
+        assert isinstance(backend["available"], bool)
+        assert backend["detail"]
+    # An unusable environment must always carry a remedy, never a bare failure.
+    if not diagnosis["usable"]:
+        assert payload["status"] == "error"
+        assert diagnosis["remedy"]
+        assert payload["message"] == diagnosis["remedy"]
+
+
+def test_skill_md_tells_agent_to_run_doctor_first() -> None:
+    """A fresh sandbox fails confusingly unless preflight is documented."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert "doctor" in text
+    assert "Preflight" in text or "preflight" in text

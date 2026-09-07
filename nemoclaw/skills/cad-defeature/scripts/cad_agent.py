@@ -23,6 +23,10 @@ import json
 from pathlib import Path
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from backend import BackendUnavailable, diagnose, require_inprocess  # noqa: E402
+
 
 def _emit(payload: dict, exit_code: int = 0) -> None:
     """Print one JSON object and exit. The only output path in this script."""
@@ -43,7 +47,25 @@ def _fresh_run_dir(base: str, prefix: str) -> Path:
     return target
 
 
+def cmd_doctor(args: argparse.Namespace) -> None:
+    """Report whether the skill can actually reach the CAD pipeline."""
+    report = diagnose()
+    _emit(
+        {
+            "status": "complete" if report["usable"] else "error",
+            "message": (
+                "Skill can reach the CAD pipeline."
+                if report["usable"]
+                else report["remedy"]
+            ),
+            "diagnosis": report,
+        },
+            exit_code=0 if report["usable"] else 1,
+    )
+
+
 def cmd_health(args: argparse.Namespace) -> None:
+    require_inprocess()
     from cad_defeature.agent import classify_health
     from cad_defeature.inspect import inspect_model
 
@@ -59,6 +81,7 @@ def cmd_health(args: argparse.Namespace) -> None:
 
 
 def cmd_heal(args: argparse.Namespace) -> None:
+    require_inprocess()
     from cad_defeature.nemoclaw_tools import heal_model
 
     run_dir = _fresh_run_dir(args.run_dir, "heal")
@@ -73,6 +96,7 @@ def cmd_heal(args: argparse.Namespace) -> None:
 
 
 def cmd_approve(args: argparse.Namespace) -> None:
+    require_inprocess()
     from cad_defeature.nemoclaw_tools import approve_tolerance
 
     run_dir = _fresh_run_dir(args.run_dir, "heal-approved")
@@ -88,6 +112,7 @@ def cmd_approve(args: argparse.Namespace) -> None:
 
 
 def cmd_reject(args: argparse.Namespace) -> None:
+    require_inprocess()
     from cad_defeature.nemoclaw_tools import reject_tolerance
 
     run_dir = _fresh_run_dir(args.run_dir, "heal-rejected")
@@ -103,6 +128,7 @@ def cmd_reject(args: argparse.Namespace) -> None:
 
 
 def cmd_defeature(args: argparse.Namespace) -> None:
+    require_inprocess()
     from cad_defeature.agent import run_defeaturing_agent
 
     run_dir = _fresh_run_dir(args.run_dir, "agent")
@@ -111,6 +137,7 @@ def cmd_defeature(args: argparse.Namespace) -> None:
 
 
 def cmd_verify(args: argparse.Namespace) -> None:
+    require_inprocess()
     from cad_defeature.verification import verify_models
 
     report = verify_models(
@@ -142,6 +169,11 @@ DEFAULT_POLICY = "/app/policies/power_tools_delta.yaml"
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="cad_agent", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
+
+    doctor = sub.add_parser(
+        "doctor", help="Check that the skill can reach the CAD pipeline. Run this first."
+    )
+    doctor.set_defaults(func=cmd_doctor)
 
     health = sub.add_parser("health", help="Classify CAD input health.")
     health.add_argument("--input", required=True)
@@ -191,6 +223,8 @@ def main() -> None:
         args.func(args)
     except SystemExit:
         raise
+    except BackendUnavailable as exc:
+        _fail(str(exc), diagnosis=diagnose())
     except ImportError as exc:
         _fail(
             "The cad_defeature package is not importable in this sandbox. "
