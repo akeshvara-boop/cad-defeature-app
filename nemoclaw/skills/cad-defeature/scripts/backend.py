@@ -33,13 +33,25 @@ CONTAINER_MOUNT = "/workspace"
 
 # Where the repository may be reachable from inside the sandbox. Checked in
 # order so the remedy can name a real path instead of a placeholder.
+# The OpenShell sandbox roots its writable tree at /sandbox, not /workspace,
+# so sandbox-native locations are searched first.
 CANDIDATE_REPO_PATHS = (
+    "/sandbox/cad-defeature-app",
+    "/sandbox/workspace/cad-defeature-app",
+    "/sandbox/workspace",
+    "/sandbox",
     "/workspace/cad-defeature-app",
     "/workspace",
     "/home/ubuntu/cad-defeature-app",
+    "/home/sandbox/cad-defeature-app",
     "/mnt/cad-defeature-app",
     "/app",
 )
+
+# Depth-limited scan roots used when none of the fixed paths hit. Kept shallow
+# so a large mounted tree cannot turn preflight into a long filesystem walk.
+SCAN_ROOTS = ("/sandbox", "/workspace", "/home")
+SCAN_DEPTH = 3
 
 
 class BackendUnavailable(RuntimeError):
@@ -86,9 +98,40 @@ def _locate_repo() -> str | None:
     override = os.environ.get("CAD_DEFEATURE_REPO")
     candidates = (override, *CANDIDATE_REPO_PATHS) if override else CANDIDATE_REPO_PATHS
     for candidate in candidates:
-        root = Path(candidate)
-        if (root / "pyproject.toml").is_file() and (root / "src" / "cad_defeature").is_dir():
-            return str(root)
+        if candidate and _is_repo(Path(candidate)):
+            return str(candidate)
+    return _scan_for_repo()
+
+
+def _is_repo(root: Path) -> bool:
+    """Identify the pipeline by its contents, never by directory name."""
+    try:
+        return (root / "pyproject.toml").is_file() and (root / "src" / "cad_defeature").is_dir()
+    except OSError:
+        return False
+
+
+def _scan_for_repo() -> str | None:
+    """Shallow breadth-first scan of likely roots, depth-capped for speed."""
+    for scan_root in SCAN_ROOTS:
+        base = Path(scan_root)
+        if not base.is_dir():
+            continue
+        frontier = [(base, 0)]
+        while frontier:
+            current, depth = frontier.pop(0)
+            if _is_repo(current):
+                return str(current)
+            if depth >= SCAN_DEPTH:
+                continue
+            try:
+                children = [child for child in current.iterdir() if child.is_dir()]
+            except (OSError, PermissionError):
+                continue
+            for child in children:
+                if child.name.startswith("."):
+                    continue
+                frontier.append((child, depth + 1))
     return None
 
 
@@ -128,11 +171,16 @@ def diagnose() -> dict[str, object]:
             )
         else:
             remedy = (
-                "The cad-defeature repository was not found inside this sandbox, so "
-                "the pipeline cannot be installed locally. Mount or copy the repo "
-                "into the sandbox workspace, then re-run doctor. Searched: "
+                "The cad-defeature repository is not visible inside this sandbox, so "
+                "the pipeline cannot be installed. Copy it in from the HOST shell "
+                "(this needs no sandbox egress):\n"
+                "  nemoclaw <sandbox-name> upload ~/cad-defeature-app /sandbox/cad-defeature-app\n"
+                "Or share the host directory live:\n"
+                "  nemoclaw <sandbox-name> share mount /sandbox ~/.nemoclaw/mounts/<sandbox-name>\n"
+                "Then re-run doctor. Searched: "
                 + ", ".join(CANDIDATE_REPO_PATHS)
-                + ". Set CAD_DEFEATURE_REPO to point at it explicitly."
+                + f" and scanned {', '.join(SCAN_ROOTS)} to depth {SCAN_DEPTH}."
+                + " Set CAD_DEFEATURE_REPO if the checkout lives elsewhere."
             )
     elif selected == "inprocess" and not inprocess:
         remedy = "CAD_DEFEATURE_BACKEND=inprocess was requested but cad_defeature is not importable."
@@ -155,6 +203,8 @@ def diagnose() -> dict[str, object]:
         },
         "mount_root": os.environ.get("CAD_DEFEATURE_MOUNT", str(Path.cwd())),
         "repository_path": repo,
+        "searched_paths": list(CANDIDATE_REPO_PATHS),
+        "scan_roots": list(SCAN_ROOTS),
         "requires_network": False,
         "network_note": (
             "This skill performs no outbound network calls. CAD processing is local "

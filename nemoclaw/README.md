@@ -113,6 +113,36 @@ Do **not** request a network exemption to reach PyPI for this install. If pip
 tries to reach the network, the wrong install command was used — see the
 offline install form below.
 
+## Getting the repository into the sandbox
+
+`nemoclaw skill install` uploads **only the skill directory** (`SKILL.md` plus
+`scripts/`). It does not upload the pipeline itself, and the sandbox filesystem
+is isolated from the host — so after installing the skill, `doctor` will still
+report `inprocess: false` until the repo is present inside the sandbox.
+
+The sandbox roots its writable tree at `/sandbox`, not `/workspace`.
+
+Two supported host-side options, neither of which needs sandbox egress:
+
+**Option A — one-shot copy (simple, static):**
+
+```bash
+# HOST shell
+nemoclaw cad-to-mesh upload ~/cad-defeature-app /sandbox/cad-defeature-app
+```
+
+Re-run after each `git pull` to refresh the sandbox copy.
+
+**Option B — live share (edits on host appear instantly in the sandbox):**
+
+```bash
+# HOST shell
+nemoclaw cad-to-mesh share mount /sandbox ~/.nemoclaw/mounts/cad-to-mesh
+```
+
+Option B is better during active development; Option A is better for a sealed,
+reproducible run.
+
 ## Offline install into the sandbox
 
 `doctor` prints the exact command with the discovered repo path. It looks like:
