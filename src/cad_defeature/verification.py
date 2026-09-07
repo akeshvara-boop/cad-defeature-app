@@ -43,9 +43,9 @@ def verify_models(
         _tolerance_provenance_check(healing_report_path),
     ]
     failed = [check for check in checks if check["status"] == "fail"]
-    pending = [
-        check for check in checks if check["status"] in ("not_assessed", "needs_review")
-    ]
+    needs_review = [check for check in checks if check["status"] == "needs_review"]
+    not_assessed = [check for check in checks if check["status"] == "not_assessed"]
+    pending = needs_review + not_assessed
     verdict = "pass" if not failed and not pending else "fail" if failed else "needs_review"
 
     return {
@@ -65,8 +65,11 @@ def verify_models(
         "summary": {
             "passed": len([check for check in checks if check["status"] == "pass"]),
             "failed": len(failed),
-            "not_assessed": len(pending),
+            "needs_review": len(needs_review),
+            "not_assessed": len(not_assessed),
             "verdict": verdict,
+            "blocking_checks": [check["name"] for check in failed + pending],
+            "verdict_reason": _verdict_reason(failed, needs_review, not_assessed),
         },
     }
 
@@ -260,3 +263,30 @@ def _resolve_gates(policy: dict[str, object]) -> dict[str, object]:
             + ", ".join(sorted(gates))
         )
     return gates
+
+
+def _verdict_reason(
+    failed: list[dict[str, object]],
+    needs_review: list[dict[str, object]],
+    not_assessed: list[dict[str, object]],
+) -> str:
+    """State plainly why the verdict is what it is, naming the checks involved."""
+    if failed:
+        return (
+            "Failed policy gate(s): "
+            + ", ".join(check["name"] for check in failed)
+        )
+    parts: list[str] = []
+    if needs_review:
+        parts.append(
+            "Human review required for: "
+            + ", ".join(check["name"] for check in needs_review)
+        )
+    if not_assessed:
+        parts.append(
+            "Could not be assessed (insufficient input or geometry data): "
+            + ", ".join(check["name"] for check in not_assessed)
+        )
+    if parts:
+        return " ".join(parts)
+    return "All policy gates passed and every check was assessable."
