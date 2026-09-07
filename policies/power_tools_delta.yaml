@@ -38,6 +38,16 @@ verification_gates:
   require_change_report: true
   require_human_approval_before_geometry_change: true
 
+  # --- Numeric gates consumed by cad_defeature.verification ---
+  # REVIEW REQUIRED: these thresholds are proposed defaults and must be confirmed
+  # by an engineer before this policy leaves draft status. Verification refuses to
+  # run if any are absent rather than assuming a limit nobody approved.
+  require_valid_solid: true
+  require_closed_shell: true
+  allow_non_manifold_edges: false
+  max_bounding_box_delta: 0.0        # mm; defeaturing must not change the envelope
+  max_volume_delta_percent: 1.0      # %; proposed cap on material removed
+
 audit_requirements:
   record_policy_name_and_version: true
   record_candidate_feature_inventory: true

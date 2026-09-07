@@ -32,7 +32,7 @@ def verify_models(
         missing = [str(path) for path in (original, candidate) if not path.is_file()]
         raise VerificationError(f"Verification input file was not found: {', '.join(missing)}")
 
-    gates = policy["verification_gates"]
+    gates = _resolve_gates(policy)
     checks = [
         _kernel_import_check(original_inspection, candidate_inspection),
         _validity_check(candidate_inspection, bool(gates["require_valid_solid"])),
@@ -227,3 +227,36 @@ def _tolerance_provenance_check(healing_report_path: str | Path | None) -> dict[
             "reviewer must confirm that deviation is acceptable for this part."
         ),
     }
+
+
+REQUIRED_GATES = {
+    "require_valid_solid": bool,
+    "require_closed_shell": bool,
+    "allow_non_manifold_edges": bool,
+    "max_bounding_box_delta": float,
+    "max_volume_delta_percent": float,
+}
+
+
+def _resolve_gates(policy: dict[str, object]) -> dict[str, object]:
+    """Return the verification gates, refusing to guess at missing thresholds.
+
+    A missing gate is a policy authoring error, not something to default.
+    Silently substituting a threshold would mean the report claims a check was
+    enforced against a limit nobody approved.
+    """
+    gates = policy.get("verification_gates")
+    if not isinstance(gates, dict):
+        raise VerificationError(
+            "Policy is missing a verification_gates section, so no gate can be enforced."
+        )
+    missing = [name for name in REQUIRED_GATES if name not in gates]
+    if missing:
+        raise VerificationError(
+            "Policy verification_gates is missing required gate(s): "
+            + ", ".join(sorted(missing))
+            + ". Add explicit values to the policy file; verification will not assume "
+            + "a threshold that no human approved. Gates present: "
+            + ", ".join(sorted(gates))
+        )
+    return gates
