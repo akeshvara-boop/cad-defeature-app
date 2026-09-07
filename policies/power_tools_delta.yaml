@@ -1,11 +1,13 @@
 policy:
   name: power_tools_delta
-  version: "0.1"
+  version: "0.2"
   mode: report_only
   status: draft
   description: >-
     Conservative, auditable Power Tools delta policy. This version produces
     read-only classification reports only; it does not alter CAD geometry.
+    IMPORTANT: the numeric gates below are agent-proposed placeholders and are
+    NOT engineering-approved. See REVIEWER_NOTES.md before trusting any verdict.
 
 input_requirements:
   supported_extensions: [".step", ".stp", ".brep", ".brp", ".iges", ".igs"]
@@ -39,17 +41,60 @@ verification_gates:
   require_human_approval_before_geometry_change: true
 
   # --- Numeric gates consumed by cad_defeature.verification ---
-  # REVIEW REQUIRED: these thresholds are proposed defaults and must be confirmed
-  # by an engineer before this policy leaves draft status. Verification refuses to
-  # run if any are absent rather than assuming a limit nobody approved.
+  # PROVISIONAL: agent-proposed placeholders. See REVIEWER_NOTES.md section 1.
+  # Verification refuses to run if any gate is absent rather than assuming a
+  # limit nobody approved.
   require_valid_solid: true
   require_closed_shell: true
   allow_non_manifold_edges: false
-  max_bounding_box_delta: 0.0        # mm; defeaturing must not change the envelope
-  max_volume_delta_percent: 1.0      # %; proposed cap on material removed
+
+  # Exact zero states the intent (defeaturing must not change the envelope) but
+  # a numerical-noise band is allowed because kernel operations can perturb the
+  # bounding box at around 1e-9 mm.
+  max_bounding_box_delta: 0.0
+  bounding_box_numerical_noise: 1.0e-6
+
+  # Reported evidence, NOT the primary acceptance control.
+  # See REVIEWER_NOTES.md section 2: minimum feature size is the correct
+  # primary gate; a single volume percentage cannot distinguish removing
+  # fastener holes from removing a coolant channel.
+  max_volume_delta_percent: 1.0
+
+  # Primary defeaturing control: the smallest feature that must survive.
+  # null means no engineer has declared a value, so the check reports
+  # not_assessed rather than silently passing.
+  min_feature_size: null
+
+threshold_provenance:
+  # Every gate declares where its value came from so that a report can never
+  # imply engineering approval that does not exist.
+  status: agent_proposed_unapproved
+  approved_by: null
+  approved_at_utc: null
+  sourced_defaults:
+    healing_gap_tolerance_reference_mm: 0.01
+    healing_gap_tolerance_source: >-
+      NVIDIA Autonomous Aerospace Orchestration SRS - default surface face gap
+      tolerance, documented as configurable.
+  notes: >-
+    All other numeric values are conservative placeholders proposed by the
+    assistant that built this pipeline. A named engineering owner must ratify
+    them before any pass verdict is treated as an engineering acceptance.
+
+use_case:
+  # NVIDIA CAD-to-Mesh A2A requirements define separate policies per use case,
+  # each with different protected features. This policy is not use-case
+  # qualified.
+  name: unspecified
+  qualified_for: []
+  note: >-
+    Do not reuse these gates across use cases without re-deriving them. A
+    battery-thermal part requires coolant-channel protection that this policy
+    does not express.
 
 audit_requirements:
   record_policy_name_and_version: true
   record_candidate_feature_inventory: true
   record_unclassified_geometry: true
   immutable_baseline_report: true
+  record_threshold_provenance: true

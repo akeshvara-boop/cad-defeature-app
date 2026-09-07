@@ -38,9 +38,16 @@ def verify_models(
         _validity_check(candidate_inspection, bool(gates["require_valid_solid"])),
         _closure_check(candidate_inspection, bool(gates["require_closed_shell"])),
         _non_manifold_check(candidate_inspection, bool(gates["allow_non_manifold_edges"])),
-        _bounding_box_check(original_inspection, candidate_inspection, float(gates["max_bounding_box_delta"])),
+        _bounding_box_check(
+            original_inspection,
+            candidate_inspection,
+            float(gates["max_bounding_box_delta"]),
+            float(gates.get("bounding_box_numerical_noise") or 0.0),
+        ),
         _volume_check(original_inspection, candidate_inspection, float(gates["max_volume_delta_percent"])),
         _tolerance_provenance_check(healing_report_path),
+        _min_feature_size_check(candidate_inspection, gates.get("min_feature_size")),
+        _threshold_provenance_check(policy),
     ]
     failed = [check for check in checks if check["status"] == "fail"]
     needs_review = [check for check in checks if check["status"] == "needs_review"]
@@ -60,6 +67,9 @@ def verify_models(
         },
         "original": _model_record(original, original_inspection),
         "candidate": _model_record(candidate, candidate_inspection),
+        "threshold_provenance": policy.get("threshold_provenance"),
+        "use_case": policy.get("use_case"),
+        "reviewer_notice": _reviewer_notice(policy),
         "tolerance_provenance": _load_provenance(healing_report_path),
         "checks": checks,
         "summary": {
@@ -135,17 +145,25 @@ def _non_manifold_check(inspection: dict[str, object], allowed: bool) -> dict[st
     }
 
 
-def _bounding_box_check(original: dict[str, object], candidate: dict[str, object], maximum: float) -> dict[str, object]:
+def _bounding_box_check(
+    original: dict[str, object],
+    candidate: dict[str, object],
+    maximum: float,
+    numerical_noise: float = 0.0,
+) -> dict[str, object]:
     original_box = _box(original)
     candidate_box = _box(candidate)
     if not original_box or not candidate_box:
         return {"name": "bounding_box_delta", "status": "not_assessed", "maximum": maximum}
     delta = max(abs(original_box[key] - candidate_box[key]) for key in original_box)
+    effective = maximum + numerical_noise
     return {
         "name": "bounding_box_delta",
-        "status": "pass" if delta <= maximum else "fail",
+        "status": "pass" if delta <= effective else "fail",
         "observed": delta,
         "maximum": maximum,
+        "numerical_noise_allowance": numerical_noise,
+        "effective_limit": effective,
     }
 
 
@@ -290,3 +308,80 @@ def _verdict_reason(
     if parts:
         return " ".join(parts)
     return "All policy gates passed and every check was assessable."
+
+
+REVIEWER_NOTICE_UNAPPROVED = (
+    "THRESHOLDS NOT ENGINEERING-APPROVED. The numeric gates in this policy are agent-proposed placeholders. A pass verdict means only that the candidate met the assistant's proposed limits, NOT that it is acceptable for engineering use. See REVIEWER_NOTES.md and ratify the thresholds with a named owner before relying on this report."
+)
+
+
+def _reviewer_notice(policy: dict[str, object]) -> str | None:
+    """Surface an unmissable warning while thresholds remain unratified."""
+    provenance = policy.get("threshold_provenance") or {}
+    if provenance.get("status") == "engineer_approved" and provenance.get("approved_by"):
+        return None
+    return REVIEWER_NOTICE_UNAPPROVED
+
+
+def _threshold_provenance_check(policy: dict[str, object]) -> dict[str, object]:
+    """Treat unratified thresholds as an explicit review item, not silence."""
+    provenance = policy.get("threshold_provenance") or {}
+    approved_by = provenance.get("approved_by")
+    if provenance.get("status") == "engineer_approved" and approved_by:
+        return {
+            "name": "threshold_provenance",
+            "status": "pass",
+            "observed": {"approved_by": approved_by, "approved_at_utc": provenance.get("approved_at_utc")},
+        }
+    return {
+        "name": "threshold_provenance",
+        "status": "needs_review",
+        "observed": {"status": provenance.get("status"), "approved_by": approved_by},
+        "requirement": (
+            "The numeric gates used to judge this model have not been ratified by a named "
+            "engineering owner, so a pass verdict carries no engineering authority."
+        ),
+    }
+
+
+def _min_feature_size_check(
+    inspection: dict[str, object], minimum: float | None
+) -> dict[str, object]:
+    """Primary defeaturing control: the smallest feature that must survive.
+
+    Per NVIDIA CAD-to-Mesh A2A geometry verification, minimum feature size is a
+    required reported quantity. Volume delta alone cannot distinguish removing
+    fastener holes from removing a coolant channel.
+    """
+    if minimum is None:
+        return {
+            "name": "min_feature_size",
+            "status": "not_assessed",
+            "observed": None,
+            "minimum": None,
+            "requirement": (
+                "No engineer has declared the smallest feature that must survive "
+                "defeaturing. Set verification_gates.min_feature_size in the policy; "
+                "this gate is not defaulted because guessing it would permit silent "
+                "loss of a physics-critical feature."
+            ),
+        }
+    connectivity = inspection.get("connectivity") or {}
+    observed = connectivity.get("min_edge_length")
+    if observed is None:
+        return {
+            "name": "min_feature_size",
+            "status": "not_assessed",
+            "observed": None,
+            "minimum": minimum,
+            "requirement": (
+                "Inspection did not report a minimum edge length for this model, so the "
+                "declared minimum feature size could not be enforced."
+            ),
+        }
+    return {
+        "name": "min_feature_size",
+        "status": "pass" if float(observed) >= float(minimum) else "fail",
+        "observed": float(observed),
+        "minimum": float(minimum),
+    }

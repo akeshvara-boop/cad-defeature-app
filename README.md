@@ -2,6 +2,15 @@
 
 Source-of-truth repository for an auditable STEP/BREP CAD defeaturing pipeline.
 
+> ### Read REVIEWER_NOTES.md before trusting any report
+>
+> The numeric acceptance thresholds in `policies/power_tools_delta.yaml` are
+> **agent-proposed placeholders and are not engineering-approved**. A `pass`
+> verdict currently means "met the assistant's proposed limits", not "acceptable
+> for engineering use". The policy is `mode: report_only`, so no geometry is
+> modified. Reviewers and future builders must read
+> [`REVIEWER_NOTES.md`](REVIEWER_NOTES.md) before relying on any output.
+
 ## Container runtime
 
 The Docker image packages the Python/OpenCascade/CadQuery runtime used by the
