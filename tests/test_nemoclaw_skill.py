@@ -85,6 +85,23 @@ def test_doctor_always_reports_both_backends() -> None:
         assert payload["message"] == diagnosis["remedy"]
 
 
+def test_doctor_declares_the_skill_needs_no_egress() -> None:
+    """A restricted-egress sandbox must not push the agent toward a policy change."""
+    payload = run_skill("doctor")
+    diagnosis = payload["diagnosis"]
+    assert diagnosis["requires_network"] is False
+    assert "403" in diagnosis["network_note"] or "egress" in diagnosis["network_note"]
+    remedy = diagnosis.get("remedy") or ""
+    # The offline install path must never send the agent to PyPI.
+    if "pip install" in remedy:
+        assert "--no-index" in remedy
+
+
+def test_skill_md_forbids_requesting_network_exemptions() -> None:
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert "Never request a network policy exemption" in text
+
+
 def test_skill_md_tells_agent_to_run_doctor_first() -> None:
     """A fresh sandbox fails confusingly unless preflight is documented."""
     text = SKILL_MD.read_text(encoding="utf-8")

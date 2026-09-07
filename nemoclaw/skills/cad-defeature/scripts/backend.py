@@ -31,6 +31,16 @@ import subprocess
 DEFAULT_IMAGE = "cad-defeature:latest"
 CONTAINER_MOUNT = "/workspace"
 
+# Where the repository may be reachable from inside the sandbox. Checked in
+# order so the remedy can name a real path instead of a placeholder.
+CANDIDATE_REPO_PATHS = (
+    "/workspace/cad-defeature-app",
+    "/workspace",
+    "/home/ubuntu/cad-defeature-app",
+    "/mnt/cad-defeature-app",
+    "/app",
+)
+
 
 class BackendUnavailable(RuntimeError):
     """Raised when no execution path to the CAD pipeline exists."""
@@ -67,6 +77,21 @@ def _docker_available() -> tuple[bool, str]:
     return True, f"docker backend ready using image '{image}'"
 
 
+def _locate_repo() -> str | None:
+    """Find the repo inside the sandbox so the remedy can be copy-pasteable.
+
+    Identified by pyproject.toml plus the package directory, not by name
+    alone, so an unrelated directory cannot be mistaken for the pipeline.
+    """
+    override = os.environ.get("CAD_DEFEATURE_REPO")
+    candidates = (override, *CANDIDATE_REPO_PATHS) if override else CANDIDATE_REPO_PATHS
+    for candidate in candidates:
+        root = Path(candidate)
+        if (root / "pyproject.toml").is_file() and (root / "src" / "cad_defeature").is_dir():
+            return str(root)
+    return None
+
+
 def diagnose() -> dict[str, object]:
     """Report every backend's availability without selecting one.
 
@@ -88,15 +113,27 @@ def diagnose() -> dict[str, object]:
     if requested in {"inprocess", "docker"}:
         selected = requested
 
+    repo = _locate_repo()
     remedy = None
     if selected is None:
-        remedy = (
-            "Neither backend is reachable. Either (a) install the pipeline into "
-            "this sandbox so `import cad_defeature` works, or (b) expose a docker "
-            "CLI with the cad-defeature:latest image built. OpenShell blocks "
-            "docker socket access by default, so option (a) is usually correct "
-            "for a hardened sandbox."
-        )
+        if repo:
+            remedy = (
+                "Install the pipeline into this sandbox from the local checkout "
+                "(no network required):\n"
+                f"  python -m pip install --no-build-isolation --no-index {repo}\n"
+                "If pip reports missing build dependencies, add --no-deps: the "
+                "OpenCascade runtime must already be present in the sandbox image. "
+                "Do NOT request a network policy exemption to reach PyPI; this "
+                "install needs no egress."
+            )
+        else:
+            remedy = (
+                "The cad-defeature repository was not found inside this sandbox, so "
+                "the pipeline cannot be installed locally. Mount or copy the repo "
+                "into the sandbox workspace, then re-run doctor. Searched: "
+                + ", ".join(CANDIDATE_REPO_PATHS)
+                + ". Set CAD_DEFEATURE_REPO to point at it explicitly."
+            )
     elif selected == "inprocess" and not inprocess:
         remedy = "CAD_DEFEATURE_BACKEND=inprocess was requested but cad_defeature is not importable."
     elif selected == "docker" and not docker_ok:
@@ -117,6 +154,14 @@ def diagnose() -> dict[str, object]:
             "docker": {"available": docker_ok, "detail": docker_detail},
         },
         "mount_root": os.environ.get("CAD_DEFEATURE_MOUNT", str(Path.cwd())),
+        "repository_path": repo,
+        "requires_network": False,
+        "network_note": (
+            "This skill performs no outbound network calls. CAD processing is local "
+            "OpenCascade work and installation uses the local checkout. A CONNECT "
+            "tunnel 403 while using this skill indicates an unexpected egress "
+            "attempt - investigate it rather than widening the OpenShell policy."
+        ),
         "usable": selected is not None and remedy is None,
         "remedy": remedy,
     }

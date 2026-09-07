@@ -89,10 +89,45 @@ Override detection with `CAD_DEFEATURE_BACKEND=inprocess|docker` if needed.
 
 ## Network policy note
 
-OpenShell blocks egress by default and logs denials. This skill performs **no
-network calls** — all CAD processing is local OpenCascade work — so it needs no
-policy exemptions. If you see a denial while using it, something unexpected is
-reaching out; investigate rather than widening the policy.
+**OpenShell blocks outbound network access by default.** Blocked requests fail
+with `CONNECT tunnel failed, response 403`. Inspect which rule denied a request:
+
+```bash
+nemoclaw <sandbox-name> logs --tail 50
+```
+
+This skill is **designed to need no egress at all**:
+
+| Operation | Network required |
+|---|---|
+| CAD healing, defeaturing, verification | No — local OpenCascade |
+| Policy loading | No — local YAML |
+| Installing the pipeline into the sandbox | No — `pip install --no-index` from the local checkout |
+| Skill install / update | No — `nemoclaw skill install` runs host-side |
+
+Consequently: **a `CONNECT tunnel 403` while using this skill is a signal, not an
+obstacle.** It means something attempted unexpected egress. Investigate it with
+`nemoclaw <name> logs` rather than widening the policy.
+
+Do **not** request a network exemption to reach PyPI for this install. If pip
+tries to reach the network, the wrong install command was used — see the
+offline install form below.
+
+## Offline install into the sandbox
+
+`doctor` prints the exact command with the discovered repo path. It looks like:
+
+```bash
+python -m pip install --no-build-isolation --no-index /workspace/cad-defeature-app
+```
+
+`--no-index` guarantees pip never attempts egress. If pip complains about build
+dependencies, add `--no-deps` — the OpenCascade runtime must already be present
+in the sandbox image, since it cannot be fetched under this policy.
+
+If the repo is not visible inside the sandbox, `doctor` lists the paths it
+searched. Mount or copy the checkout to one of them, or set
+`CAD_DEFEATURE_REPO=/actual/path`.
 
 ## Safety rules the skill enforces
 

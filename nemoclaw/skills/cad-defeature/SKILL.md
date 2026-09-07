@@ -35,6 +35,11 @@ These rules are enforced in code. Do not attempt to work around them.
    a fresh timestamped directory every time.
 5. **Never invent a tolerance, feature size, or threshold.** If a value is
    missing, report that it is undeclared.
+6. **Never request a network policy exemption for this skill.** It requires zero
+   egress. A `CONNECT tunnel failed, response 403` means something unexpected
+   tried to reach out — report it to the user and suggest
+   `nemoclaw <sandbox> logs --tail 50`. Do not attempt to widen the policy or
+   retry against a different host.
 
 ## Instructions
 
