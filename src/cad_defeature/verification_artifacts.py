@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -83,7 +83,7 @@ def build_geometry_comparison(report: dict[str, object]) -> dict[str, object]:
     return {
         "report_type": "cad_defeature_geometry_comparison",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "performed_read_only": True,
         "original": {
             "path": original.get("path"),
@@ -111,7 +111,7 @@ def build_residual_features(report: dict[str, object]) -> dict[str, object]:
     return {
         "report_type": "cad_defeature_residual_features",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "performed_read_only": True,
         "candidate": {
             "path": (report.get("candidate") or {}).get("path"),
@@ -134,7 +134,7 @@ def build_final_decision(report: dict[str, object]) -> dict[str, object]:
     return {
         "report_type": "cad_defeature_final_decision",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "verdict": verdict,
         "verdict_reason": summary.get("verdict_reason"),
         "blocking_checks": summary.get("blocking_checks", []),

@@ -6,7 +6,7 @@ plan but never modifies the source CAD artifact.
 """
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 import json
 
@@ -53,7 +53,7 @@ def run_defeaturing_agent(input_path: str | Path, policy_path: str | Path, outpu
     health_report = {
         "report_type": "input_cad_health_report",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "source_model": str(source),
         "inspection": inspection,
         "health": health,
@@ -63,7 +63,7 @@ def run_defeaturing_agent(input_path: str | Path, policy_path: str | Path, outpu
     report: dict[str, object] = {
         "report_type": "defeaturing_agent_report",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "agent": {"name": "cad_defeaturing_agent", "mode": "dry_run"},
         "source_model": str(source),
         "policy": policy_summary(policy),
@@ -76,7 +76,7 @@ def run_defeaturing_agent(input_path: str | Path, policy_path: str | Path, outpu
     removal_manifest = {
         "manifest_type": "cad_defeature_removal_manifest",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "source_model": str(source),
         "policy": policy_summary(policy),
         "mode": "dry_run",

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -16,7 +16,7 @@ from .runtime import NemoClawRunner
 
 
 def _now() -> str:
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 class WorkflowNotFound(KeyError):

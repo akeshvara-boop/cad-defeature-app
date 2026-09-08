@@ -15,7 +15,7 @@ Design rules enforced here:
 """
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from cad_defeature.healing import heal_to_solid
@@ -83,7 +83,7 @@ def approve_tolerance(
             "report_type": "tolerance_approval",
             "schema_version": "1.0",
             "source_model": str(input_path),
-            "granted_at_utc": datetime.now(UTC).isoformat(),
+            "granted_at_utc": datetime.now(timezone.utc).isoformat(),
             "risk_acknowledged": risk_statement(float(approved_tolerance)),
             "scope": "single_run",
             **approval,
@@ -106,7 +106,7 @@ def reject_tolerance(
         "source_model": str(input_path),
         "rejected_by": rejected_by,
         "rejection_note": rejection_note,
-        "rejected_at_utc": datetime.now(UTC).isoformat(),
+        "rejected_at_utc": datetime.now(timezone.utc).isoformat(),
         "consequence": "Healing stops. No model was produced and the source model is unchanged.",
         "recommended_next_step": (
             "Obtain a native closed-solid STEP AP242 or BREP export of this part from the "

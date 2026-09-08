@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from hashlib import sha256
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
@@ -15,7 +15,7 @@ def build_baseline_report(input_path: str | Path, inspection: dict[str, object])
     return {
         "report_type": "cad_defeature_baseline",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "tool": {
             "name": "cad-defeature",
             "version": _package_version(),

@@ -10,7 +10,7 @@ ceiling and nothing else.
 """
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -62,7 +62,7 @@ def build_decision_request(
     return {
         "report_type": "tolerance_decision_request",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "source_model": str(source_model),
         "decision_required": "approve_or_reject_tolerance",
         "max_auto_tolerance": max_auto_tolerance,
@@ -121,7 +121,7 @@ def validate_approval(
         "approved_by": str(approval["approved_by"]),
         "approval_note": str(approval["approval_note"]),
         "max_auto_tolerance": max_auto_tolerance,
-        "granted_at_utc": datetime.now(UTC).isoformat(),
+        "granted_at_utc": datetime.now(timezone.utc).isoformat(),
         "risk_acknowledged": risk_statement(approved),
         "scope": "single_run",
     }

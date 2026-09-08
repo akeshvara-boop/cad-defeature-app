@@ -6,7 +6,7 @@ per docs/decisions/ADR-0001.
 """
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -148,7 +148,7 @@ def _finish(
     report = {
         "report_type": "cad_healing_report",
         "schema_version": "1.2",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "source_model": str(source),
         "decision": decision,
         "healed_model": model,

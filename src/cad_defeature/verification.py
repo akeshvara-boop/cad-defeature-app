@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -65,7 +65,7 @@ def verify_models(
     return {
         "report_type": "cad_defeature_verification",
         "schema_version": "1.1",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "performed_read_only": True,
         "policy": {
             "name": policy["policy"]["name"],

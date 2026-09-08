@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -37,7 +37,7 @@ def build_highlight_manifest(inventory: dict[str, object], model_path: str | Pat
     return {
         "manifest_type": "cad_defeature_face_highlights",
         "schema_version": "1.0",
-        "created_at_utc": datetime.now(UTC).isoformat(),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "model_path": str(model_path),
         "policy": {
             "name": inventory["policy_name"],
