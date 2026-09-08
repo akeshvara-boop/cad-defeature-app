@@ -1,34 +1,60 @@
 # syntax=docker/dockerfile:1.7
-# NemoClaw sandbox image with the OpenCascade CAD runtime pre-installed.
+# NemoClaw custom sandbox image with the OpenCascade CAD runtime pre-installed.
 #
-# WHY THIS EXISTS
-# ---------------
-# The stock NemoClaw sandbox image has no CAD runtime, and OpenShell blocks
-# outbound network access by policy. `cadquery-ocp` is a large binary wheel, so
-# it cannot be fetched from inside the sandbox at install time.
+# ---------------------------------------------------------------------------
+# READ THIS FIRST - THIS FILE IS INCOMPLETE BY DESIGN
+# ---------------------------------------------------------------------------
+# Per the NemoClaw custom-image contract:
 #
-# The correct fix is to bake the runtime into the sandbox image rather than to
-# widen the egress policy. Network access happens HERE, on the host, at image
-# build time - where it is expected and reviewable - not inside the running
-# agent sandbox.
+#   "The supplied Dockerfile defines the COMPLETE sandbox image, and NemoClaw
+#    does not layer it on top of the stock managed runtime."
+#   "Do not start a custom OpenClaw image from
+#    ghcr.io/nvidia/nemoclaw/sandbox-base alone."
 #
-# BUILD (on the Brev host, which has network access):
-#   nemoclaw onboard --from ./nemoclaw/Dockerfile.sandbox --recreate-sandbox
+# That means a short "FROM <base> + pip install" Dockerfile CANNOT work: it would
+# produce an image with the CAD runtime but WITHOUT the OpenClaw agent runtime,
+# and the sandbox would come up broken.
 #
-# NemoClaw uses the Dockerfile's parent directory as the build context, so this
-# file intentionally references nothing outside ./nemoclaw/.
+# The supported procedure is to extend the STOCK managed Dockerfile for your
+# exact NemoClaw release:
 #
-# The pipeline source is NOT baked in. It is uploaded or shared at runtime so it
-# stays editable without an image rebuild:
-#   nemoclaw <sandbox> upload ~/cad-defeature-app /sandbox/cad-defeature-app
+#   1. nemoclaw --version                     # note the release, e.g. v0.0.91
+#   2. Check out that release's NemoClaw repo and use ITS root Dockerfile.
+#   3. Append the stage below to the END of that stock Dockerfile.
+#   4. Build with the matching base image ref:
+#        NEMOCLAW_SANDBOX_BASE_IMAGE_REF=ghcr.io/nvidia/nemoclaw/sandbox-base:<release> \
+#        nemoclaw onboard --fresh --name cad-to-mesh --from "$PWD/Dockerfile"
+#
+# Do NOT combine one release's Dockerfile with another release's base image.
+#
+# ---------------------------------------------------------------------------
+# PREFER THE WHEELHOUSE ROUTE INSTEAD
+# ---------------------------------------------------------------------------
+# Rebuilding the image destroys sandbox state and couples this project to a
+# NemoClaw release. Unless you need a reproducible image, use:
+#
+#   ./nemoclaw/scripts/stage_cad_wheels.sh cad-to-mesh
+#
+# which downloads the wheels on the host and installs them offline in the
+# sandbox. Same outcome, no rebuild, no release coupling.
+# ---------------------------------------------------------------------------
 
-ARG NEMOCLAW_BASE=ghcr.io/nvidia/nemoclaw-sandbox:latest
-FROM ${NEMOCLAW_BASE}
+# ===========================================================================
+# APPEND EVERYTHING BELOW THIS LINE to the stock managed Dockerfile.
+# `nemoclaw-runtime` is the stage name the stock Dockerfile defines.
+# ===========================================================================
+
+FROM nemoclaw-runtime AS cad-runtime
+
+# Docker build args are stage-scoped, and this appended stage becomes the FINAL
+# stage, so the tool-disclosure contract must be redeclared and promoted here.
+# NemoClaw validates that this appears exactly once in the final stage.
+ARG NEMOCLAW_TOOL_DISCLOSURE=progressive
+ENV NEMOCLAW_TOOL_DISCLOSURE=${NEMOCLAW_TOOL_DISCLOSURE}
 
 USER root
 
-# OpenCascade needs these shared libraries for offscreen geometry and meshing.
-# Installed from the base distro repositories at build time.
+# Shared libraries OpenCascade needs for offscreen geometry and meshing.
 RUN apt-get update \
     && apt-get install --no-install-recommends --yes \
         libgl1 \
@@ -38,9 +64,9 @@ RUN apt-get update \
         libsm6 \
     && rm -rf /var/lib/apt/lists/*
 
-# Pin to the same versions the cad-defeature container uses, so geometry results
-# are reproducible across the two environments. A version drift here would mean
-# the agent and the reference pipeline could disagree about the same model.
+# Pinned to match requirements-cad.txt exactly. Version drift between the
+# sandbox and the reference cad-defeature image would let the agent and the
+# reference pipeline disagree about the same geometry.
 RUN python3 -m pip install --no-cache-dir \
         "cadquery-ocp==7.9.3.1.1" \
         "cadquery==2.8.0" \
@@ -51,3 +77,7 @@ RUN python3 -m pip install --no-cache-dir \
 RUN python3 -c "import OCP; from OCP.TopoDS import TopoDS; print('OpenCascade runtime OK')"
 
 USER sandbox
+
+# The pipeline source is intentionally NOT baked in, so it stays editable
+# without an image rebuild:
+#   nemoclaw <sandbox> upload ~/cad-defeature-app /sandbox/
