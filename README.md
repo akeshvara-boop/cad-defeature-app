@@ -6,9 +6,10 @@ Source-of-truth repository for an auditable STEP/BREP CAD defeaturing pipeline.
 >
 > The numeric acceptance thresholds in `policies/power_tools_delta.yaml` are
 > **agent-proposed placeholders and are not engineering-approved**. A `pass`
-> verdict currently means "met the assistant's proposed limits", not "acceptable
-> for engineering use". The policy is `mode: report_only`, so no geometry is
-> modified. Reviewers and future builders must read
+> is only possible after those thresholds are ratified. Until then, technically
+> complete evidence can produce `conditional_pass`, while missing evidence
+> produces `needs_review`; neither means "acceptable for engineering use". The
+> policy is `mode: report_only`, so no geometry is modified. Reviewers must read
 > [`REVIEWER_NOTES.md`](REVIEWER_NOTES.md) before relying on any output.
 
 ## Container runtime
@@ -57,6 +58,17 @@ docker run --rm \
   --output /workspace/output/model-inventory.json
 ```
 
+A complete independent verification run can be written as an immutable Phase 3
+package:
+
+```bash
+cad-defeature verify --original /workspace/input/original.brep \
+  --candidate /workspace/input/candidate.brep \
+  --policy /app/policies/power_tools_delta.yaml \
+  --healing-report /workspace/reports/healing_report.json \
+  --output-dir /workspace/reports/verification-run
+```
+
 The CLI refuses to overwrite report/manifest paths. Use a new output filename
 for each run, or intentionally remove an obsolete local output beforehand.
 
@@ -85,3 +97,20 @@ git clone https://github.com/NVIDIA-Omniverse/kit-cae.git
 cd kit-cae
 ./repo.sh build -r
 ```
+
+## Interactive Kit-CAE workbench
+
+The `cad_defeature_review` extension is now an interactive Kit-CAE control and
+review surface. A host-side FastAPI service stages CAD into the `cad-to-mesh`
+NemoClaw sandbox, invokes the structured agent actions, persists workflow state,
+and returns findings to Kit-CAE without blocking the render thread.
+
+```bash
+python3 -m pip install -e '.[api]'
+uvicorn cad_defeature.api.app:application --host 127.0.0.1 --port 8000
+```
+
+Full setup and product boundaries are documented in
+[`docs/kit-cae-workbench.md`](docs/kit-cae-workbench.md). The current UI does
+not claim to generate a CFD-ready mesh; that downstream adapter and its mesh
+quality gates remain the next implementation slice.

@@ -48,16 +48,23 @@ def verify_models(
         _tolerance_provenance_check(healing_report_path),
         _min_feature_size_check(candidate_inspection, gates.get("min_feature_size")),
         _threshold_provenance_check(policy),
+        _residual_feature_check(candidate, policy),
     ]
     failed = [check for check in checks if check["status"] == "fail"]
     needs_review = [check for check in checks if check["status"] == "needs_review"]
     not_assessed = [check for check in checks if check["status"] == "not_assessed"]
-    pending = needs_review + not_assessed
-    verdict = "pass" if not failed and not pending else "fail" if failed else "needs_review"
+    if failed:
+        verdict = "fail"
+    elif not_assessed:
+        verdict = "needs_review"
+    elif needs_review:
+        verdict = "conditional_pass"
+    else:
+        verdict = "pass"
 
     return {
         "report_type": "cad_defeature_verification",
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "created_at_utc": datetime.now(UTC).isoformat(),
         "performed_read_only": True,
         "policy": {
@@ -78,7 +85,8 @@ def verify_models(
             "needs_review": len(needs_review),
             "not_assessed": len(not_assessed),
             "verdict": verdict,
-            "blocking_checks": [check["name"] for check in failed + pending],
+            "blocking_checks": [check["name"] for check in failed + not_assessed],
+            "review_checks": [check["name"] for check in needs_review],
             "verdict_reason": _verdict_reason(failed, needs_review, not_assessed),
         },
     }
@@ -129,7 +137,9 @@ def _closure_check(inspection: dict[str, object], required: bool) -> dict[str, o
 
 def _non_manifold_check(inspection: dict[str, object], allowed: bool) -> dict[str, object]:
     connectivity = inspection.get("connectivity") or {}
-    count = connectivity.get("non_manifold_edge_count")
+    # The connectivity report contract uses ``non_manifold_edges``. Retain the
+    # earlier key as a compatibility fallback for already-generated fixtures.
+    count = connectivity.get("non_manifold_edges", connectivity.get("non_manifold_edge_count"))
     if count is None:
         return {
             "name": "non_manifold_edges",
@@ -247,6 +257,60 @@ def _tolerance_provenance_check(healing_report_path: str | Path | None) -> dict[
             "automatic ceiling. Geometry may have moved by up to the approved tolerance, so a "
             "reviewer must confirm that deviation is acceptable for this part."
         ),
+    }
+
+
+def _residual_feature_check(candidate: Path, policy: dict[str, object]) -> dict[str, object]:
+    """Independently inventory policy-eligible features left in the candidate.
+
+    This is deliberately a verification-time inventory. It does not trust the
+    Defeaturing Agent's removal manifest or its claimed outcome.
+    """
+    try:
+        from cad_defeature.inventory import inventory_features
+        from cad_defeature.model import read_defeaturing_solid
+
+        inventory = inventory_features(read_defeaturing_solid(candidate), policy)
+    except (ImportError, ValueError) as error:
+        return {
+            "name": "residual_features",
+            "status": "not_assessed",
+            "observed": None,
+            "requirement": (
+                "Independent residual-feature inventory could not be completed: "
+                f"{error}"
+            ),
+        }
+
+    residuals = [
+        item for item in inventory.get("candidates", []) if item.get("policy_eligible")
+    ]
+    unclassified = list(inventory.get("unclassified_revolutions", []))
+    if residuals:
+        status = "fail"
+        requirement = "No policy-eligible removable feature may remain in the candidate."
+    elif unclassified:
+        status = "needs_review"
+        requirement = (
+            "Unclassified surfaces remain and require topology-aware confirmation before "
+            "the candidate can receive an unconditional pass."
+        )
+    else:
+        status = "pass"
+        requirement = "No policy-eligible removable feature remains in the candidate."
+
+    return {
+        "name": "residual_features",
+        "status": status,
+        "observed": {
+            "candidate_count": inventory.get("candidate_count", 0),
+            "eligible_residual_count": len(residuals),
+            "unclassified_count": len(unclassified),
+            "residuals": residuals,
+            "unclassified": unclassified,
+        },
+        "requirement": requirement,
+        "performed_read_only": True,
     }
 
 

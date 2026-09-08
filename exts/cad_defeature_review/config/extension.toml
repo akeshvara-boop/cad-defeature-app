@@ -1,7 +1,7 @@
 [package]
-title = "CAD Defeature Review"
-description = "Manifest-driven CAD defeaturing review overlays and candidate inspector."
-version = "0.1.0"
+title = "Agentic CAD-to-Mesh Workbench"
+description = "Interactive NemoClaw CAD preparation workflow and Kit-CAE findings review."
+version = "0.2.0"
 category = "CAE"
 reloadable = true
 
@@ -10,6 +10,7 @@ reloadable = true
 "omni.usd" = {}
 "omni.kit.selection" = {}
 "omni.kit.viewport.utility" = {}
+"omni.cae.bundle" = {}
 
 [[python.module]]
 name = "cad_defeature_review"

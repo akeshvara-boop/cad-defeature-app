@@ -229,6 +229,18 @@ Enable engineers to visually validate model changes and agent findings.
 ### Exit criteria
 Users can understand the geometry changes and agent decisions without reviewing raw logs.
 
+### Status update (2026-09-08)
+
+**PARTIAL — interactive workbench implemented.** The Kit-CAE extension now
+controls health assessment, healing, explicit tolerance approval/rejection,
+report-only feature analysis and independent verification through a host-side
+FastAPI/NemoClaw bridge. Workflow findings can be rendered as USD overlays and
+the complete state remains inspectable in the UI.
+
+Remaining Phase 4 work is the original/defeatured/delta model loading pipeline,
+polished metrics/report views, and exportable PDF. CFD meshing remains outside
+the current implementation and is labelled as such in the UI.
+
 ---
 
 ## Phase 5 — End-to-end evaluation and hardening
@@ -266,14 +278,19 @@ Status legend: DONE / PARTIAL / BLOCKED / OPEN.
    (`classify_health` covers proceed / heal / surface_safe_review / reject).
 4. **PARTIAL** - Power Tools delta policy defined, but its numeric thresholds are
    unratified placeholders and `min_feature_size` is undeclared.
-5. **PARTIAL** - Agent contracts and artifact schemas exist for defeaturing,
-   healing and verification. Four Phase 3 artifacts are still missing:
-   `verification_summary.md`, `geometry_comparison.json`,
-   `residual_features.json`, `final_decision.json`. `conditional pass` is not
-   yet implemented.
+5. **DONE** - The Verification Agent emits the complete immutable Phase 3
+   package: `verification_report.json`, `verification_summary.md`,
+   `geometry_comparison.json`, `residual_features.json`, and
+   `final_decision.json`. Verdicts distinguish `pass`, `conditional_pass`,
+   `needs_review`, and `fail`.
 6. **BLOCKED (external)** - Add a closed-solid STEP AP242 or BREP model to the
    test corpus. Requires a native export from the source CAD system; cannot be
    produced by healing the existing IGES file.
+7. **PARTIAL** - Verification, CLI and agent-contract tests now cover Phase 3;
+   additional tolerance-ladder and provenance edge cases remain to be added.
+8. **PARTIAL** - Kit-CAE interactive workbench and host workflow API are
+   implemented. A verified CFD mesher adapter and original/output/delta model
+   loading are the next product increments.
 
 ### Ordered plan
 
@@ -282,8 +299,8 @@ Status legend: DONE / PARTIAL / BLOCKED / OPEN.
 | 1 | Install NemoClaw on the Brev host and install the skill into the sandbox | `nvapi-*` key | Phase 0 exit |
 | 2 | Obtain a native closed-solid export | Source CAD system access | Phases 2 and 5 |
 | 3 | Ratify `min_feature_size` and the acceptance deltas | Named engineering owner | Policy leaving report_only |
-| 4 | Implement the four missing Phase 3 artifacts + `conditional pass` | Nothing | Phase 3 exit |
-| 5 | Backfill tests for tolerance gate, gates and provenance; fill empty `test_cli.py` | Nothing | Phase 5 |
+| 4 | DONE - Implement the Phase 3 artifacts and `conditional_pass` | Nothing | Phase 3 exit |
+| 5 | Expand tests for tolerance-ladder and provenance edge cases | Nothing | Phase 5 |
 
-Actions 4 and 5 need no external input and can proceed immediately. Actions 1-3
-are genuinely blocked on inputs that only a human can supply.
+Action 5 needs no external input and can proceed immediately. Actions 1-3 are
+genuinely blocked on inputs that only a human can supply.

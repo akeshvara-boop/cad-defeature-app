@@ -7,6 +7,7 @@ both without needing OpenCascade.
 from __future__ import annotations
 
 import json
+import importlib.util
 from pathlib import Path
 import subprocess
 import sys
@@ -107,3 +108,17 @@ def test_skill_md_tells_agent_to_run_doctor_first() -> None:
     text = SKILL_MD.read_text(encoding="utf-8")
     assert "doctor" in text
     assert "Preflight" in text or "preflight" in text
+
+
+def test_higher_tolerance_after_approval_remains_a_human_decision(tmp_path) -> None:
+    """Regression: a second tolerance request must not collapse to generic error."""
+    spec = importlib.util.spec_from_file_location("cad_agent_contract", SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+
+    request = {"proposed_tolerance": 0.1, "max_auto_tolerance": 0.001}
+    payload = module._approval_pause_payload(tmp_path / "approved-run", request)
+    assert payload["status"] == "needs_human_decision"
+    assert payload["request"] == request
+    assert "Do not reuse" in payload["agent_instruction"]

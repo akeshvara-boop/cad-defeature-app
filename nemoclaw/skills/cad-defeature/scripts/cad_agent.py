@@ -47,6 +47,24 @@ def _fresh_run_dir(base: str, prefix: str) -> Path:
     return target
 
 
+def _approval_pause_payload(run_dir: Path, request: dict) -> dict:
+    """Preserve a higher-tolerance request as a handled workflow pause."""
+    return {
+        "status": "needs_human_decision",
+        "run_dir": str(run_dir),
+        "question": (
+            "The approved tolerance was insufficient to produce a valid solid. "
+            "Review the new request and make a separate human decision."
+        ),
+        "request": request,
+        "respond_with": ["approve_tolerance", "reject_tolerance"],
+        "agent_instruction": (
+            "STOP. Do not reuse the prior approval or approve the higher tolerance "
+            "on the user's behalf."
+        ),
+    }
+
+
 def cmd_doctor(args: argparse.Namespace) -> None:
     """Report whether the skill can actually reach the CAD pipeline."""
     report = diagnose()
@@ -70,11 +88,19 @@ def cmd_health(args: argparse.Namespace) -> None:
     from cad_defeature.inspect import inspect_model
 
     inspection = inspect_model(args.input)
+    health = classify_health(inspection)
+    if health.get("route") == "reject":
+        _fail(
+            str(health.get("reason", "CAD health inspection rejected the input.")),
+            source_model=args.input,
+            health=health,
+            inspection=inspection,
+        )
     _emit(
         {
             "status": "complete",
             "source_model": args.input,
-            "health": classify_health(inspection),
+            "health": health,
             "inspection": inspection,
         }
     )
@@ -98,16 +124,20 @@ def cmd_heal(args: argparse.Namespace) -> None:
 def cmd_approve(args: argparse.Namespace) -> None:
     require_inprocess()
     from cad_defeature.nemoclaw_tools import approve_tolerance
+    from cad_defeature.tolerance_gate import ToleranceApprovalRequired
 
     run_dir = _fresh_run_dir(args.run_dir, "heal-approved")
-    result = approve_tolerance(
-        args.input,
-        str(run_dir),
-        approved_tolerance=args.tolerance,
-        approved_by=args.approved_by,
-        approval_note=args.note,
-        max_auto_tolerance=args.max_auto_tolerance,
-    )
+    try:
+        result = approve_tolerance(
+            args.input,
+            str(run_dir),
+            approved_tolerance=args.tolerance,
+            approved_by=args.approved_by,
+            approval_note=args.note,
+            max_auto_tolerance=args.max_auto_tolerance,
+        )
+    except ToleranceApprovalRequired as pause:
+        result = _approval_pause_payload(run_dir, pause.request)
     _emit(result)
 
 
@@ -139,6 +169,7 @@ def cmd_defeature(args: argparse.Namespace) -> None:
 def cmd_verify(args: argparse.Namespace) -> None:
     require_inprocess()
     from cad_defeature.verification import verify_models
+    from cad_defeature.verification_artifacts import write_verification_package
 
     report = verify_models(
         args.original,
@@ -146,6 +177,10 @@ def cmd_verify(args: argparse.Namespace) -> None:
         args.policy,
         args.healing_report,
     )
+    run_dir = None
+    if args.run_dir:
+        run_dir = _fresh_run_dir(args.run_dir, "verification")
+        write_verification_package(report, run_dir)
     summary = report.get("summary", {})
     _emit(
         {
@@ -153,10 +188,14 @@ def cmd_verify(args: argparse.Namespace) -> None:
             "verdict": summary.get("verdict"),
             "verdict_reason": summary.get("verdict_reason"),
             "blocking_checks": summary.get("blocking_checks"),
+            "review_checks": summary.get("review_checks"),
             "reviewer_notice": report.get("reviewer_notice"),
+            "run_dir": str(run_dir) if run_dir else None,
+            "artifacts": report.get("artifacts"),
             "agent_instruction": (
-                "Report verdict, verdict_reason, blocking_checks and reviewer_notice "
-                "to the user. Do not describe a needs_review verdict as a pass."
+                "Report verdict, verdict_reason, blocking_checks, review_checks and "
+                "reviewer_notice to the user. Do not describe a needs_review or "
+                "conditional_pass verdict as an unconditional pass."
             ),
             "report": report,
         }
@@ -212,6 +251,7 @@ def build_parser() -> argparse.ArgumentParser:
     verify.add_argument("--candidate", required=True)
     verify.add_argument("--policy", default=DEFAULT_POLICY)
     verify.add_argument("--healing-report", default=None)
+    verify.add_argument("--run-dir", default=None, help="Parent directory for an immutable verification package.")
     verify.set_defaults(func=cmd_verify)
 
     return parser

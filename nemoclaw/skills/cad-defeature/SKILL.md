@@ -116,8 +116,11 @@ python <skill_dir>/scripts/cad_agent.py defeature \
 ```bash
 python <skill_dir>/scripts/cad_agent.py verify \
   --original /path/original.brep --candidate /path/candidate.brep \
-  --healing-report /path/healing_report.json
+  --healing-report /path/healing_report.json \
+  --run-dir /workspace/reports
 ```
+
+This writes an immutable, timestamped package containing the full verification report, human-readable summary, geometry comparison, residual-feature assessment, and final decision.
 
 ## Reporting results to the user
 
@@ -130,7 +133,7 @@ When you report a verification result you MUST surface all of:
 - `tolerance_provenance.required_human_approval`, if true — the model was built
   under a concession and geometry may have moved
 
-Do not summarise a `needs_review` verdict as "passed".
+Do not summarise a `needs_review` or `conditional_pass` verdict as an unconditional pass.
 
 ## Error handling
 

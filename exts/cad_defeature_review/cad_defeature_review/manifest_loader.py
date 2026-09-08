@@ -14,10 +14,15 @@ class ManifestLoader:
     def load(self, path: str) -> dict:
         manifest_path = Path(path)
         data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.validate(data)
+        data["_manifest_path"] = str(manifest_path)
+        return data
+
+    def validate(self, data: dict) -> dict:
+        """Validate a local or API-delivered manifest."""
         missing = self.REQUIRED - data.keys()
         if missing:
             raise ValueError(f"Manifest missing required fields: {', '.join(sorted(missing))}")
         if data["manifest_type"] != "cad_defeature_face_highlights":
             raise ValueError("Unsupported manifest type.")
-        data["_manifest_path"] = str(manifest_path)
         return data

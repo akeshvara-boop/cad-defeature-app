@@ -24,9 +24,11 @@ off on them.**
 | Healing automatic ceiling | 0.001 mm | Empirical: value that closed this fixture's shell |
 | Healing gap tolerance reference | 0.01 mm | Sourced from NVIDIA Autonomous Aerospace SRS default |
 
-Until an owner ratifies these, a `pass` verdict means only
-*"passed the assistant's proposed limits"* — not *"acceptable for engineering
-use"*.
+Until an owner ratifies these, the verifier cannot return an unconditional
+`pass`. If every technical check is assessable and only explicit human-review
+conditions remain, it returns `conditional_pass`. Missing evidence returns
+`needs_review`; a failed technical gate returns `fail`. None of those outcomes
+is engineering acceptance.
 
 ## 2. Volume delta is the wrong primary gate
 
@@ -89,7 +91,8 @@ Agent "must not own: repairing the geometry it verifies".
 ## 6. What a reviewer must check before accepting a report
 
 1. Read `summary.verdict_reason` and `summary.blocking_checks` — not just
-   `verdict`.
+   `verdict`. For `conditional_pass`, also inspect `summary.review_checks` and
+   close every condition before downstream use.
 2. Check `tolerance_provenance`. If `required_human_approval` is true, the model
    was built under a concession; read the approver and the note.
 3. Confirm no check is silently `not_assessed`. An unassessed gate is not a

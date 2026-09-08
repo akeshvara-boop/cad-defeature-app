@@ -20,6 +20,7 @@ from cad_defeature.model import read_defeaturing_solid
 from cad_defeature.policy import load_policy, policy_summary
 from cad_defeature.usd_bindings import attach_usd_bindings, load_face_map
 from cad_defeature.verification import verify_models
+from cad_defeature.verification_artifacts import write_verification_package
 from cad_defeature.vtk_export import export_review_mesh
 from cad_defeature.trame_review import serve_review
 
@@ -79,7 +80,9 @@ def build_parser() -> argparse.ArgumentParser:
     verify_parser.add_argument("--candidate", required=True, help="Path to the defeatured CAD candidate.")
     verify_parser.add_argument("--policy", required=True, help="Path to the Power Tools delta policy YAML file.")
     verify_parser.add_argument("--healing-report", help="Optional healing_report.json so verification can audit tolerance provenance.")
-    verify_parser.add_argument("--output", help="Optional new JSON verification report path; existing files are never overwritten.")
+    verify_output = verify_parser.add_mutually_exclusive_group()
+    verify_output.add_argument("--output", help="Optional new JSON verification report path; existing files are never overwritten.")
+    verify_output.add_argument("--output-dir", help="Optional new or empty directory for the complete Phase 3 verification package.")
 
     vtk_parser = subcommands.add_parser(
         "export-vtk", help="Tessellate CAD into a VTK review mesh with stable OpenCascade face-index cell data."
@@ -154,7 +157,9 @@ def main(argv: list[str] | None = None) -> None:
         print(json.dumps({"status": "usd_bindings_attached", "report_path": str(output), "summary": bound_manifest["usd_binding_summary"]}, indent=2))
     elif args.command == "verify":
         report = verify_models(args.original, args.candidate, args.policy, args.healing_report)
-        if args.output:
+        if args.output_dir:
+            write_verification_package(report, args.output_dir)
+        elif args.output:
             output = Path(args.output)
             if output.exists():
                 raise FileExistsError(f"Refusing to overwrite existing verification report: {output}")

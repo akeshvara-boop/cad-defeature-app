@@ -7,6 +7,16 @@ name = "cad-defeature"
 version = "0.1.0"
 description = "Auditable STEP/BREP CAD defeaturing pipeline"
 requires-python = ">=3.10"
+dependencies = ["PyYAML>=6,<7"]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8,<10",
+]
+api = [
+    "fastapi>=0.115,<1",
+    "uvicorn[standard]>=0.30,<1",
+]
 
 [project.scripts]
 cad-defeature = "cad_defeature.cli:main"

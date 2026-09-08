@@ -1,4 +1,18 @@
-# CAD Defeature Review — Omniverse Kit extension
+# Agentic CAD-to-Mesh Workbench — NVIDIA Kit-CAE extension
+
+The extension now provides an interactive operator surface for CAD health,
+healing, explicit tolerance decisions, report-only feature analysis and
+independent verification through the host workflow API. It retains the
+manifest-driven USD overlay review experience described below.
+
+Start the API first:
+
+```bash
+uvicorn cad_defeature.api.app:application --host 127.0.0.1 --port 8000
+```
+
+See [`docs/kit-cae-workbench.md`](../../docs/kit-cae-workbench.md) for the Brev,
+NemoClaw and Kit-CAE deployment sequence.
 
 This extension loads a `cad_defeature_face_highlights` JSON manifest and renders
 review-only RTX viewport overlays. It never edits the source CAD model.
@@ -7,9 +21,9 @@ review-only RTX viewport overlays. It never edits the source CAD model.
 
 1. Start a Kit application that includes USD, viewport, and `omni.ui` support.
 2. Add this repository's `exts` folder to Kit's extension search paths.
-3. Enable **CAD Defeature Review** in the Extension Manager.
+3. Enable **Agentic CAD-to-Mesh Workbench** in the Extension Manager.
 4. Open or import the matching CAD/USD model into the active USD stage.
-5. Open **Window → CAD Defeature Review**.
+5. The dockable **Agentic CAD-to-Mesh Workbench** window opens when enabled.
 6. Enter `data/reports/large-base-plate-highlights.json`, select **Load**, then
    select **Render overlays**.
 

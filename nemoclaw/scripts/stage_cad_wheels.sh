@@ -32,6 +32,9 @@ OCP_SHA256="0e70ab790910b6d81080a6d0df26a0cd0f1fd08984c447585c74be9b6d58c6c8"
 VTK_FILENAME="vtk-9.6.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
 VTK_URL="https://files.pythonhosted.org/packages/bd/75/4a1fe360256b99779d534b2387d0efa70952167d53d716f60ff39d62994d/${VTK_FILENAME}"
 VTK_SHA256="fb85c7fbad59209a08e428479defbdf96f974a9f39d4212960fb1a24a919613c"
+PYYAML_VERSION="6.0.3"
+PYYAML_FILENAME="pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+PYYAML_SHA256="0f29edc409a6392443abf94b9cf89ce99889a1dd5376d94316ae5145dfedd5d6"
 
 sandbox_exec() {
     nemoclaw "$SANDBOX_NAME" exec -- bash -lc "$1"
@@ -46,6 +49,28 @@ download_verified() {
     echo "==> Downloading ${filename} on the host"
     curl --fail --location --silent --show-error --output "$destination" "$url"
     echo "${digest}  ${destination}" | sha256sum --check --status
+    python3 -c '
+import sys, zipfile
+with zipfile.ZipFile(sys.argv[1]) as archive:
+    assert any(name.endswith(".dist-info/METADATA") for name in archive.namelist())
+print("    wheel archive OK")
+' "$destination"
+}
+
+download_pyyaml_verified() {
+    local destination="${WHEELHOUSE}/${PYYAML_FILENAME}"
+
+    echo "==> Downloading ${PYYAML_FILENAME} on the host"
+    python3 -m pip download \
+        --only-binary=:all: \
+        --no-deps \
+        --platform manylinux2014_x86_64 \
+        --python-version 313 \
+        --implementation cp \
+        --abi cp313 \
+        --dest "$WHEELHOUSE" \
+        "PyYAML==${PYYAML_VERSION}"
+    echo "${PYYAML_SHA256}  ${destination}" | sha256sum --check --status
     python3 -c '
 import sys, zipfile
 with zipfile.ZipFile(sys.argv[1]) as archive:
@@ -90,8 +115,10 @@ fi
 mkdir -p "$WHEELHOUSE"
 download_verified "$VTK_FILENAME" "$VTK_URL" "$VTK_SHA256"
 download_verified "$OCP_FILENAME" "$OCP_URL" "$OCP_SHA256"
+download_pyyaml_verified
 upload_and_verify "$VTK_FILENAME"
 upload_and_verify "$OCP_FILENAME"
+upload_and_verify "$PYYAML_FILENAME"
 
 if [[ "$MODE" == "--stage-only" ]]; then
     cat <<EOF
@@ -102,17 +129,17 @@ The base Python is externally managed (PEP 668), so install into a sandbox-local
 venv; this remains entirely offline:
 
   python -m venv ${VENV}
-  ${VENV}/bin/python -m pip install --no-index --no-deps --find-links ${SANDBOX_WHEELHOUSE} vtk==${VTK_VERSION} cadquery-ocp==${OCP_VERSION}
+  ${VENV}/bin/python -m pip install --no-index --no-deps --find-links ${SANDBOX_WHEELHOUSE} PyYAML==${PYYAML_VERSION} vtk==${VTK_VERSION} cadquery-ocp==${OCP_VERSION}
 EOF
     exit 0
 fi
 
 echo "==> Creating/reusing sandbox-local virtual environment: ${VENV}"
 sandbox_exec "python3 -m venv '${VENV}'"
-echo "==> Installing VTK and OCP offline into the virtual environment"
-sandbox_exec "'${VENV}/bin/python' -m pip install --no-index --no-deps --find-links '${SANDBOX_WHEELHOUSE}' 'vtk==${VTK_VERSION}' 'cadquery-ocp==${OCP_VERSION}'"
+echo "==> Installing PyYAML, VTK and OCP offline into the virtual environment"
+sandbox_exec "'${VENV}/bin/python' -m pip install --no-index --no-deps --find-links '${SANDBOX_WHEELHOUSE}' 'PyYAML==${PYYAML_VERSION}' 'vtk==${VTK_VERSION}' 'cadquery-ocp==${OCP_VERSION}'"
 echo "==> Verifying the linked sandbox CAD runtime"
-sandbox_exec "'${VENV}/bin/python' -c \"import vtkmodules; import OCP; print('VTK and OpenCascade runtime OK:', OCP.__file__)\""
+sandbox_exec "'${VENV}/bin/python' -c \"import yaml; import vtkmodules; import OCP; print('Policy, VTK and OpenCascade runtimes OK:', OCP.__file__)\""
 
 if sandbox_exec "test -d '${SANDBOX_REPO}'"; then
     echo "==> Installing local cad-defeature package into the virtual environment"
