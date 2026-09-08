@@ -11,3 +11,8 @@ reports/*
 *.egg-info/
 
 .venv-cad/
+
+# Staged CAD runtime wheels (nemoclaw/scripts/stage_cad_wheels.sh).
+# Large re-downloadable binaries (~68 MB for cadquery-ocp alone); these must
+# never enter git history.
+.wheelhouse/
