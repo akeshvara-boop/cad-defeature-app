@@ -84,7 +84,13 @@ VTK_X86_SHA256="${VTK_RECORD##*|}"
 
 mkdir -p "$WHEELHOUSE"
 download_verified() {
-    local url="$1" filename="$2" digest="$3" destination="${WHEELHOUSE}/${filename}"
+    # Bash expands every assignment on a single `local` declaration before it
+    # assigns any of them. Keep destination separate so nounset cannot see an
+    # as-yet-unassigned `filename`.
+    local url="$1"
+    local filename="$2"
+    local digest="$3"
+    local destination="${WHEELHOUSE}/${filename}"
     echo "==> Downloading ${filename}"
     curl --fail --location --silent --show-error --output "$destination" "$url"
     echo "${digest}  ${destination}" | sha256sum --check --status
