@@ -70,8 +70,16 @@ with zipfile.ZipFile(sys.argv[1]) as archive:
 print("    wheel archive OK")
 ' "$DESTINATION"
 
-echo "==> Uploading wheelhouse into the sandbox at ${SANDBOX_WHEELHOUSE}"
-nemoclaw "$SANDBOX_NAME" upload "$WHEELHOUSE" "$SANDBOX_WHEELHOUSE"
+# Directory uploads preserve the source basename. The previous implementation
+# uploaded `.wheelhouse` to `/sandbox/wheelhouse`, which placed the wheel at
+# `/sandbox/wheelhouse/.wheelhouse/<wheel>`. pip searched the parent directory
+# and correctly found no candidates. Upload the wheel file to its exact target.
+SANDBOX_WHEEL="${SANDBOX_WHEELHOUSE}/${OCP_FILENAME}"
+echo "==> Uploading verified wheel into the sandbox at ${SANDBOX_WHEEL}"
+nemoclaw "$SANDBOX_NAME" upload "$DESTINATION" "$SANDBOX_WHEEL"
+
+echo "==> Confirming the uploaded artifact is visible inside the sandbox"
+sandbox_exec "test -f '${SANDBOX_WHEEL}' && python3 -c \"import zipfile; zipfile.ZipFile('${SANDBOX_WHEEL}').testzip() is None or exit(1); print('    sandbox wheel archive OK')\""
 
 if [[ "$MODE" == "--stage-only" ]]; then
     cat <<EOF
