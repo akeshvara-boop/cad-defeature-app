@@ -87,6 +87,78 @@ socket policy just to make the docker backend reachable.
 
 Override detection with `CAD_DEFEATURE_BACKEND=inprocess|docker` if needed.
 
+## The CAD runtime problem, and the two routes to fix it
+
+Installing `cad-defeature` with `--no-index` installs the *package*, but the
+pipeline also needs **OpenCascade** (`cadquery-ocp`) — a large binary wheel
+holding the geometry kernel. That wheel cannot be fetched from inside the
+sandbox, because OpenShell blocks egress by policy.
+
+`doctor` distinguishes the two failure modes so you know which route you need:
+
+| `package_importable` | `cad_runtime_importable` | Meaning |
+|---|---|---|
+| false | false | Repo not installed yet — run the offline pip install |
+| true | false | Package installed, **kernel missing** — stage the wheels |
+| true | true | Ready |
+
+### Route A — wheelhouse (recommended)
+
+Download the wheels on the host, where network access is allowed and reviewable,
+then install them offline in the sandbox. **No image rebuild, no sandbox
+recreation, no policy change.**
+
+```bash
+# HOST shell
+./nemoclaw/scripts/stage_cad_wheels.sh <sandbox-name>
+```
+
+Then inside the sandbox, follow the commands the script prints. Both installs
+use `--no-index`, so neither makes a network call.
+
+### Route B — custom sandbox image (only if you need reproducibility)
+
+`Dockerfile.sandbox` holds an appendable build stage. Read its header first: it
+is **deliberately not standalone**, because NemoClaw's `--from` *replaces* the
+managed runtime rather than layering on it, so a short `FROM base + pip install`
+image would ship without the OpenClaw agent runtime and come up broken.
+
+Route B rebuilds the sandbox, which destroys its state, and couples this project
+to a specific NemoClaw release. Prefer Route A unless you specifically need a
+reproducible image.
+
+## Troubleshooting: stuck recreate transaction
+
+If a `--from` / `--recreate-sandbox` attempt fails validation partway through,
+NemoClaw can leave a durable transaction journal behind. Later lifecycle
+commands then refuse with:
+
+```text
+Error: Sandbox '<name>' has a different recreate transaction in progress;
+resume or repair that transaction before changing its target.
+```
+
+This is a **known NemoClaw defect**, not a problem with this project:
+
+- [NemoClaw #9297](https://github.com/NVIDIA/NemoClaw/issues/9297) — `onboard --resume`
+  is unrecoverable after an interrupted same-name recreation
+  ([NVBug 6622042](https://nvbugswb.nvidia.com/NVBugs5/redir.aspx?url=/6622042))
+- [NVBug 6608589](https://nvbugswb.nvidia.com/NVBugs5/redir.aspx?url=/6608589) —
+  rebuild permanently blocked, suggested retry never succeeds
+
+Recovery, in increasing order of destructiveness:
+
+```bash
+nemoclaw <name> status            # inspect; the container is often still healthy
+nemoclaw onboard --resume         # documented first step
+nemoclaw <name> recover           # repair a stopped sandbox
+nemoclaw <name> destroy && nemoclaw onboard --fresh --name <name>   # last resort
+```
+
+**Important:** none of this is required for Route A. If your existing sandbox is
+still healthy, leave the transaction alone, skip the rebuild entirely, and stage
+the wheels instead.
+
 ## Network policy note
 
 **OpenShell blocks outbound network access by default.** Blocked requests fail
