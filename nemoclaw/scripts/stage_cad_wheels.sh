@@ -5,18 +5,18 @@
 # WHY THIS EXISTS
 # ---------------
 # The OpenShell sandbox blocks outbound network access, so `pip install
-# cadquery-ocp` cannot work from inside it. The two ways to fix that are:
+# cadquery-ocp` cannot work from inside it. This script downloads the wheels on
+# the host (where network is allowed and reviewable), uploads them into the
+# sandbox, and lets pip install with --no-index. No image rebuild, no sandbox
+# recreation, no network policy change.
 #
-#   1. Rebuild the sandbox image with the runtime baked in. This requires
-#      extending NemoClaw's *full managed Dockerfile* for your exact release,
-#      because `--from` replaces the managed runtime rather than layering on it.
-#      Powerful, but it rebuilds the sandbox and destroys its state.
-#
-#   2. This script. Download the wheels on the host (where network is allowed),
-#      upload them into the sandbox, and install with --no-index. No image
-#      rebuild, no sandbox recreation, no policy change.
-#
-# Option 2 is preferred unless you specifically need a reproducible image.
+# PLATFORM TAG NOTE
+# -----------------
+# cadquery-ocp publishes Linux wheels tagged `manylinux_2_31_x86_64` (and
+# `manylinux_2_28_x86_64` for 8.x). pip's --platform match is EXACT, not
+# "greater-or-equal", so asking for `manylinux2014_x86_64` finds nothing and
+# reports the confusing "from versions: none". We therefore try the real tags
+# in order, newest glibc first.
 #
 # USAGE (host shell, e.g. ubuntu@brev-...):
 #   ./nemoclaw/scripts/stage_cad_wheels.sh cad-to-mesh
@@ -34,9 +34,8 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WHEELHOUSE="${REPO_ROOT}/.wheelhouse"
 SANDBOX_WHEELHOUSE="/sandbox/wheelhouse"
 
-# Pinned to match requirements-cad.txt exactly. A version drift between the
-# sandbox and the reference cad-defeature image would mean the agent and the
-# reference pipeline could disagree about the same geometry.
+# Pinned to match requirements-cad.txt so the sandbox and the reference
+# cad-defeature image cannot disagree about the same geometry.
 PACKAGES=(
     "cadquery-ocp==7.9.3.1.1"
     "cadquery==2.8.0"
@@ -44,28 +43,66 @@ PACKAGES=(
     "pyyaml>=6.0"
 )
 
-echo "==> Resolving the sandbox Python version"
-# Wheels are ABI-specific, so they must be downloaded for the interpreter that
-# will run them, not for the host's Python.
-SANDBOX_PY="$(nemoclaw "$SANDBOX_NAME" exec -- python3 -c \
-    'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")' 2>/dev/null | tr -d '\r')"
-if [[ -z "$SANDBOX_PY" ]]; then
-    echo "ERROR: could not determine the sandbox Python version." >&2
+echo "==> Inspecting the sandbox interpreter and architecture"
+# Wheels are ABI- and arch-specific, so resolve against the interpreter that
+# will actually run them rather than the host's Python.
+SANDBOX_INFO="$(nemoclaw "$SANDBOX_NAME" exec -- python3 -c \
+    'import platform,sys; print(f"{sys.version_info.major}.{sys.version_info.minor} {platform.machine()}")' \
+    2>/dev/null | tr -d '\r' | tail -n 1)"
+if [[ -z "$SANDBOX_INFO" ]]; then
+    echo "ERROR: could not query the sandbox interpreter." >&2
     echo "  Check the sandbox is running: nemoclaw $SANDBOX_NAME status" >&2
     exit 1
 fi
-echo "    sandbox python: ${SANDBOX_PY}"
+SANDBOX_PY="${SANDBOX_INFO%% *}"
+SANDBOX_ARCH="${SANDBOX_INFO##* }"
+echo "    python ${SANDBOX_PY}, arch ${SANDBOX_ARCH}"
 
-echo "==> Downloading wheels into ${WHEELHOUSE}"
+case "$SANDBOX_ARCH" in
+    x86_64|amd64) ARCH_TAG="x86_64" ;;
+    aarch64|arm64) ARCH_TAG="aarch64" ;;
+    *)
+        echo "ERROR: unsupported sandbox architecture '${SANDBOX_ARCH}'." >&2
+        echo "  cadquery-ocp publishes wheels for x86_64 and aarch64 only." >&2
+        exit 1
+        ;;
+esac
+
+# Newest glibc floor first. The first tag that resolves wins.
+PLATFORM_TAGS=(
+    "manylinux_2_31_${ARCH_TAG}"
+    "manylinux_2_28_${ARCH_TAG}"
+    "manylinux_2_35_${ARCH_TAG}"
+    "manylinux2014_${ARCH_TAG}"
+)
+
 mkdir -p "$WHEELHOUSE"
-# --only-binary :all: fails loudly rather than fetching an sdist that would then
-# need a compiler inside the sandbox.
-python3 -m pip download \
-    --only-binary ":all:" \
-    --python-version "$SANDBOX_PY" \
-    --platform manylinux2014_x86_64 \
-    --dest "$WHEELHOUSE" \
-    "${PACKAGES[@]}"
+DOWNLOADED=""
+for tag in "${PLATFORM_TAGS[@]}"; do
+    echo "==> Trying platform tag ${tag}"
+    if python3 -m pip download \
+        --only-binary ":all:" \
+        --python-version "$SANDBOX_PY" \
+        --platform "$tag" \
+        --dest "$WHEELHOUSE" \
+        "${PACKAGES[@]}"; then
+        DOWNLOADED="$tag"
+        break
+    fi
+    echo "    no match for ${tag}, trying next tag"
+done
+
+if [[ -z "$DOWNLOADED" ]]; then
+    echo "ERROR: no wheels matched any known platform tag." >&2
+    echo "  Tried: ${PLATFORM_TAGS[*]}" >&2
+    echo "  Confirm the sandbox interpreter is supported: cadquery-ocp 7.9.3.1.1" >&2
+    echo "  publishes cp310-cp314 wheels only." >&2
+    exit 1
+fi
+
+echo "==> Resolved with platform tag ${DOWNLOADED}"
+echo "==> Wheels in ${WHEELHOUSE}:"
+ls -1sh "$WHEELHOUSE"
 
 echo "==> Uploading wheelhouse into the sandbox at ${SANDBOX_WHEELHOUSE}"
 nemoclaw "$SANDBOX_NAME" upload "$WHEELHOUSE" "$SANDBOX_WHEELHOUSE"
