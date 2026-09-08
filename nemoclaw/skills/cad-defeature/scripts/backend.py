@@ -79,10 +79,14 @@ def _cad_runtime_available() -> tuple[bool, str]:
     except (ImportError, ValueError):
         pass
     return False, (
-        "OpenCascade (OCP) is not importable. It is a large binary wheel that "
-        "cannot be downloaded under this sandbox egress policy. If it is absent "
-        "from the sandbox image, rebuild the sandbox from an image that already "
-        "contains the CAD runtime: nemoclaw onboard --from <Dockerfile>."
+        "OpenCascade (OCP) is not importable in this interpreter. The sandbox "
+        "base Python is externally managed (PEP 668), so use the sandbox-local "
+        "virtual environment created by the host-side staging script rather than "
+        "installing system-wide or requesting egress:\n"
+        "  ./nemoclaw/scripts/stage_cad_wheels.sh <sandbox-name>\n"
+        "Then invoke this skill with:\n"
+        "  /home/sandbox/.venvs/cad-defeature/bin/python "
+        "~/.openclaw/skills/cad-defeature/scripts/cad_agent.py doctor"
     )
 
 
