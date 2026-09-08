@@ -25,7 +25,10 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WHEELHOUSE="${REPO_ROOT}/.wheelhouse"
 SANDBOX_WHEELHOUSE="/sandbox/wheelhouse"
 SANDBOX_REPO="/sandbox/cad-defeature-app/cad-defeature-app"
-VENV="/home/sandbox/.venvs/cad-defeature"
+# /sandbox is the declared writable sandbox mount. `nemoclaw exec` may run under
+# a gateway identity that cannot write /home/sandbox even when an interactive
+# shell presents it as HOME, so never create managed state below that home.
+VENV="/sandbox/.venvs/cad-defeature"
 OCP_VERSION="7.9.3.1.1"
 OCP_FILENAME="cadquery_ocp-7.9.3.1.1-cp313-cp313-manylinux_2_31_x86_64.whl"
 OCP_URL="https://files.pythonhosted.org/packages/f1/16/0f3a1d0385d9144eb71416bffd421d57d10555c4caf2356e8cd858a5a3bc/${OCP_FILENAME}"
@@ -78,8 +81,8 @@ if [[ "$MODE" == "--stage-only" ]]; then
 Inside the sandbox, create/activate a virtual environment first. The base Python
 is externally managed (PEP 668), so pip correctly refuses system-wide installs:
 
-  python -m venv ~/.venvs/cad-defeature
-  source ~/.venvs/cad-defeature/bin/activate
+  python -m venv /sandbox/.venvs/cad-defeature
+  source /sandbox/.venvs/cad-defeature/bin/activate
   python -m pip install --no-index --no-deps --find-links ${SANDBOX_WHEELHOUSE} cadquery-ocp==${OCP_VERSION}
 EOF
     exit 0
@@ -131,6 +134,6 @@ auto-activate the venv):
 
 Or interactively:
 
-  source ~/.venvs/cad-defeature/bin/activate
+  source /sandbox/.venvs/cad-defeature/bin/activate
   python ~/.openclaw/skills/cad-defeature/scripts/cad_agent.py doctor
 EOF

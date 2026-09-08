@@ -85,7 +85,7 @@ def _cad_runtime_available() -> tuple[bool, str]:
         "installing system-wide or requesting egress:\n"
         "  ./nemoclaw/scripts/stage_cad_wheels.sh <sandbox-name>\n"
         "Then invoke this skill with:\n"
-        "  /home/sandbox/.venvs/cad-defeature/bin/python "
+        "  /sandbox/.venvs/cad-defeature/bin/python "
         "~/.openclaw/skills/cad-defeature/scripts/cad_agent.py doctor"
     )
 
