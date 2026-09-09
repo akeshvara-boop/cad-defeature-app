@@ -22,6 +22,7 @@ def test_frontend_config_reports_capability_boundaries(monkeypatch) -> None:
     monkeypatch.setenv("CAD_UI_KIT_SIGNALING_PORT", "49101")
     monkeypatch.setenv("CAD_UI_KIT_SIGNALING_SECURE", "true")
     monkeypatch.setenv("CAD_UI_KIT_MEDIA_PORT", "47999")
+    monkeypatch.setenv("CAD_UI_KIT_MEDIA_HOST", "media.example.test")
 
     config = frontend_config()
 
@@ -32,6 +33,7 @@ def test_frontend_config_reports_capability_boundaries(monkeypatch) -> None:
         "signaling_secure": True,
         "signaling_path": "",
         "media_port": 47999,
+        "media_host": "media.example.test",
         "configuration_warnings": [],
     }
     assert config["capabilities"]["feature_analysis"] == "report_only"

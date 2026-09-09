@@ -154,6 +154,7 @@ def frontend_config() -> dict:
             "signaling_secure": _bool_from_env("CAD_UI_KIT_SIGNALING_SECURE"),
             "signaling_path": "/kit-stream" if os.getenv("CAD_UI_PUBLIC_ORIGIN") else "",
             "media_port": _port_from_env("CAD_UI_KIT_MEDIA_PORT", None),
+            "media_host": os.getenv("CAD_UI_KIT_MEDIA_HOST", "").strip(),
             "configuration_warnings": warnings,
         },
         "capabilities": {

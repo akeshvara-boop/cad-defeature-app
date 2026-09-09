@@ -38,6 +38,7 @@ export interface FrontendConfig {
     signaling_secure: boolean;
     signaling_path?: string;
     media_port: number | null;
+    media_host?: string;
     configuration_warnings: string[];
   };
   capabilities: Record<string, string>;

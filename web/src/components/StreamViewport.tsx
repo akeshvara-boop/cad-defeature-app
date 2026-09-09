@@ -16,6 +16,7 @@ interface StreamViewportProps {
   signalingPort: number;
   secure: boolean;
   mediaPort: number | null;
+  mediaHost?: string;
   signalingPath?: string;
   configurationWarnings?: string[];
 }
@@ -60,6 +61,7 @@ export function StreamViewport({
   signalingPort,
   secure,
   mediaPort,
+  mediaHost = "",
   signalingPath = "",
   configurationWarnings = []
 }: StreamViewportProps) {
@@ -222,6 +224,7 @@ export function StreamViewport({
       }
     };
     if (mediaPort !== null) streamConfig.mediaPort = mediaPort;
+    if (mediaHost) streamConfig.mediaServer = mediaHost;
 
     try {
       await AppStreamer.connect({
@@ -231,7 +234,7 @@ export function StreamViewport({
     } catch (error) {
       fail(error, validation.endpoint, currentAttempt);
     }
-  }, [fail, mediaPort, signalingPath, validation]);
+  }, [fail, mediaHost, mediaPort, signalingPath, validation]);
 
   useEffect(() => {
     if (connection !== "connecting") return;
@@ -270,6 +273,7 @@ export function StreamViewport({
       <div className={`stream-diagnostic ${validation.ok ? "ready" : "failed"}`}>
         <span><strong>Endpoint</strong> {validation.endpoint}</span>
         <span><strong>Kit listener</strong> {listenerStatus}</span>
+        <span><strong>Media override</strong> {mediaHost || "Kit candidate"}:{mediaPort ?? "Kit port"} / UDP</span>
         <span><strong>Browser page</strong> {validation.pageProtocol.replace(":", "").toUpperCase()}</span>
         {streamStats && <span><strong>Stream</strong> {streamStats}</span>}
         <span><strong>Client 5.18.2</strong> {iceState}</span>

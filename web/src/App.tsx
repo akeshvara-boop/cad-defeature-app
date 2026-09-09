@@ -337,6 +337,7 @@ export default function App() {
               signalingPort={signalingPort}
               secure={signalingSecure}
               mediaPort={mediaPort}
+              mediaHost={config?.kit_stream.media_host}
               signalingPath={config?.kit_stream.signaling_path}
               configurationWarnings={config?.kit_stream.configuration_warnings}
             />
