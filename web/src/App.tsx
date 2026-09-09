@@ -70,8 +70,10 @@ export default function App() {
   const [mediaPort, setMediaPort] = useState<number | null>(null);
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
+  const [bootstrapAttempt, setBootstrapAttempt] = useState(0);
 
   useEffect(() => {
+    setApiState("checking");
     Promise.all([api.config(), api.health(), api.workflows()])
       .then(([deployment, health, recent]) => {
         const query = new URLSearchParams(window.location.search);
@@ -99,7 +101,7 @@ export default function App() {
         setApiState("not ready");
         setError(reason instanceof Error ? reason.message : "Unable to reach the workflow API.");
       });
-  }, []);
+  }, [bootstrapAttempt]);
 
   const proposedTolerance = Number(pathValue(workflow?.tolerance_request, "proposed_tolerance"));
   const needsDecision = workflow?.phase === "awaiting_tolerance_decision";
@@ -199,6 +201,10 @@ export default function App() {
         <div className="error-banner" role="alert">
           <span>{error}</span>
           <button onClick={() => setError("")} aria-label="Dismiss error">×</button>
+          {apiState === "not ready" && <button onClick={() => {
+            setError("");
+            setBootstrapAttempt((value) => value + 1);
+          }}>Retry connection</button>}
         </div>
       )}
 

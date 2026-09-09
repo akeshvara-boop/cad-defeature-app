@@ -1,19 +1,38 @@
 import type { FrontendConfig, StreamHealth, WorkflowState } from "./types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(path, {
+  const readOnly = (init?.method ?? "GET").toUpperCase() === "GET";
+  const attempts = readOnly ? 3 : 1;
+  let lastError: unknown;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      const response = await fetch(path, {
     ...init,
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ...(init?.headers ?? {})
     }
-  });
+      });
+      if (readOnly && [502, 503, 504].includes(response.status) && attempt < attempts - 1) {
+        await response.body?.cancel();
+        await new Promise((resolve) => window.setTimeout(resolve, 750 * (attempt + 1)));
+        continue;
+      }
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
     const message = typeof body.detail === "string" ? body.detail : response.statusText;
-    throw new Error(message || `Request failed with ${response.status}`);
+    throw new Error(`${path}: ${message || `Request failed with ${response.status}`}`);
   }
   return body as T;
+    } catch (error) {
+      lastError = error;
+      // Only transport failures on reads may be replayed. Never retry writes.
+      if (!(error instanceof TypeError) || attempt === attempts - 1) throw error;
+      await new Promise((resolve) => window.setTimeout(resolve, 750 * (attempt + 1)));
+    }
+  }
+  throw lastError;
 }
 
 export const api = {
