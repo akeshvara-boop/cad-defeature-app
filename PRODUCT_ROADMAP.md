@@ -237,9 +237,16 @@ report-only feature analysis and independent verification through a host-side
 FastAPI/NemoClaw bridge. Workflow findings can be rendered as USD overlays and
 the complete state remains inspectable in the UI.
 
+**Web experience update (2026-09-09).** A customer-facing React workbench now
+provides the NVIDIA-style workflow rail, Kit-CAE WebRTC viewport, live agent
+event history, explicit tolerance decision panel, engineering metrics,
+verification report and architecture view. FastAPI supplies runtime discovery
+and serves the production portal at `/ui/` through the same Brev Secure Link.
+
 Remaining Phase 4 work is the original/defeatured/delta model loading pipeline,
-polished metrics/report views, and exportable PDF. CFD meshing remains outside
-the current implementation and is labelled as such in the UI.
+data-channel commands from the web portal into the Kit extension, artifact
+downloads and exportable PDF. CFD meshing remains outside the current
+implementation and is labelled as such in the UI.
 
 ---
 

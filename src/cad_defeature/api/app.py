@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 from functools import lru_cache
+import os
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .runtime import NemoClawRuntimeError
@@ -46,9 +50,43 @@ application = FastAPI(
 )
 
 
+def _web_dist() -> Path:
+    configured = os.getenv("CAD_UI_WEB_DIST")
+    if configured:
+        return Path(configured).expanduser().resolve()
+    return Path(__file__).resolve().parents[3] / "web" / "dist"
+
+
 @application.get("/healthz")
 def healthz() -> dict:
     return get_service().runner.readiness()
+
+
+@application.get("/v1/config")
+def frontend_config() -> dict:
+    """Return non-secret deployment settings consumed by the web workbench."""
+    return {
+        "product": "Agentic CAD-to-Mesh Workbench",
+        "api_version": application.version,
+        "kit_stream": {
+            "signaling_host": os.getenv("CAD_UI_KIT_SIGNALING_HOST", ""),
+            "signaling_port": int(os.getenv("CAD_UI_KIT_SIGNALING_PORT", "49100")),
+            "media_port": (
+                int(os.environ["CAD_UI_KIT_MEDIA_PORT"])
+                if os.getenv("CAD_UI_KIT_MEDIA_PORT")
+                else None
+            ),
+        },
+        "capabilities": {
+            "cad_health": "available",
+            "healing": "available",
+            "human_tolerance_gate": "required_when_requested",
+            "feature_analysis": "report_only",
+            "independent_verification": "available",
+            "kit_cae_review": "available",
+            "cfd_mesh_handoff": "not_implemented",
+        },
+    }
 
 
 @application.get("/v1/workflows")
@@ -112,3 +150,19 @@ def _call(operation, *args):
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except NemoClawRuntimeError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+
+@application.get("/", include_in_schema=False)
+def root():
+    """Open the product UI when it has been built; otherwise point to setup docs."""
+    if _web_dist().is_dir():
+        return RedirectResponse(url="/ui/")
+    return {
+        "status": "ui_not_built",
+        "message": "Build the web client with: cd web && npm install && npm run build",
+        "api_docs": "/docs",
+    }
+
+
+if _web_dist().is_dir():
+    application.mount("/ui", StaticFiles(directory=_web_dist(), html=True), name="ui")

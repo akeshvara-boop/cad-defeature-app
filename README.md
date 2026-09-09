@@ -114,3 +114,28 @@ Full setup and product boundaries are documented in
 [`docs/kit-cae-workbench.md`](docs/kit-cae-workbench.md). The current UI does
 not claim to generate a CFD-ready mesh; that downstream adapter and its mesh
 quality gates remain the next implementation slice.
+
+## NVIDIA-style web workbench
+
+The customer-facing React portal is under `web/`. It presents the real workflow
+state, agent event timeline, human tolerance gate, verification evidence and an
+embedded Kit-CAE WebRTC viewport. The FastAPI service serves a production build
+at `/ui/`, so one Brev Secure Link can expose both the experience and API.
+
+```bash
+cd web
+npm install
+npm run build
+
+cd ..
+export CAD_UI_KIT_SIGNALING_HOST="<BREV_PUBLIC_STREAM_HOST>"
+export CAD_UI_KIT_SIGNALING_PORT=49100
+uvicorn cad_defeature.api.app:application --host 0.0.0.0 --port 8000
+```
+
+Open the port-8000 Brev Secure Link root; it redirects to `/ui/`. For frontend
+development, `npm run dev` serves `/ui/` on port 5173 and proxies `/healthz`
+and `/v1` to the host API on `127.0.0.1:8000`.
+
+The WebRTC stream remains a separate transport. Kit must log that its primary
+stream server started and listen on TCP 49100 before the viewport can connect.

@@ -44,6 +44,40 @@ It does **not** yet create a solver-quality CFD surface or volume mesh. The UI
 shows that handoff as `NOT IMPLEMENTED` so CAD review evidence cannot be
 mistaken for a Star-CCM+ ready mesh.
 
+## Customer-facing web portal
+
+The React portal in `web/` is the primary engineer experience. It uses the
+FastAPI service as its same-origin control plane and embeds Kit-CAE as a WebRTC
+video/input surface. This keeps the browser UI independent of the Kit Python
+runtime while preserving Kit-CAE for GPU rendering and USD interaction.
+
+```text
+Browser /ui/
+  |-- REST /v1/* ----------> FastAPI :8000 ------> NemoClaw/OpenShell
+  |-- WebRTC --------------> Kit-CAE :49100
+  `-- workflow evidence ---> report and approval views
+```
+
+Build the portal before starting Uvicorn:
+
+```bash
+cd /home/ubuntu/cad-defeature-app/web
+npm install
+npm run build
+```
+
+Configure only non-secret stream discovery values in the API environment:
+
+```bash
+export CAD_UI_KIT_SIGNALING_HOST="<public-host-or-ip>"
+export CAD_UI_KIT_SIGNALING_PORT=49100
+# Set only if the deployment pins a single media port:
+# export CAD_UI_KIT_MEDIA_PORT=47999
+```
+
+The root API route redirects to `/ui/` when `web/dist` exists. Override the
+build location with `CAD_UI_WEB_DIST` if the frontend is deployed separately.
+
 ## Start the API on Brev
 
 Run this on the Brev host, not inside the NemoClaw sandbox:
@@ -76,6 +110,13 @@ Test the host control plane:
 
 ```bash
 curl http://127.0.0.1:8000/healthz
+```
+
+Test the product entry point after building the portal:
+
+```bash
+curl -I http://127.0.0.1:8000/
+curl http://127.0.0.1:8000/v1/config
 ```
 
 ## Load the extension in Kit-CAE

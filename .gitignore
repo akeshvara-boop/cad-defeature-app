@@ -1,4 +1,5 @@
 .venv/
+.venv-api/
 __pycache__/
 *.py[cod]
 data/input/*
@@ -16,3 +17,7 @@ reports/*
 # Large re-downloadable binaries (~68 MB for cadquery-ocp alone); these must
 # never enter git history.
 .wheelhouse/
+
+# Customer-facing React workbench build outputs.
+web/node_modules/
+web/dist/
