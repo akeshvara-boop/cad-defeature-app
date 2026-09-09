@@ -46,6 +46,7 @@ def test_roundtrip_fixed_upstream_and_cleanup(client, monkeypatch):
         def __init__(self):
             self.queue = asyncio.Queue()
             self.closed = False
+            self.subprotocol = "x-nv-sessionid.test"
 
         async def __aenter__(self):
             return self
@@ -72,7 +73,9 @@ def test_roundtrip_fixed_upstream_and_cleanup(client, monkeypatch):
     with client.websocket_connect(
         "/kit-stream/sign_in?peer_id=test&version=2",
         headers={"origin": "https://viewer.example", "cookie": "private=never-forward"},
+        subprotocols=["x-nv-sessionid.test"],
     ) as socket:
+        assert socket.accepted_subprotocol == "x-nv-sessionid.test"
         socket.send_text("hello")
         assert socket.receive_text() == "hello"
         socket.send_bytes(b"binary")
@@ -81,4 +84,5 @@ def test_roundtrip_fixed_upstream_and_cleanup(client, monkeypatch):
         assert socket.receive()["type"] == "websocket.close"
     assert calls[0][0] == "ws://127.0.0.1:49100/sign_in?peer_id=test&version=2"
     assert "additional_headers" not in calls[0][1]
+    assert calls[0][1]["subprotocols"] == ["x-nv-sessionid.test"]
     assert echo.closed

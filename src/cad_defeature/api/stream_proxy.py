@@ -23,10 +23,14 @@ async def signaling(socket: WebSocket):
         upstream += "?" + socket.url.query
     tasks = []
     close_code = 1000
+    protocols = socket.scope.get("subprotocols", [])
     try:
         # Do not forward browser cookies, bearer credentials, or proxy headers.
-        async with connect(upstream, open_timeout=5, max_size=4 * 1024 * 1024) as kit:
-            await socket.accept()
+        async with connect(
+            upstream, open_timeout=5, max_size=4 * 1024 * 1024,
+            subprotocols=protocols or None,
+        ) as kit:
+            await socket.accept(subprotocol=kit.subprotocol)
 
             async def to_kit():
                 while True:
