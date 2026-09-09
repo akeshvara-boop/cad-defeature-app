@@ -59,5 +59,5 @@ async def signaling(socket: WebSocket):
             await asyncio.gather(*tasks, return_exceptions=True)
         try:
             await socket.close(code=close_code)
-        except RuntimeError:
+        except (RuntimeError, WebSocketDisconnect):
             pass
