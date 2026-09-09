@@ -128,14 +128,49 @@ npm install
 npm run build
 
 cd ..
-export CAD_UI_KIT_SIGNALING_HOST="<BREV_PUBLIC_STREAM_HOST>"
+# Use the real Brev TCP/UDP endpoint host; never copy angle-bracket placeholders.
+export CAD_UI_KIT_SIGNALING_HOST="global.prd.ga.run.brev.nvidia.com"
 export CAD_UI_KIT_SIGNALING_PORT=49100
+export CAD_UI_KIT_SIGNALING_SECURE=false
+# The listener inside the Brev host remains 49100 even if its public port differs.
+export CAD_UI_KIT_PROBE_PORT=49100
 uvicorn cad_defeature.api.app:application --host 0.0.0.0 --port 8000
 ```
 
-Open the port-8000 Brev Secure Link root; it redirects to `/ui/`. For frontend
-development, `npm run dev` serves `/ui/` on port 5173 and proxies `/healthz`
-and `/v1` to the host API on `127.0.0.1:8000`.
+For a direct Kit connection, the browser page and signaling transport must use
+compatible protocols:
+
+| Portal | Kit signaling | Supported path |
+|---|---|---|
+| `http://` | direct `ws://` | Brev PoC/raw TCP mapping |
+| `https://` | proxied `wss://` | Production TLS reverse proxy |
+| `https://` | direct `ws://:49100` | Blocked by browser mixed-content policy |
+
+A Brev Secure Link serves the portal over HTTPS. It cannot be paired directly
+with Kit's plaintext port 49100. For the immediate PoC, create a Brev TCP/UDP
+mapping whose destination is port 8000, open the generated endpoint over HTTP,
+and keep `CAD_UI_KIT_SIGNALING_SECURE=false`. For production, put the portal and
+Kit signaling behind a TLS/WebSocket reverse proxy and set
+`CAD_UI_KIT_SIGNALING_SECURE=true`.
+
+The API exposes two separate readiness boundaries:
+
+```bash
+curl http://127.0.0.1:8000/v1/stream/healthz
+ss -ltnp | grep ':49100'
+```
+
+`/v1/stream/healthz` proves only that the Kit listener is alive from the Brev
+host. Browser signaling and WebRTC media still require external validation.
+For frontend development, `npm run dev` serves `/ui/` on port 5173 and proxies
+`/healthz` and `/v1` to the host API on `127.0.0.1:8000`.
 
 The WebRTC stream remains a separate transport. Kit must log that its primary
 stream server started and listen on TCP 49100 before the viewport can connect.
+After signaling succeeds, validate ICE and decoded frames separately; TCP
+reachability does not prove UDP media delivery. The UI accepts URL overrides for
+repeatable launches:
+
+```text
+?server=global.prd.ga.run.brev.nvidia.com&signalingPort=49100&secure=false
+```

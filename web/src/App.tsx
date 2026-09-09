@@ -66,6 +66,7 @@ export default function App() {
   const [decisionNote, setDecisionNote] = useState("");
   const [signalingHost, setSignalingHost] = useState("");
   const [signalingPort, setSignalingPort] = useState(49100);
+  const [signalingSecure, setSignalingSecure] = useState(false);
   const [mediaPort, setMediaPort] = useState<number | null>(null);
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
@@ -73,10 +74,23 @@ export default function App() {
   useEffect(() => {
     Promise.all([api.config(), api.health(), api.workflows()])
       .then(([deployment, health, recent]) => {
+        const query = new URLSearchParams(window.location.search);
+        const queryHost = query.get("server")?.trim();
+        const queryPort = Number(query.get("signalingPort"));
+        const querySecure = query.get("secure");
         setConfig(deployment);
         setApiState(String(health.status ?? "unknown"));
-        setSignalingHost(deployment.kit_stream.signaling_host);
-        setSignalingPort(deployment.kit_stream.signaling_port);
+        setSignalingHost(queryHost || deployment.kit_stream.signaling_host);
+        setSignalingPort(
+          Number.isInteger(queryPort) && queryPort > 0
+            ? queryPort
+            : deployment.kit_stream.signaling_port
+        );
+        setSignalingSecure(
+          querySecure === null
+            ? deployment.kit_stream.signaling_secure
+            : ["1", "true", "yes"].includes(querySecure.toLowerCase())
+        );
         setMediaPort(deployment.kit_stream.media_port);
         setWorkflows(recent);
         if (recent.length) setWorkflow(recent[0]);
@@ -288,7 +302,7 @@ export default function App() {
               <label>
                 Kit signalling host
                 <input
-                  placeholder="Public IP or stream hostname"
+                  placeholder="e.g. global.prd.ga.run.brev.nvidia.com"
                   value={signalingHost}
                   onChange={(event) => setSignalingHost(event.target.value)}
                 />
@@ -301,8 +315,24 @@ export default function App() {
                   onChange={(event) => setSignalingPort(Number(event.target.value))}
                 />
               </label>
+              <label className="transport-field">
+                Transport
+                <select
+                  value={signalingSecure ? "wss" : "ws"}
+                  onChange={(event) => setSignalingSecure(event.target.value === "wss")}
+                >
+                  <option value="ws">Direct WS</option>
+                  <option value="wss">TLS proxy WSS</option>
+                </select>
+              </label>
             </div>
-            <StreamViewport host={signalingHost} signalingPort={signalingPort} mediaPort={mediaPort} />
+            <StreamViewport
+              host={signalingHost}
+              signalingPort={signalingPort}
+              secure={signalingSecure}
+              mediaPort={mediaPort}
+              configurationWarnings={config?.kit_stream.configuration_warnings}
+            />
 
             <div className="metrics-grid">
               <Metric label="Faces" value={topology.faces} />

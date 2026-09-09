@@ -5,6 +5,8 @@ from __future__ import annotations
 from functools import lru_cache
 import os
 from pathlib import Path
+import socket
+from time import monotonic
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
@@ -50,6 +52,45 @@ application = FastAPI(
 )
 
 
+def _stream_host() -> tuple[str, list[str]]:
+    """Return a real host value and never leak README placeholders to the UI."""
+    raw = os.getenv("CAD_UI_KIT_SIGNALING_HOST", "").strip()
+    unresolved = (
+        not raw
+        or raw.startswith("<")
+        or raw.endswith(">")
+        or "BREV_PUBLIC" in raw.upper()
+        or "PUBLIC_STREAM_HOST" in raw.upper()
+    )
+    if unresolved:
+        warnings = []
+        if raw:
+            warnings.append(
+                "CAD_UI_KIT_SIGNALING_HOST contains an unresolved placeholder; "
+                "enter the Brev stream endpoint before connecting."
+            )
+        return "", warnings
+    return raw, []
+
+
+def _port_from_env(name: str, default: int | None) -> int | None:
+    value = os.getenv(name)
+    if not value:
+        return default
+    try:
+        port = int(value)
+    except ValueError:
+        return default
+    return port if 1 <= port <= 65535 else default
+
+
+def _bool_from_env(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
 def _web_dist() -> Path:
     configured = os.getenv("CAD_UI_WEB_DIST")
     if configured:
@@ -62,20 +103,52 @@ def healthz() -> dict:
     return get_service().runner.readiness()
 
 
+@application.get("/v1/stream/healthz")
+def kit_stream_healthz() -> dict:
+    """Probe the Kit signaling listener from the API host.
+
+    This proves process/listener readiness only. Browser reachability, TLS and
+    WebRTC media negotiation are deliberately reported as separate boundaries.
+    """
+    host = os.getenv("CAD_UI_KIT_PROBE_HOST", "127.0.0.1").strip() or "127.0.0.1"
+    port = _port_from_env("CAD_UI_KIT_PROBE_PORT", 49100) or 49100
+    started = monotonic()
+    try:
+        with socket.create_connection((host, port), timeout=1.5):
+            pass
+    except OSError as exc:
+        return {
+            "status": "offline",
+            "probe_host": host,
+            "signaling_port": port,
+            "latency_ms": round((monotonic() - started) * 1000, 1),
+            "detail": str(exc),
+            "boundary": "kit_listener",
+        }
+    return {
+        "status": "ready",
+        "probe_host": host,
+        "signaling_port": port,
+        "latency_ms": round((monotonic() - started) * 1000, 1),
+        "detail": "Kit signaling listener accepted a TCP connection from the API host.",
+        "boundary": "kit_listener",
+    }
+
+
 @application.get("/v1/config")
 def frontend_config() -> dict:
     """Return non-secret deployment settings consumed by the web workbench."""
+    signaling_host, warnings = _stream_host()
     return {
         "product": "Agentic CAD-to-Mesh Workbench",
         "api_version": application.version,
         "kit_stream": {
-            "signaling_host": os.getenv("CAD_UI_KIT_SIGNALING_HOST", ""),
-            "signaling_port": int(os.getenv("CAD_UI_KIT_SIGNALING_PORT", "49100")),
-            "media_port": (
-                int(os.environ["CAD_UI_KIT_MEDIA_PORT"])
-                if os.getenv("CAD_UI_KIT_MEDIA_PORT")
-                else None
-            ),
+            "client": "kit-app-streaming",
+            "signaling_host": signaling_host,
+            "signaling_port": _port_from_env("CAD_UI_KIT_SIGNALING_PORT", 49100),
+            "signaling_secure": _bool_from_env("CAD_UI_KIT_SIGNALING_SECURE"),
+            "media_port": _port_from_env("CAD_UI_KIT_MEDIA_PORT", None),
+            "configuration_warnings": warnings,
         },
         "capabilities": {
             "cad_health": "available",

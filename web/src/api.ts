@@ -1,4 +1,4 @@
-import type { FrontendConfig, WorkflowState } from "./types";
+import type { FrontendConfig, StreamHealth, WorkflowState } from "./types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
@@ -19,6 +19,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   health: () => request<Record<string, unknown>>("/healthz"),
   config: () => request<FrontendConfig>("/v1/config"),
+  streamHealth: () => request<StreamHealth>("/v1/stream/healthz"),
   workflows: () => request<WorkflowState[]>("/v1/workflows"),
   workflow: (id: string) => request<WorkflowState>(`/v1/workflows/${id}`),
   start: (sourcePath: string) =>

@@ -32,9 +32,21 @@ export interface FrontendConfig {
   product: string;
   api_version: string;
   kit_stream: {
+    client: "kit-app-streaming";
     signaling_host: string;
     signaling_port: number;
+    signaling_secure: boolean;
     media_port: number | null;
+    configuration_warnings: string[];
   };
   capabilities: Record<string, string>;
+}
+
+export interface StreamHealth {
+  status: "ready" | "offline";
+  probe_host: string;
+  signaling_port: number;
+  latency_ms: number;
+  detail: string;
+  boundary: "kit_listener";
 }
