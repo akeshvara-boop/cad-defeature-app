@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { iceSummary } from "../iceDiagnostics";
 import {
   AppStreamer,
   StreamType,
@@ -29,6 +30,16 @@ type ConnectionState =
   | "failed";
 
 const FRAME_TIMEOUT_MS = 15_000;
+// AppStreamer is a singleton: serialize teardown and acquire synchronously.
+let sessionOwner: symbol | null = null;
+let teardown: Promise<unknown> = Promise.resolve();
+
+function stopSession(owner: symbol) {
+  if (sessionOwner !== owner) return teardown;
+  sessionOwner = null;
+  teardown = teardown.then(() => AppStreamer.terminate(false)).catch(() => undefined);
+  return teardown;
+}
 
 async function waitForDecodedFrame(video: HTMLVideoElement): Promise<void> {
   const initial = video.getVideoPlaybackQuality?.().totalVideoFrames ?? 0;
@@ -58,6 +69,8 @@ export function StreamViewport({
   );
   const [listenerStatus, setListenerStatus] = useState("not checked");
   const [streamStats, setStreamStats] = useState("");
+  const [iceState, setIceState] = useState("ICE: not started");
+  const owner = useRef(Symbol("kit-session"));
   const attempt = useRef(0);
   const validation = useMemo(
     () => validateStreamEndpoint(host, signalingPort, secure),
@@ -66,7 +79,7 @@ export function StreamViewport({
 
   const disconnect = useCallback(() => {
     attempt.current += 1;
-    void AppStreamer.terminate(false).catch(() => undefined);
+    void stopSession(owner.current);
     setConnection("idle");
     setDetail("Stream disconnected.");
     setStreamStats("");
@@ -78,12 +91,22 @@ export function StreamViewport({
 
   useEffect(() => () => {
     attempt.current += 1;
-    void AppStreamer.terminate(false).catch(() => undefined);
+    void stopSession(owner.current);
+  }, []);
+
+  useEffect(() => {
+    let disposed = false;
+    const timer = window.setInterval(() => {
+      void iceSummary().then((summary) => { if (!disposed) setIceState(summary); });
+    }, 1000);
+    return () => { disposed = true; window.clearInterval(timer); };
   }, []);
 
   const fail = useCallback(
     (reason: unknown, endpoint: string, currentAttempt: number) => {
       if (attempt.current !== currentAttempt) return;
+      attempt.current += 1;
+      void stopSession(owner.current);
       setConnection("failed");
       setDetail(actionableStreamError(reason, endpoint));
     },
@@ -91,6 +114,7 @@ export function StreamViewport({
   );
 
   const connect = useCallback(async () => {
+    if (sessionOwner !== null) return;
     if (!validation.ok) {
       setConnection("failed");
       setDetail(validation.message);
@@ -98,15 +122,19 @@ export function StreamViewport({
     }
 
     const currentAttempt = ++attempt.current;
+    sessionOwner = owner.current;
     setConnection("checking");
     setListenerStatus("checking API-host listener");
     setDetail("Checking that Kit is listening before browser negotiation…");
 
     try {
+      await teardown;
+      if (attempt.current !== currentAttempt) return;
       const readiness = await api.streamHealth();
       if (attempt.current !== currentAttempt) return;
       setListenerStatus(`${readiness.status} · ${readiness.latency_ms} ms`);
       if (readiness.status !== "ready") {
+        void stopSession(owner.current);
         setConnection("offline");
         setDetail(
           `Kit is not listening at ${readiness.probe_host}:${readiness.signaling_port}. ${readiness.detail}`
@@ -128,7 +156,8 @@ export function StreamViewport({
       signalingPort: validation.port,
       signalingPath,
       authenticate: false,
-      maxReconnects: 5,
+      maxReconnects: 0,
+      autoLaunch: true,
       connectivityTimeout: 5_000,
       codecList: ["H264"],
       nativeTouchEvents: true,
@@ -179,11 +208,13 @@ export function StreamViewport({
       onStop: () => {
         if (attempt.current !== currentAttempt) return;
         setConnection("idle");
+        void stopSession(owner.current);
         setDetail("Kit-CAE stream stopped.");
       },
       onTerminate: () => {
         if (attempt.current !== currentAttempt) return;
         setConnection("idle");
+        if (sessionOwner === owner.current) sessionOwner = null;
         setDetail("Kit-CAE stream terminated.");
       },
       onCustomEvent: (message: unknown) => {
@@ -202,6 +233,15 @@ export function StreamViewport({
     }
   }, [fail, mediaPort, signalingPath, validation]);
 
+  useEffect(() => {
+    if (connection !== "connecting") return;
+    const currentAttempt = attempt.current;
+    const timer = window.setTimeout(() => {
+      fail("Negotiation timed out after 45 seconds. Inspect the ICE diagnostics below.", validation.endpoint, currentAttempt);
+    }, 45_000);
+    return () => window.clearTimeout(timer);
+  }, [connection, fail, validation.endpoint]);
+
   const showPlaceholder = !["live", "lagged"].includes(connection);
   const statusLabel = connection === "idle" ? "offline" : connection;
 
@@ -218,7 +258,7 @@ export function StreamViewport({
           <button
             className="button secondary"
             onClick={connect}
-            disabled={!validation.ok || ["checking", "connecting"].includes(connection)}
+            disabled={!validation.ok || ["checking", "connecting", "live", "lagged"].includes(connection)}
           >
             {["checking", "connecting"].includes(connection) ? "Connecting…" : "Connect stream"}
           </button>
@@ -232,6 +272,7 @@ export function StreamViewport({
         <span><strong>Kit listener</strong> {listenerStatus}</span>
         <span><strong>Browser page</strong> {validation.pageProtocol.replace(":", "").toUpperCase()}</span>
         {streamStats && <span><strong>Stream</strong> {streamStats}</span>}
+        <span><strong>Client 5.18.2</strong> {iceState}</span>
         {!validation.ok && <p>{validation.message}</p>}
         {configurationWarnings.map((warning) => <p key={warning}>{warning}</p>)}
       </div>
