@@ -15,6 +15,7 @@ interface StreamViewportProps {
   signalingPort: number;
   secure: boolean;
   mediaPort: number | null;
+  signalingPath?: string;
   configurationWarnings?: string[];
 }
 
@@ -48,6 +49,7 @@ export function StreamViewport({
   signalingPort,
   secure,
   mediaPort,
+  signalingPath = "",
   configurationWarnings = []
 }: StreamViewportProps) {
   const [connection, setConnection] = useState<ConnectionState>("idle");
@@ -124,7 +126,7 @@ export function StreamViewport({
       audioElementId: "kit-remote-audio",
       signalingServer: validation.host,
       signalingPort: validation.port,
-      mediaServer: validation.host,
+      signalingPath,
       authenticate: false,
       maxReconnects: 5,
       connectivityTimeout: 5_000,
@@ -198,7 +200,7 @@ export function StreamViewport({
     } catch (error) {
       fail(error, validation.endpoint, currentAttempt);
     }
-  }, [fail, mediaPort, validation]);
+  }, [fail, mediaPort, signalingPath, validation]);
 
   const showPlaceholder = !["live", "lagged"].includes(connection);
   const statusLabel = connection === "idle" ? "offline" : connection;

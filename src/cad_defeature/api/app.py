@@ -15,6 +15,7 @@ from pydantic import BaseModel, Field
 
 from .runtime import NemoClawRuntimeError
 from .workflows import WorkflowNotFound, WorkflowService
+from .stream_proxy import router as stream_router
 
 
 class StartWorkflowRequest(BaseModel):
@@ -50,6 +51,9 @@ application = FastAPI(
         "analysis, verification and Kit-CAE review. CFD meshing is not yet implemented."
     ),
 )
+
+
+application.include_router(stream_router)
 
 
 def _stream_host() -> tuple[str, list[str]]:
@@ -99,6 +103,7 @@ def _web_dist() -> Path:
 
 
 @application.get("/healthz")
+@application.get("/v1/healthz")
 def healthz() -> dict:
     return get_service().runner.readiness()
 
@@ -147,6 +152,7 @@ def frontend_config() -> dict:
             "signaling_host": signaling_host,
             "signaling_port": _port_from_env("CAD_UI_KIT_SIGNALING_PORT", 49100),
             "signaling_secure": _bool_from_env("CAD_UI_KIT_SIGNALING_SECURE"),
+            "signaling_path": "/kit-stream" if os.getenv("CAD_UI_PUBLIC_ORIGIN") else "",
             "media_port": _port_from_env("CAD_UI_KIT_MEDIA_PORT", None),
             "configuration_warnings": warnings,
         },

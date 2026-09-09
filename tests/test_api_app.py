@@ -30,6 +30,7 @@ def test_frontend_config_reports_capability_boundaries(monkeypatch) -> None:
         "signaling_host": "kit.example.test",
         "signaling_port": 49101,
         "signaling_secure": True,
+        "signaling_path": "",
         "media_port": 47999,
         "configuration_warnings": [],
     }

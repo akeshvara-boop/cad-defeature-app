@@ -36,6 +36,7 @@ export interface FrontendConfig {
     signaling_host: string;
     signaling_port: number;
     signaling_secure: boolean;
+    signaling_path?: string;
     media_port: number | null;
     configuration_warnings: string[];
   };

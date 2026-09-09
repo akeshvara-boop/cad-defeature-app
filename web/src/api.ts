@@ -17,7 +17,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  health: () => request<Record<string, unknown>>("/healthz"),
+  health: () => request<Record<string, unknown>>("/v1/healthz"),
   config: () => request<FrontendConfig>("/v1/config"),
   streamHealth: () => request<StreamHealth>("/v1/stream/healthz"),
   workflows: () => request<WorkflowState[]>("/v1/workflows"),
