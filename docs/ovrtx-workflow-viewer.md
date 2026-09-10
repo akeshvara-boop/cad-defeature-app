@@ -61,3 +61,32 @@ The fixture was not recorded as a customer workflow or shown as its output.
 Public gateway UDP delivery and actual browser decoded frames still require
 an authenticated browser test with a successful workflow output. Native frames,
 HTTP readiness and a WebSocket upgrade alone do not establish this.
+
+## Signaling handoff fix and controlled media validation
+
+The client intentionally closes its initial signaling WebSocket with code 4001
+and opens a replacement using `reconnect=1`. The old bridge discarded the
+disconnect code, closing the upstream with 1000. Native logs consequently showed
+`mayReconnect: 0` followed by
+`NVST_DISCONN_PEER_TRANSPORT_TERMINATED_ON_SIGNALING`. This ended an otherwise
+established session. Preserve valid close codes and reasons in both directions;
+do not transmit reserved synthetic codes (1005/1006).
+
+An isolated animated CUDA test pattern reproduced the same failure without
+OVRTX, OVStage or CAD processing. Native logs showed DTLS and NVENC initialization
+succeeding before signaling teardown. After the proxy fix, a controlled Chrome
+CAD test decoded 582 video frames at 30 FPS, with an ICE candidate pair in
+`succeeded`, DTLS connected, and zero reported lost video packets. The native
+handoff then logged `mayReconnect: 1`.
+
+This test used loopback SSH-tunneled signaling and the existing public Brev UDP
+media gateway. It proves external media delivery from Brev to the test laptop,
+but does not independently validate the authenticated public HTTPS/Pomerium
+signaling route. A normal-browser workbench test remains the final acceptance
+step. No firewall, driver or TURN changes were made.
+
+The viewer now owns a dedicated AppStreamer instance and provides a downloadable
+connection report with SDK lifecycle, ICE, DTLS and video statistics. Reports do
+not intentionally collect SDP or data-channel content; review diagnostics before
+sharing externally. Native INFO-level diagnostic logs may contain session
+metadata and must remain in a private operator directory.
