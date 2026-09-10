@@ -1,5 +1,25 @@
 # Kit-CAE interactive workbench
 
+## Workbench viewer selector
+
+The Experience tab provides **Review renderer** with OVRTX (default) and Kit-CAE.
+Changing it requires confirmation and unmounts the previous browser viewer;
+the Kit SDK is loaded only when selected. Kit retains the fixed `/kit-stream`
+proxy, client 5.18.2, and a listener check before connecting.
+
+This is a browser viewer selector, not a server lifecycle controller. An operator
+must start the selected Brev renderer. Do not run both servers on UDP 49100.
+Kit displays its current stage; selecting a workflow does not load that CAD into
+Kit. OVRTX remains the workflow-linked CAD review path. Neither view certifies
+CFD readiness. Automatic server switching and Kit workflow asset loading remain
+separate integration work.
+
+After building `web`, run `node tests/viewer-selection.cjs` from that directory
+with Playwright and Chrome available (`PLAYWRIGHT_MODULE` can point to an
+existing Playwright install). This fixture-based test covers selection,
+cancellation, exclusive mounting, offline readiness, and return to OVRTX;
+it does not test live media or the public HTTPS route.
+
 ## Delivered architecture
 
 ```text

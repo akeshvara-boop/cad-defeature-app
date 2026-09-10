@@ -1027,7 +1027,32 @@ textarea {
   }
 }
 
+.viewer-selector {
+  padding: 18px;
+}
+
+.viewer-selector p {
+  color: var(--text-muted, #a5aaa3);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 12px 0 0;
+}
+
+.kit-connection-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(70px, .65fr) minmax(120px, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.kit-connection-fields label {
+  min-width: 0;
+}
+
 @media (max-width: 540px) {
+  .kit-connection-fields {
+    grid-template-columns: 1fr;
+  }
   .metrics-grid,
   .report-cards {
     grid-template-columns: 1fr 1fr;

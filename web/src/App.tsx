@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 
 import { api } from "./api";
 import { OvrtxViewport } from "./components/OvrtxViewport";
 import type { FrontendConfig, JsonRecord, WorkflowEvent, WorkflowState } from "./types";
 
 type Tab = "experience" | "report" | "blueprint";
+const StreamViewport = lazy(() => import("./components/StreamViewport").then(module => ({ default: module.StreamViewport })));
 
 const DEFAULT_SOURCE = "/home/ubuntu/cad-defeature-app/data/input/large base plate.IGS";
 
@@ -56,6 +57,7 @@ function StatusPill({ value }: { value: string }) {
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("experience");
+  const [viewer, setViewer] = useState<"ovrtx" | "kit">("ovrtx");
   const [config, setConfig] = useState<FrontendConfig | null>(null);
   const [apiState, setApiState] = useState("checking");
   const [workflows, setWorkflows] = useState<WorkflowState[]>([]);
@@ -300,7 +302,33 @@ export default function App() {
           </aside>
 
           <section className="visual-column">
-            <OvrtxViewport workflowId={workflow?.workflow_id} output={String(workflow?.active_model || '')} />
+            <section className="panel viewer-selector" aria-label="Renderer selection">
+              <label>Review renderer
+                <select aria-label="Review renderer" value={viewer} onChange={(event) => {
+                  const next = event.target.value as "ovrtx" | "kit";
+                  if (window.confirm("Switch viewer? This closes this tab’s current viewer connection. It does not start or stop the Brev renderer.")) setViewer(next);
+                }}>
+                  <option value="ovrtx">OVRTX · workflow CAD review</option>
+                  <option value="kit">Kit-CAE · streaming viewer</option>
+                </select>
+              </label>
+              <p>One viewer is mounted at a time. Brev must run the selected renderer; switching this panel does not switch the server.</p>
+            </section>
+            {viewer === "ovrtx" ? <OvrtxViewport workflowId={workflow?.workflow_id} output={String(workflow?.active_model || '')} /> : <>
+              <section className="panel viewer-selector" aria-label="Kit-CAE connection settings">
+                <div className="section-heading"><div><span className="eyebrow">OUTPUT · KIT-CAE</span><h2>Engineering review</h2></div><span className="pill muted">Not CFD validation</span></div>
+                <div className="kit-connection-fields">
+                  <label>Signaling host<input value={signalingHost} onChange={(event) => setSignalingHost(event.target.value)} placeholder="Brev HTTPS hostname" /></label>
+                  <label>Port<input type="number" min={1} max={65535} value={signalingPort} onChange={(event) => setSignalingPort(Number(event.target.value))} /></label>
+                  <label>Transport<select value={signalingSecure ? "wss" : "ws"} onChange={(event) => setSignalingSecure(event.target.value === "wss")}><option value="wss">TLS proxy WSS</option><option value="ws">Direct WS</option></select></label>
+                </div>
+                <p>Kit shows its currently loaded stage. Selecting a workflow does not load its CAD into Kit. Use OVRTX for the selected workflow’s CAD output.</p>
+              </section>
+              <Suspense fallback={<p>Loading Kit-CAE client…</p>}><StreamViewport host={signalingHost} signalingPort={signalingPort} secure={signalingSecure}
+                mediaPort={mediaPort} mediaHost={config?.kit_stream.media_host}
+                signalingPath={config?.kit_stream.signaling_path}
+                configurationWarnings={config?.kit_stream.configuration_warnings} /></Suspense>
+            </>}
 
             <div className="metrics-grid">
               <Metric label="Faces" value={topology.faces} />
