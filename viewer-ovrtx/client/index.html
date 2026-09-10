@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OVRTX Asset Viewer</title></head>
 <body><header><b>OVRTX</b> Remote Asset Viewer <small>Isolated renderer proof · not CFD validation</small></header>
-<main><section><label>Signaling host <input id="host" placeholder="Standalone ovstream host"></label><label>Port <input id="port" type="number" value="49200"></label><button id="connect">Connect once</button><button id="disconnect" disabled>Disconnect</button></section>
+<main><section><label>Signaling host <input id="host" readonly placeholder="Awaiting verified endpoint"></label><label>Port <input id="port" type="number" readonly placeholder="Not provisioned"></label><button id="refresh">Check readiness</button><button id="connect" disabled>Connect once</button><button id="disconnect" disabled>Disconnect</button></section>
 <p id="status" role="status">Not connected. Endpoint must be provisioned before use.</p>
 <video id="remote-video" tabindex="0" autoplay playsinline muted></video><audio id="remote-audio" muted></audio>
 <p>OVStage → OVRTX → GPU BGRA buffer → ovstream → browser video</p></main>

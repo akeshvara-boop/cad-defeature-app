@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field
 from .runtime import NemoClawRuntimeError
 from .workflows import WorkflowNotFound, WorkflowService
 from .stream_proxy import router as stream_router
+from .ovrtx_readiness import router as ovrtx_router
 
 
 class StartWorkflowRequest(BaseModel):
@@ -246,6 +247,8 @@ def root():
 
 if _web_dist().is_dir():
     application.mount("/ui", StaticFiles(directory=_web_dist(), html=True), name="ui")
+
+application.include_router(ovrtx_router)
 
 # Opt-in static hosting for the isolated viewer. This does not route streaming
 # traffic or claim that its GPU renderer is ready.

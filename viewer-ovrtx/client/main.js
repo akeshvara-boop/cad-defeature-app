@@ -2,25 +2,50 @@ import { AppStreamer, StreamType } from '@nvidia/ov-web-rtc';
 import './style.css';
 const $ = (id) => document.getElementById(id);
 let active = false, generation = 0, firstError = '', teardown = Promise.resolve();
+let endpoint = null;
 const status = (message) => { $('status').textContent = message; };
+async function checkReadiness() {
+  endpoint = null;
+  $('connect').disabled = true;
+  $('host').value = ''; $('port').value = '';
+  try {
+    const response = await fetch('/v1/ovrtx/readiness', {cache: 'no-store'});
+    if (!response.ok) throw new Error('Readiness service unavailable');
+    const result = await response.json();
+    if (result.ready === true && result.host && Number.isInteger(result.port)) {
+      endpoint = result;
+      $('host').value = result.host; $('port').value = result.port;
+      $('connect').disabled = active;
+    }
+    status(result.reason || 'Renderer not ready.');
+  } catch { status('Readiness unavailable. Connect is disabled; open this viewer through the workbench API.'); }
+  return endpoint;
+}
+$('refresh').onclick = () => { if (!active) void checkReadiness(); };
+void checkReadiness();
 async function disconnect() {
   ++generation;
   $('disconnect').disabled = true;
   teardown = teardown.then(() => AppStreamer.terminate(false)).catch(() => {});
   await teardown;
   active = false;
-  $('connect').disabled = false;
+  $('connect').disabled = true;
+  $('refresh').disabled = false;
   status(firstError || 'Disconnected.');
 }
 $('disconnect').onclick = disconnect;
 $('connect').onclick = async () => {
   if (active) return;
-  const server = $('host').value.trim(), port = Number($('port').value);
+  active = true;
+  const verified = await checkReadiness();
+  if (!verified) { active = false; return; }
+  const server = verified.host, port = verified.port;
   if (!server || /[\s/<>]/.test(server) || !Number.isInteger(port) || port < 1 || port > 65535) {
-    status('Enter a hostname without a URL path and a valid port.'); return;
+    active = false; status('Invalid deployment endpoint.'); return;
   }
   active = true; firstError = ''; const attempt = ++generation;
   $('connect').disabled = true; $('disconnect').disabled = false;
+  $('refresh').disabled = true;
   const timeout = setTimeout(() => {
     if (attempt === generation) { firstError = 'Connection/video deadline exceeded (45s).'; void disconnect(); }
   }, 45000);
