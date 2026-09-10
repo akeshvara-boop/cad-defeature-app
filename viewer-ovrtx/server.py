@@ -8,6 +8,8 @@ import json
 import os
 from pathlib import Path
 import signal
+import queue
+import hmac
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import threading
 import time
@@ -42,9 +44,27 @@ def main():
     startup_time = phase_time = time.monotonic()
     state = {"status": "starting", "phase": "initializing", "rendered_frames": 0, "submitted_frames": 0,
              "client_connected": False, "last_error": None, "render_only": args.render_only}
+    pending_assets = queue.Queue(maxsize=1)
     lock = threading.Lock()
     webroot = Path(__file__).parent / "client" / "dist"
     class Handler(SimpleHTTPRequestHandler):
+        def do_POST(self):
+            token = os.getenv('CAD_UI_VIEWER_TOKEN', '')
+            if self.path != '/asset' or not token or not hmac.compare_digest(self.headers.get('X-Viewer-Token',''), token):
+                self.send_error(403); return
+            try:
+                size = int(self.headers.get('Content-Length','0'))
+                if not 0 < size <= 4096: raise ValueError('Invalid body size')
+                from asset_requests import validate_asset
+                value = validate_asset(json.loads(self.rfile.read(size)), os.getenv('CAD_UI_REVIEW_ROOT'))
+                with lock:
+                    if state['client_connected'] or not pending_assets.empty():
+                        self.send_error(409, 'Disconnect the current viewer before loading another output'); return
+                    pending_assets.put_nowait(value)
+                    state.update(status='starting', phase='loading_asset', pending_workflow_id=value['workflow_id'])
+                self.send_response(202); self.end_headers()
+            except (ValueError, OSError, queue.Full):
+                self.send_error(400, 'Invalid asset request')
         def __init__(self, *a, **kw):
             super().__init__(*a, directory=str(webroot), **kw)
         def do_GET(self):
@@ -94,6 +114,20 @@ def main():
         print("STAGE_PUBLISHED", flush=True)
         phase("first_frame")
         while not stop.is_set():
+            if not pending_assets.empty():
+                asset = pending_assets.get_nowait()
+                phase('loading_asset')
+                renderer.detach_ovstage()
+                attached = False
+                stage.destroy()
+                stage = ovstage.Stage('cad.remote.viewer.' + asset['asset_id'])
+                renderer.attach_ovstage(stage)
+                attached = True
+                ovstage.population.open_usd(stage, asset['stage'], ordinal=1)
+                stage.advance_write_floor(1, ovstage.Scope.ALL).wait()
+                with lock:
+                    state.update(**asset, rendered_frames=0, submitted_frames=0, last_error=None)
+                phase('first_frame')
             started = time.monotonic()
             products = renderer.step(render_products={args.product}, delta_time=1 / 30, ordinal=1)
             copied = False

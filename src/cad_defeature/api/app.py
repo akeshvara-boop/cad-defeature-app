@@ -8,7 +8,7 @@ from pathlib import Path
 import socket
 from time import monotonic
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
@@ -55,6 +55,25 @@ application = FastAPI(
 
 
 application.include_router(stream_router)
+
+class ReviewRequest(BaseModel):
+    meters_per_unit: float = Field(gt=0, allow_inf_nan=False)
+    up_axis: str = Field(pattern='^[YZ]$')
+
+
+@application.post('/v1/workflows/{workflow_id}/viewer')
+def load_review(workflow_id: str, body: ReviewRequest, request: Request):
+    if request.headers.get('origin') != os.getenv('CAD_UI_PUBLIC_ORIGIN'):
+        raise HTTPException(403, 'Same-origin viewer request required')
+    from .viewer_assets import prepare_review
+    try:
+        return prepare_review(get_service(), workflow_id, body.meters_per_unit, body.up_axis)
+    except WorkflowNotFound:
+        raise HTTPException(404, 'Workflow not found')
+    except ValueError as error:
+        raise HTTPException(409, str(error))
+    except (KeyError, OSError, RuntimeError) as error:
+        raise HTTPException(503, 'Viewer preparation unavailable: ' + str(error)[:500])
 
 
 def _stream_host() -> tuple[str, list[str]]:

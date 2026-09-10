@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OVRTX Asset Viewer</title></head>
-<body><header><b>OVRTX</b> Remote Asset Viewer <small>Isolated renderer proof · not CFD validation</small></header>
+<body><header><b>OVRTX</b> Workflow CAD output <small>Healed geometry · unverified</small></header>
+<section style="padding:16px"><label>Source units <select id="units"><option value="">Confirm units…</option><option value="0.001">Millimetres</option><option value="1">Metres</option><option value="0.01">Centimetres</option></select></label><label>Up axis <select id="axis"><option value="">Confirm axis…</option><option>Y</option><option>Z</option></select></label><button id="load">Load CAD output</button></section>
 <main><section><label>Signaling host <input id="host" readonly placeholder="Awaiting verified endpoint"></label><label>Port <input id="port" type="number" readonly placeholder="Not provisioned"></label><button id="refresh">Check readiness</button><button id="connect" disabled>Connect once</button><button id="disconnect" disabled>Disconnect</button></section>
 <p id="status" role="status">Not connected. Endpoint must be provisioned before use.</p>
 <video id="remote-video" tabindex="0" autoplay playsinline muted></video><audio id="remote-audio" muted></audio>

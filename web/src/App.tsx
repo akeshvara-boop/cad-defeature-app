@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { api } from "./api";
-import { StreamViewport } from "./components/StreamViewport";
+import { OvrtxViewport } from "./components/OvrtxViewport";
 import type { FrontendConfig, JsonRecord, WorkflowEvent, WorkflowState } from "./types";
 
 type Tab = "experience" | "report" | "blueprint";
@@ -300,47 +300,7 @@ export default function App() {
           </aside>
 
           <section className="visual-column">
-            <div className="stream-settings panel">
-              <div>
-                <span className="eyebrow">OUTPUT</span>
-                <h2>Engineering review</h2>
-              </div>
-              <label>
-                Kit signalling host
-                <input
-                  placeholder="e.g. global.prd.ga.run.brev.nvidia.com"
-                  value={signalingHost}
-                  onChange={(event) => setSignalingHost(event.target.value)}
-                />
-              </label>
-              <label className="port-field">
-                Port
-                <input
-                  type="number"
-                  value={signalingPort}
-                  onChange={(event) => setSignalingPort(Number(event.target.value))}
-                />
-              </label>
-              <label className="transport-field">
-                Transport
-                <select
-                  value={signalingSecure ? "wss" : "ws"}
-                  onChange={(event) => setSignalingSecure(event.target.value === "wss")}
-                >
-                  <option value="ws">Direct WS</option>
-                  <option value="wss">TLS proxy WSS</option>
-                </select>
-              </label>
-            </div>
-            <StreamViewport
-              host={signalingHost}
-              signalingPort={signalingPort}
-              secure={signalingSecure}
-              mediaPort={mediaPort}
-              mediaHost={config?.kit_stream.media_host}
-              signalingPath={config?.kit_stream.signaling_path}
-              configurationWarnings={config?.kit_stream.configuration_warnings}
-            />
+            <OvrtxViewport workflowId={workflow?.workflow_id} output={String(workflow?.active_model || '')} />
 
             <div className="metrics-grid">
               <Metric label="Faces" value={topology.faces} />

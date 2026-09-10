@@ -2,6 +2,9 @@
 import asyncio
 import logging
 import os
+import json
+from urllib.request import urlopen
+from urllib.parse import urlencode
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from websockets.asyncio.client import connect
@@ -12,15 +15,33 @@ logger = logging.getLogger(__name__)
 
 
 @router.websocket("/kit-stream/sign_in")
+@router.websocket("/ovrtx-stream/sign_in")
 async def signaling(socket: WebSocket):
     # Explicit opt-in, browser origin check, fixed upstream: never an open proxy.
     allowed = os.getenv("CAD_UI_PUBLIC_ORIGIN", "").rstrip("/")
     if not allowed or socket.headers.get("origin") != allowed:
         await socket.close(code=1008)
         return
-    upstream = "ws://127.0.0.1:49100/sign_in"
-    if socket.url.query:
-        upstream += "?" + socket.url.query
+    ovrtx = socket.url.path.startswith('/ovrtx-stream/')
+    if ovrtx:
+        def current_asset():
+            with urlopen('http://127.0.0.1:8081/healthz', timeout=2) as response:
+                return json.loads(response.read(16384))
+        try:
+            health = await asyncio.to_thread(current_asset)
+            if (not socket.query_params.get('workflow_id') or
+                health.get('workflow_id') != socket.query_params.get('workflow_id') or
+                health.get('asset_id') != socket.query_params.get('asset_id') or
+                health.get('status') != 'ready'):
+                await socket.close(code=1008); return
+        except (OSError, ValueError):
+            await socket.close(code=1011); return
+    upstream = ('ws://127.0.0.1:49200/sign_in' if socket.url.path.startswith('/ovrtx-stream/')
+                else 'ws://127.0.0.1:49100/sign_in')
+    query = urlencode([(k,v) for k,v in socket.query_params.multi_items()
+                       if not ovrtx or k not in {'workflow_id','asset_id'}])
+    if query:
+        upstream += "?" + query
     tasks = []
     close_code = 1000
     protocols = socket.scope.get("subprotocols", [])

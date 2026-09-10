@@ -3,16 +3,18 @@ import './style.css';
 const $ = (id) => document.getElementById(id);
 let active = false, generation = 0, firstError = '', teardown = Promise.resolve();
 let endpoint = null;
+const workflowId = new URLSearchParams(location.search).get('workflow_id') || '';
+let expectedAsset = null;
 const status = (message) => { $('status').textContent = message; };
 async function checkReadiness() {
   endpoint = null;
   $('connect').disabled = true;
   $('host').value = ''; $('port').value = '';
   try {
-    const response = await fetch('/v1/ovrtx/readiness', {cache: 'no-store'});
+    const response = await fetch('/v1/ovrtx/readiness?workflow_id=' + encodeURIComponent(workflowId), {cache: 'no-store'});
     if (!response.ok) throw new Error('Readiness service unavailable');
     const result = await response.json();
-    if (result.ready === true && result.host && Number.isInteger(result.port)) {
+    if (workflowId && result.workflow_id === workflowId && (!expectedAsset || expectedAsset === result.asset_id) && result.ready === true && result.host && Number.isInteger(result.port)) {
       endpoint = result;
       $('host').value = result.host; $('port').value = result.port;
       $('connect').disabled = active;
@@ -28,6 +30,7 @@ async function disconnect() {
   $('disconnect').disabled = true;
   teardown = teardown.then(() => AppStreamer.terminate(false)).catch(() => {});
   await teardown;
+  $('remote-video').srcObject = null;
   active = false;
   $('connect').disabled = true;
   $('refresh').disabled = false;
@@ -53,7 +56,10 @@ $('connect').onclick = async () => {
     await teardown;
     status('Connecting standalone ovstream session…');
     await AppStreamer.connect({streamSource: StreamType.DIRECT, streamConfig: {
-      server, signalingPort: port, videoElementId: 'remote-video', audioElementId: 'remote-audio',
+      signalingServer: server, signalingPort: port, signalingPath: verified.signaling_path,
+      signalingQuery: new URLSearchParams({workflow_id:workflowId,asset_id:verified.asset_id}),
+      ...(verified.media_host ? {mediaServer: verified.media_host, mediaPort: verified.media_port} : {}),
+      videoElementId: 'remote-video', audioElementId: 'remote-audio',
       codec: 'H264', codecList: ['H264'], width: 1280, height: 720, fps: 30,
       maxReconnects: 0, nativeTouchEvents: true,
       onUpdate: (event) => { if (attempt === generation) status(`Stream update: ${String(event.info || event.status)}`); },
@@ -73,3 +79,29 @@ $('connect').onclick = async () => {
     if (attempt === generation) { firstError = String(error); await disconnect(); }
   } finally { clearTimeout(timeout); }
 };
+
+$('load').onclick = async () => {
+  if (!workflowId || !$('units').value || !$('axis').value) {
+    status('Select a workflow and confirm CAD source units and up axis.'); return;
+  }
+  await disconnect(); firstError = '';
+  $('load').disabled = true;
+  try {
+    status('Preparing the selected workflow output on Brev…');
+    const response = await fetch(`/v1/workflows/${encodeURIComponent(workflowId)}/viewer`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({meters_per_unit:Number($('units').value),up_axis:$('axis').value})
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.detail || 'Asset preparation failed');
+    expectedAsset = result.asset_id;
+    for (let n=0;n<90;n++) {
+      await new Promise(resolve=>setTimeout(resolve,2000));
+      const ready = await checkReadiness();
+      if (ready && ready.asset_id === expectedAsset) {status('Selected CAD output rendered. Connect once to review.');return;}
+    }
+    throw new Error('Asset rendering is not ready yet. Check readiness again.');
+  } catch(error) {status(String(error));}
+  finally {$('load').disabled=false;}
+};
+window.addEventListener('pagehide',()=>{void disconnect();});
