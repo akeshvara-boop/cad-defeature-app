@@ -1,0 +1,1 @@
+{"name":"cad-ovrtx-viewer","private":true,"version":"0.1.0","type":"module","scripts":{"build":"vite build --base=./"},"dependencies":{"@nvidia/ov-web-rtc":"6.7.0"},"devDependencies":{"vite":"6.4.3"}}

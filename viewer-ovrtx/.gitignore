@@ -1,0 +1,6 @@
+.venv/
+client/node_modules/
+client/dist/
+__pycache__/
+runtime-resolved.txt
+*.log
