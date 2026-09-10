@@ -66,12 +66,13 @@ def main():
         renderer = ovrtx.Renderer()
         print("CREATING_STAGE", flush=True)
         stage = ovstage.Stage("cad.remote.viewer")
+        # Match the pinned 0.5 upstream minimal example: attach before population.
+        renderer.attach_ovstage(stage)
+        attached = True
         print("POPULATING_STAGE", flush=True)
         ovstage.population.open_usd(stage, str(args.stage.resolve()), ordinal=1)
         stage.advance_write_floor(1, ovstage.Scope.ALL).wait()
-        renderer.attach_ovstage(stage)
-        print("STAGE_ATTACHED", flush=True)
-        attached = True
+        print("STAGE_PUBLISHED", flush=True)
         while not stop.is_set():
             started = time.monotonic()
             products = renderer.step(render_products={args.product}, delta_time=1 / 30, ordinal=1)
