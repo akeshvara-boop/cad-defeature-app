@@ -12,6 +12,24 @@ Use Python 3.12 on the Brev GPU host. Run `bash setup.sh`, then:
 bash run.sh --stage smoke.usda --frames 3
 ```
 
+To test native rendering independently of the streaming SDK:
+
+```bash
+timeout -k 5 600 bash run.sh --stage smoke.usda --render-only --frames 3 --snapshot first-frame.ppm
+```
+
+Cold shader compilation took approximately eight minutes on the four-vCPU
+Brev L40S used for validation. Earlier 30–60-second deadlines interrupted
+working initialization. Preserve the shader cache and allow a bounded cold
+startup; a warmed run reached the first frame in seconds. Health reports the
+current phase, uptime and phase duration. Do not equate a TCP listener with a
+rendered or decoded frame.
+
+`--render-var` selects the full authored RenderVar path (default
+`/Render/LdrColor`), as required by OVRTX 0.5. The streaming SDK is imported
+only after a valid frame and explicitly initialized before server creation,
+then shut down after server cleanup.
+
 The log must include `FIRST_BGRA_FRAME_READY 1280x720`. An import or listening
 socket alone is not success. For the ongoing render service, omit `--frames`.
 Initial shader compilation may take several minutes.

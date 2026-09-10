@@ -1,6 +1,42 @@
 # Validation — 2026-09-10
 
-Status: implementation scaffold built; GPU first-frame gate NOT passed.
+Status: native CAD first-frame gate PASSED on 2026-09-10. Browser delivery
+remains a separate, unverified gate. Earlier failed probes are retained below
+as historical evidence, not the current native-render result.
+
+## Native startup diagnosis and correction
+
+- Verified upstream OVRTX HEAD `e3ebb35a6024d070fe21125f3806d6152ed3c753`;
+  the existing OVRTX/OVStage pins match its minimal example. Published package
+  metadata agrees for OVRTX, OVStage, ovstream and Warp. NumPy 2.2.6 is retained
+  deliberately from the upstream example. `uv pip check` passes.
+- Two GDB snapshots placed the attachment caller in GPU Foundation/Carbonite
+  waits while task workers executed NVIDIA shader and ray-tracing driver code.
+  Changing worker stacks did not prove a fixed deadlock.
+- An uninterrupted, bounded run produced a real CAD-derived 1280x720 BGRA
+  frame after approximately eight minutes of cold compilation on four vCPUs.
+  The earlier short deadlines were the native startup blocker.
+- A warm-cache native-only repeat rendered three frames in approximately seven
+  seconds. The PNG was visually inspected: the plate outline and holes appear.
+- The first streaming attempt then exposed a separate lifecycle bug:
+  `ovstream_create_server: unknown server type 0`. The application omitted
+  `ovstream.initialize()` before server construction. Explicit initialization,
+  shutdown and failure cleanup now follow upstream's example.
+- Added `--render-only`, full RenderVar identity, phase duration diagnostics,
+  and explicit mapped-frame release. Eleven local regression tests pass.
+- Retested the corrected server on Brev: attachment took about 0.1 seconds,
+  the first frame was available by 3.6 seconds, ovstream initialized and
+  started successfully, three frames rendered, and cleanup exited with code
+  zero without the prior active-mapping warning. This proves local server
+  startup, not external video delivery (no client connected).
+- No driver upgrade, firewall change or replacement of the running workbench
+  was needed to establish native rendering. No claim of browser decoded video,
+  CAD validity, successful defeaturing or CFD readiness is made.
+
+Evidence on Brev: `/home/ubuntu/ovrtx-warmup-20260910T133234Z/` and
+`/home/ubuntu/ovrtx-native-gdb-20260910T132602Z/` (not committed customer data).
+
+## Historical short-deadline probes
 
 | Check | Result |
 |---|---|

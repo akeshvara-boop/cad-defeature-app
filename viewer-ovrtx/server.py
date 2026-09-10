@@ -3,6 +3,7 @@
 No remote filesystem API, no modifications to user USD, no Kit dependencies.
 """
 import argparse
+from contextlib import ExitStack
 import json
 import os
 from pathlib import Path
@@ -15,11 +16,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage", type=Path, required=True)
     parser.add_argument("--product", default="/Render/Camera")
+    parser.add_argument("--render-var", default="/Render/LdrColor", help="Full authored RenderVar path")
     parser.add_argument("--signal-port", type=int, default=49200)
     parser.add_argument("--media-port", type=int, default=48098)
     parser.add_argument("--http-port", type=int, default=8081)
     parser.add_argument("--public-ip", default=None)
     parser.add_argument("--frames", type=int, default=0)
+    parser.add_argument("--render-only", action="store_true", help="Render bounded frames without importing or starting ovstream")
     parser.add_argument("--snapshot", type=Path, help="Write first RGB frame as a new PPM file")
     args = parser.parse_args()
     if not args.stage.is_file() or args.stage.suffix.lower() not in {".usd", ".usda", ".usdc"}:
@@ -28,15 +31,17 @@ def main():
         parser.error("Invalid port")
     if args.frames < 0:
         parser.error("--frames must be nonnegative")
+    if args.render_only and not args.frames:
+        parser.error("--render-only requires --frames greater than zero")
     os.environ.setdefault("OVRTX_SKIP_USD_CHECK", "1")
     import ovrtx
     import ovstage
-    import ovstream
     import warp as wp
     from pixels import rgba_to_bgra
     stop = threading.Event()
+    startup_time = phase_time = time.monotonic()
     state = {"status": "starting", "phase": "initializing", "rendered_frames": 0, "submitted_frames": 0,
-             "client_connected": False, "last_error": None}
+             "client_connected": False, "last_error": None, "render_only": args.render_only}
     lock = threading.Lock()
     webroot = Path(__file__).parent / "client" / "dist"
     class Handler(SimpleHTTPRequestHandler):
@@ -46,7 +51,9 @@ def main():
             if self.path != "/healthz":
                 return super().do_GET()
             with lock:
-                body = json.dumps(state).encode()
+                now = time.monotonic()
+                body = json.dumps(dict(state, uptime_seconds=round(now - startup_time, 1),
+                                       phase_seconds=round(now - phase_time, 1))).encode()
                 code = 200 if state["status"] == "ready" else 503
             self.send_response(code)
             self.send_header("Content-Type", "application/json")
@@ -59,11 +66,14 @@ def main():
     signal.signal(signal.SIGTERM, lambda *_: stop.set())
     signal.signal(signal.SIGINT, lambda *_: stop.set())
     renderer = stage = stream = buffer = None
+    resources = ExitStack()
     attached = False
     def phase(value):
+        nonlocal phase_time
         with lock:
             state["phase"] = value
-        print(f"VIEWER_PHASE={value}", flush=True)
+            phase_time = time.monotonic()
+        print(f"VIEWER_PHASE={value} elapsed={phase_time - startup_time:.1f}s", flush=True)
     try:
         wp.init()
         print("CREATING_RENDERER", flush=True)
@@ -73,6 +83,7 @@ def main():
         phase("creating_stage")
         stage = ovstage.Stage("cad.remote.viewer")
         # Match the pinned 0.5 upstream minimal example: attach before population.
+        print("Native initialization may compile shaders for several minutes on first use. Do not restart while compilation is progressing.", flush=True)
         phase("attaching_stage")
         renderer.attach_ovstage(stage)
         attached = True
@@ -88,9 +99,9 @@ def main():
             copied = False
             for product in products.values():
                 for frame in product.frames:
-                    key = next((k for k in frame.render_vars if str(k).split("/")[-1] == "LdrColor"), None)
-                    if key is None:
-                        raise RuntimeError("Missing LdrColor RenderVar")
+                    key = args.render_var
+                    if key not in frame.render_vars:
+                        raise RuntimeError(f"Missing RenderVar {key}; available: {list(frame.render_vars)}")
                     with frame.render_vars[key].map(device=ovrtx.Device.CUDA) as mapped:
                         source = wp.from_dlpack(mapped)
                         if source.ndim != 3 or source.shape[2] != 4 or source.dtype != wp.uint8:
@@ -103,11 +114,12 @@ def main():
                         wp.launch(rgba_to_bgra, dim=(h, w), inputs=[source, buffer], device="cuda:0")
                         wp.synchronize_device("cuda:0")
                         del source
+                    del mapped
                     copied = True
             if not copied:
                 raise RuntimeError("Renderer returned no frames")
             del products, product, frame
-            if stream is None:
+            if state["rendered_frames"] == 0:
                 print(f"FIRST_BGRA_FRAME_READY {w}x{h}", flush=True)
                 rgb = buffer.numpy()[:, :, [2, 1, 0]].copy()
                 print(f"FIRST_FRAME_RANGE min={rgb.min()} max={rgb.max()}", flush=True)
@@ -115,13 +127,15 @@ def main():
                     with args.snapshot.open("xb") as output:
                         output.write(f"P6\n{w} {h}\n255\n".encode())
                         output.write(rgb.tobytes())
-                stream = ovstream.Server(ovstream.ServerType.WEBRTC)
+            if stream is None and not args.render_only:
+                import ovstream
+                from transport import open_stream
                 phase("starting_stream")
-                stream.start(ovstream.ServerConfig(width=w, height=h, target_fps=30,
+                stream = resources.enter_context(open_stream(ovstream, ovstream.ServerConfig(width=w, height=h, target_fps=30,
                     cuda_device=0, cuda_context=int(wp.get_device("cuda:0").context),
                     webrtc_signal_port=args.signal_port, stream_port=args.media_port,
-                    webrtc_public_ip=args.public_ip))
-            connected = stream.is_client_connected
+                    webrtc_public_ip=args.public_ip)))
+            connected = stream.is_client_connected if stream is not None else False
             submitted = False
             if connected:
                 try:
@@ -144,17 +158,19 @@ def main():
             state.update(status="failed", last_error=str(error))
         raise
     finally:
-        if stream is not None:
-            stream.stop()
-            stream.close()
-        if renderer is not None:
-            if attached:
-                renderer.detach_ovstage()
-            if stage is not None:
-                stage.destroy()
-            renderer.destroy()
-        http.shutdown()
-        http.server_close()
+        try:
+            resources.close()
+        finally:
+            try:
+                if renderer is not None:
+                    if attached:
+                        renderer.detach_ovstage()
+                    if stage is not None:
+                        stage.destroy()
+                    renderer.destroy()
+            finally:
+                http.shutdown()
+                http.server_close()
 
 if __name__ == "__main__":
     main()

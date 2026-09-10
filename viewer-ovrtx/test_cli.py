@@ -26,5 +26,10 @@ class CliTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn("Invalid port", result.stderr)
 
+    def test_render_only_requires_bounded_frames(self):
+        result = self.run_cli("--stage", str(ROOT / "smoke.usda"), "--render-only")
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("--render-only requires --frames", result.stderr)
+
 if __name__ == "__main__":
     unittest.main()
