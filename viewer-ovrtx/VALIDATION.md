@@ -44,6 +44,30 @@ are not a persistent production deployment.
 
 ## Repeat
 
+### Feature branch Brev test — 2026-09-10
+
+Tested code: `270a79b` on `feature/cad-review-viewer`, in a detached,
+isolated worktree. The running application checkout was not switched.
+
+- Found and fixed invalid single-line USD property declarations in the initial
+  export. Added an OpenUSD parser regression test.
+- 19 API/readiness/proxy tests, 3 preparation tests (including OpenUSD), and
+  3 CLI tests passed on Linux: **25 passed**.
+- A real CAD review candidate converted to 361 face IDs, 21,576 triangles and
+  20,124 points. OpenUSD 26.8 parsed the result and validated mesh topology.
+- Source SHA-256 remained unchanged; derived stage hash matched its manifest.
+- Units of 0.001 metres per coordinate unit and Z-up were explicit diagnostic
+  settings, not independently verified engineering metadata. The asset remains
+  an unverified review candidate, not certified defeatured or CFD-ready CAD.
+- CAD-derived USD render test used the pinned OVRTX runtime with a 60-second
+  deadline and 5-second forced-stop grace. Readiness stayed HTTP 503 at
+  `attaching_stage`, with zero rendered/submitted frames. The deadline killed
+  the stalled process; no snapshot was produced.
+- Existing API remained ready. No browser stream was attempted and no ports,
+  firewall rules, renderer dependency pins or active services were changed.
+
+The CAD preparation path passes; GPU render acceptance remains blocked.
+
 ```bash
 python test_cli.py
 timeout -k 5 120 bash run.sh --stage smoke.usda --frames 3
