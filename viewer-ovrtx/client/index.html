@@ -4,6 +4,7 @@
 <section style="padding:16px"><label>Source units <select id="units"><option value="">Confirm units…</option><option value="0.001">Millimetres</option><option value="1">Metres</option><option value="0.01">Centimetres</option></select></label><label>Up axis <select id="axis"><option value="">Confirm axis…</option><option>Y</option><option>Z</option></select></label><button id="load">Load CAD output</button></section>
 <main><section><label>Signaling host <input id="host" readonly placeholder="Awaiting verified endpoint"></label><label>Port <input id="port" type="number" readonly placeholder="Not provisioned"></label><button id="refresh">Check readiness</button><button id="connect" disabled>Connect once</button><button id="disconnect" disabled>Disconnect</button></section>
 <p id="status" role="status">Not connected. Endpoint must be provisioned before use.</p>
+<details><summary>Connection diagnostics <button id="download-diagnostics">Download report</button></summary><p id="diagnostics">No peer created.</p></details>
 <video id="remote-video" tabindex="0" autoplay playsinline muted></video><audio id="remote-audio" muted></audio>
 <p>OVStage → OVRTX → GPU BGRA buffer → ovstream → browser video</p></main>
 <script type="module" src="/main.js"></script></body></html>

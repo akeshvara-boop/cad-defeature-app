@@ -168,7 +168,7 @@ def main():
                 stream = resources.enter_context(open_stream(ovstream, ovstream.ServerConfig(width=w, height=h, target_fps=30,
                     cuda_device=0, cuda_context=int(wp.get_device("cuda:0").context),
                     webrtc_signal_port=args.signal_port, stream_port=args.media_port,
-                    webrtc_public_ip=args.public_ip)))
+                    webrtc_public_ip=args.public_ip), diagnostic=True))
             connected = stream.is_client_connected if stream is not None else False
             submitted = False
             if connected:

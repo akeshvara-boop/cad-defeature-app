@@ -1,6 +1,14 @@
-import { AppStreamer, StreamType } from '@nvidia/ov-web-rtc';
+import { record, report } from './diagnostics.js';
+import { AppStreamer, StreamType, StreamStatus } from '@nvidia/ov-web-rtc';
 import './style.css';
 const $ = (id) => document.getElementById(id);
+const streamer = new AppStreamer();
+const describe = value => typeof value === 'string' ? value : JSON.stringify(value);
+$('download-diagnostics').onclick = () => {
+  const url=URL.createObjectURL(new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}));
+  const link=document.createElement('a');link.href=url;link.download='ovrtx-connection.json';link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
 let active = false, generation = 0, firstError = '', teardown = Promise.resolve();
 let endpoint = null;
 const workflowId = new URLSearchParams(location.search).get('workflow_id') || '';
@@ -28,7 +36,7 @@ void checkReadiness();
 async function disconnect() {
   ++generation;
   $('disconnect').disabled = true;
-  teardown = teardown.then(() => AppStreamer.terminate(false)).catch(() => {});
+  teardown = teardown.then(() => streamer.terminate(false)).catch(error => record('terminate-error',describe(error)));
   await teardown;
   $('remote-video').srcObject = null;
   active = false;
@@ -55,15 +63,18 @@ $('connect').onclick = async () => {
   try {
     await teardown;
     status('Connecting standalone ovstream session…');
-    await AppStreamer.connect({streamSource: StreamType.DIRECT, streamConfig: {
+    await streamer.connect({streamSource: StreamType.DIRECT, streamConfig: {
       signalingServer: server, signalingPort: port, signalingPath: verified.signaling_path,
       signalingQuery: new URLSearchParams({workflow_id:workflowId,asset_id:verified.asset_id}),
       ...(verified.media_host ? {mediaServer: verified.media_host, mediaPort: verified.media_port} : {}),
       videoElementId: 'remote-video', audioElementId: 'remote-audio',
       codec: 'H264', codecList: ['H264'], width: 1280, height: 720, fps: 30,
       maxReconnects: 0, nativeTouchEvents: true,
-      onUpdate: (event) => { if (attempt === generation) status(`Stream update: ${String(event.info || event.status)}`); },
-      onStop: () => { if (attempt === generation) { firstError ||= 'Stream stopped before validation completed.'; void disconnect(); } },
+      onUpdate: event => {record('sdk-update',event); if(attempt===generation)status(`Stream update: ${describe(event.info || event.status)}`);},
+      onStart: event => record('sdk-start',event),
+      onStreamStatusChange: state => record('sdk-state',StreamStatus[state] ?? state),
+      onStreamStats: event => record('sdk-stats',event),
+      onStop: event => {record('sdk-stop',event); if(attempt===generation){firstError ||= `Stream stopped: ${describe(event.info || event)}`;void disconnect();}},
     }});
     if (attempt !== generation) return;
     status('Transport established; waiting for decoded video…');
@@ -76,7 +87,8 @@ $('connect').onclick = async () => {
     }
     if (attempt === generation) throw new Error('Connected but no decoded frame within 15s.');
   } catch (error) {
-    if (attempt === generation) { firstError = String(error); await disconnect(); }
+    record('connect-error',describe(error));
+    if (attempt === generation) { firstError = describe(error); await disconnect(); }
   } finally { clearTimeout(timeout); }
 };
 
