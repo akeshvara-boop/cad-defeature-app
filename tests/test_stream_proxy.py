@@ -39,7 +39,8 @@ def test_frontend_advertises_proxy_when_enabled(monkeypatch):
     assert frontend_config()["kit_stream"]["signaling_path"] == "/kit-stream"
 
 
-def test_roundtrip_fixed_upstream_and_cleanup(client, monkeypatch):
+@pytest.mark.parametrize('close_code',[1000,4001])
+def test_roundtrip_fixed_upstream_and_cleanup(client, monkeypatch, close_code):
     calls = []
 
     class Echo:
@@ -56,6 +57,10 @@ def test_roundtrip_fixed_upstream_and_cleanup(client, monkeypatch):
 
         async def send(self, data):
             await self.queue.put(data)
+
+        async def close(self,code,reason):
+            self.close_code=code
+            self.close_reason=reason
 
         def __aiter__(self):
             return self
@@ -80,9 +85,22 @@ def test_roundtrip_fixed_upstream_and_cleanup(client, monkeypatch):
         assert socket.receive_text() == "hello"
         socket.send_bytes(b"binary")
         assert socket.receive_bytes() == b"binary"
-        socket.close()
-        assert socket.receive()["type"] == "websocket.close"
+        socket.close(code=close_code,reason='handoff')
+        result=socket.receive()
+        assert result['type']=='websocket.close'
+        assert result['code']==close_code
     assert calls[0][0] == "ws://127.0.0.1:49100/sign_in?peer_id=test&version=2"
     assert "additional_headers" not in calls[0][1]
     assert calls[0][1]["subprotocols"] == ["x-nv-sessionid.test"]
     assert echo.closed
+    assert echo.close_code==close_code
+    assert echo.close_reason=='handoff'
+
+
+@pytest.mark.parametrize('code',[None,1005,1006,999,5000])
+def test_reserved_close_codes_not_forwarded(code):
+    assert stream_proxy.relay_close_code(code)==1011
+
+def test_close_reason_preserves_utf8_limit():
+    reason=stream_proxy.relay_close_reason('界'*100)
+    assert len(reason.encode())<=123
