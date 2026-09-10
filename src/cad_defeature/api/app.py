@@ -246,3 +246,11 @@ def root():
 
 if _web_dist().is_dir():
     application.mount("/ui", StaticFiles(directory=_web_dist(), html=True), name="ui")
+
+# Opt-in static hosting for the isolated viewer. This does not route streaming
+# traffic or claim that its GPU renderer is ready.
+_ovrtx_dist = os.getenv("CAD_UI_OVRTX_DIST")
+if _ovrtx_dist:
+    application.mount(
+        "/ovrtx", StaticFiles(directory=Path(_ovrtx_dist), html=True), name="ovrtx-ui"
+    )
