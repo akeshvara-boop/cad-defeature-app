@@ -53,7 +53,9 @@ def Xform "World" {{
         float3[] extent = [{fmt(lo)}, {fmt(hi)}]
         color3f[] primvars:displayColor = [(0.55, 0.65, 0.7)]
     }}
-    def DomeLight "ViewerLight" {{ float inputs:intensity = 1000 }}
+    def DomeLight "ViewerLight" {{
+        float inputs:intensity = 1000
+    }}
     def Camera "Camera" {{
         float focalLength = 35
         float horizontalAperture = 36
@@ -69,8 +71,12 @@ def Scope "Render" {{
         uniform int2 resolution = (1280, 720)
         rel orderedVars = [</Render/LdrColor>]
     }}
-    def RenderVar "LdrColor" {{ uniform string sourceName = "LdrColor" }}
-    def RenderSettings "Settings" {{ rel products = [</Render/Camera>] }}
+    def RenderVar "LdrColor" {{
+        uniform string sourceName = "LdrColor"
+    }}
+    def RenderSettings "Settings" {{
+        rel products = [</Render/Camera>]
+    }}
 }}
 '''
 

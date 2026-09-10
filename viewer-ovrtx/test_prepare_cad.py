@@ -3,6 +3,20 @@ from prepare_cad import stage_text
 
 
 class ReviewStageTests(unittest.TestCase):
+    def test_openusd_parses_stage(self):
+        try:
+            from pxr import Sdf, Usd, UsdGeom
+        except ImportError:
+            self.skipTest('Run in the CAD worker with usd-core for parser validation')
+        text = stage_text([(0, 0, 0), (1, 0, 0), (0, 1, 0)], [(0, 1, 2)], [7], .001, 'Z')
+        layer = Sdf.Layer.CreateAnonymous('.usda')
+        self.assertTrue(layer.ImportFromString(text))
+        stage = Usd.Stage.Open(layer)
+        self.assertTrue(stage.GetPrimAtPath('/World/ViewerLight'))
+        self.assertTrue(stage.GetPrimAtPath('/Render/Settings'))
+        mesh = UsdGeom.Mesh(stage.GetPrimAtPath('/World/CAD'))
+        self.assertEqual(len(mesh.GetPointsAttr().Get()), 3)
+
     def test_units_provenance_and_render_product(self):
         text = stage_text([(0, 0, 0), (1, 0, 0), (0, 1, 0)], [(0, 1, 2)], [7], .001, 'Z')
         self.assertIn('metersPerUnit = 0.001', text)
