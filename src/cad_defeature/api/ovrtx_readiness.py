@@ -2,6 +2,7 @@
 import json
 import os
 from urllib.request import urlopen
+from urllib.error import HTTPError
 
 from fastapi import APIRouter
 
@@ -13,8 +14,19 @@ def ovrtx_readiness():
               "reason": "OVRTX renderer is not ready. No connection will be attempted."}
     # Fixed loopback target: never probe a browser-supplied host or URL.
     try:
-        with urlopen("http://127.0.0.1:8081/healthz", timeout=1) as response:
+        try:
+            response = urlopen("http://127.0.0.1:8081/healthz", timeout=1)
+        except HTTPError as error:
+            if error.code != 503:
+                raise
+            response = error
+        with response:
             health = json.loads(response.read(16385))
+        if isinstance(health, dict):
+            phase = health.get("phase")
+            if isinstance(phase, str) and phase in {"initializing", "creating_renderer", "creating_stage", "attaching_stage", "populating_stage", "first_frame", "starting_stream", "rendering"}:
+                result["phase"] = phase
+                result["reason"] = f"OVRTX is not ready: {phase.replace('_', ' ')}. Connect remains disabled."
         if not isinstance(health, dict) or health.get("status") != "ready" or health.get("rendered_frames", 0) < 1:
             return result
     except (OSError, ValueError, TypeError):

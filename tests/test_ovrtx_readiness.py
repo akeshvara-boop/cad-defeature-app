@@ -38,3 +38,18 @@ def test_url_in_host_is_closed(monkeypatch):
     health(monkeypatch, {"status": "ready", "rendered_frames": 3})
     monkeypatch.setenv("CAD_UI_OVRTX_SIGNALING_HOST", "https://viewer.example.test/path")
     assert module.ovrtx_readiness()["ready"] is False
+
+def test_startup_503_explains_phase(monkeypatch):
+    from urllib.error import HTTPError
+    def starting(*a, **k):
+        payload = io.BytesIO(b'{"status":"starting","phase":"attaching_stage","rendered_frames":0}')
+        raise HTTPError("http://127.0.0.1:8081/healthz", 503, "starting", {}, payload)
+    monkeypatch.setattr(module, "urlopen", starting)
+    result = module.ovrtx_readiness()
+    assert result["ready"] is False
+    assert result["phase"] == "attaching_stage"
+    assert "attaching stage" in result["reason"]
+
+def test_malformed_phase_stays_closed(monkeypatch):
+    health(monkeypatch, {"status": "starting", "phase": [], "rendered_frames": 0})
+    assert module.ovrtx_readiness()["ready"] is False

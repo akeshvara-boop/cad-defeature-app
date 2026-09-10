@@ -21,8 +21,21 @@ The browser client is independently locked to @nvidia/ov-web-rtc 6.7.0.
 The initialization sequence was aligned with the pinned upstream minimal
 example. Changing attachment order did not yet establish first-frame success.
 No claim is made that this is a network problem or that replacing Kit fixes it.
-The next diagnostic is a minimal native runtime reproducer for the attach /
-population boundary, followed by first-frame image validation.
+Additional bounded diagnostics on 2026-09-10:
+
+- Standalone OVRTX 0.5, without external OVStage attachment, loaded the sphere
+  but stalled inside the first `step()`. A Python traceback identified the
+  native bindings call; the probe timed out without a frame.
+- An isolated comparison with OVRTX 0.4.1.364340 / OVStage 0.1.1.355824 stalled
+  during renderer construction and emitted Carbonite tasking starvation
+  warnings. This did not establish a working downgrade; application pins remain
+  unchanged. Thread starvation is a diagnostic lead, not a proven root cause.
+- Startup health now reports the initialization phase. The API reads startup
+  HTTP 503 health bodies while keeping Connect disabled until rendering and
+  public-route readiness are verified.
+
+Next: resolve native runtime initialization and obtain a first-frame image
+before testing browser transport. No successful rendered image is available.
 
 No new firewall rules or public endpoints were provisioned. The existing
 workbench frontend and its Kit dependencies were not modified. No customer CAD

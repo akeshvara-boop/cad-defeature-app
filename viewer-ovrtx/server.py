@@ -35,7 +35,7 @@ def main():
     import warp as wp
     from pixels import rgba_to_bgra
     stop = threading.Event()
-    state = {"status": "starting", "rendered_frames": 0, "submitted_frames": 0,
+    state = {"status": "starting", "phase": "initializing", "rendered_frames": 0, "submitted_frames": 0,
              "client_connected": False, "last_error": None}
     lock = threading.Lock()
     webroot = Path(__file__).parent / "client" / "dist"
@@ -60,19 +60,28 @@ def main():
     signal.signal(signal.SIGINT, lambda *_: stop.set())
     renderer = stage = stream = buffer = None
     attached = False
+    def phase(value):
+        with lock:
+            state["phase"] = value
+        print(f"VIEWER_PHASE={value}", flush=True)
     try:
         wp.init()
         print("CREATING_RENDERER", flush=True)
+        phase("creating_renderer")
         renderer = ovrtx.Renderer()
         print("CREATING_STAGE", flush=True)
+        phase("creating_stage")
         stage = ovstage.Stage("cad.remote.viewer")
         # Match the pinned 0.5 upstream minimal example: attach before population.
+        phase("attaching_stage")
         renderer.attach_ovstage(stage)
         attached = True
         print("POPULATING_STAGE", flush=True)
+        phase("populating_stage")
         ovstage.population.open_usd(stage, str(args.stage.resolve()), ordinal=1)
         stage.advance_write_floor(1, ovstage.Scope.ALL).wait()
         print("STAGE_PUBLISHED", flush=True)
+        phase("first_frame")
         while not stop.is_set():
             started = time.monotonic()
             products = renderer.step(render_products={args.product}, delta_time=1 / 30, ordinal=1)
@@ -107,6 +116,7 @@ def main():
                         output.write(f"P6\n{w} {h}\n255\n".encode())
                         output.write(rgb.tobytes())
                 stream = ovstream.Server(ovstream.ServerType.WEBRTC)
+                phase("starting_stream")
                 stream.start(ovstream.ServerConfig(width=w, height=h, target_fps=30,
                     cuda_device=0, cuda_context=int(wp.get_device("cuda:0").context),
                     webrtc_signal_port=args.signal_port, stream_port=args.media_port,
@@ -121,7 +131,7 @@ def main():
                     with lock:
                         state["last_error"] = str(error)
             with lock:
-                state.update(status="ready", client_connected=bool(connected))
+                state.update(status="ready", phase="rendering", client_connected=bool(connected))
                 state["rendered_frames"] += 1
                 state["submitted_frames"] += int(submitted)
                 count = state["rendered_frames"]

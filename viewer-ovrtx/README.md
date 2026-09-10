@@ -39,8 +39,21 @@ main workbench and cannot bypass browser mixed-content restrictions.
 USD with camera/render product/LdrColor wiring. Source files remain unchanged.
 The included sphere fixture provides a non-customer first-frame test.
 
-Not implemented in this first milestone: CAD tessellation/USD export adapter,
-automatic camera fitting, interactive camera updates, selection, workflow-ID
+`prepare_cad.py` now provides a separate OpenCascade worker that writes a new
+review USD with a fitted camera, per-triangle CAD face IDs, explicit units, and
+a source-hash manifest. Run it in a CAD interpreter, not the renderer process:
+
+```bash
+python prepare_cad.py --input /path/to/output.brep --output-dir /new/review-dir \
+  --meters-per-unit 0.001 --up-axis Z
+```
+
+The example units are valid only for a source known to be millimetres. Verify
+units and orientation for each input. Outputs are labelled unverified review
+candidates; a file named `healed_solid.brep` does not establish valid or
+successfully defeatured CAD. Incomplete face tessellation is rejected.
+
+Not implemented in this first milestone: interactive camera updates, selection, workflow-ID
 asset resolution, production session authorization, or workbench embedding.
 Native input forwarding in the client does not imply server camera controls.
 Do not label geometry CFD-ready: this viewer does not create solver meshes.
