@@ -20,11 +20,14 @@ def main():
     parser.add_argument("--http-port", type=int, default=8081)
     parser.add_argument("--public-ip", default=None)
     parser.add_argument("--frames", type=int, default=0)
+    parser.add_argument("--snapshot", type=Path, help="Write first RGB frame as a new PPM file")
     args = parser.parse_args()
     if not args.stage.is_file() or args.stage.suffix.lower() not in {".usd", ".usda", ".usdc"}:
         parser.error("--stage must be an existing prepared USD stage")
     if any(not 1 <= p <= 65535 for p in (args.signal_port, args.media_port, args.http_port)):
         parser.error("Invalid port")
+    if args.frames < 0:
+        parser.error("--frames must be nonnegative")
     os.environ.setdefault("OVRTX_SKIP_USD_CHECK", "1")
     import ovrtx
     import ovstage
@@ -59,11 +62,15 @@ def main():
     attached = False
     try:
         wp.init()
+        print("CREATING_RENDERER", flush=True)
         renderer = ovrtx.Renderer()
+        print("CREATING_STAGE", flush=True)
         stage = ovstage.Stage("cad.remote.viewer")
+        print("POPULATING_STAGE", flush=True)
         ovstage.population.open_usd(stage, str(args.stage.resolve()), ordinal=1)
         stage.advance_write_floor(1, ovstage.Scope.ALL).wait()
         renderer.attach_ovstage(stage)
+        print("STAGE_ATTACHED", flush=True)
         attached = True
         while not stop.is_set():
             started = time.monotonic()
@@ -92,6 +99,12 @@ def main():
             del products, product, frame
             if stream is None:
                 print(f"FIRST_BGRA_FRAME_READY {w}x{h}", flush=True)
+                rgb = buffer.numpy()[:, :, [2, 1, 0]].copy()
+                print(f"FIRST_FRAME_RANGE min={rgb.min()} max={rgb.max()}", flush=True)
+                if args.snapshot:
+                    with args.snapshot.open("xb") as output:
+                        output.write(f"P6\n{w} {h}\n255\n".encode())
+                        output.write(rgb.tobytes())
                 stream = ovstream.Server(ovstream.ServerType.WEBRTC)
                 stream.start(ovstream.ServerConfig(width=w, height=h, target_fps=30,
                     cuda_device=0, cuda_context=int(wp.get_device("cuda:0").context),
@@ -112,6 +125,7 @@ def main():
                 state["submitted_frames"] += int(submitted)
                 count = state["rendered_frames"]
             if args.frames and count >= args.frames:
+                print(f"GPU_SMOKE_COMPLETE frames={count}", flush=True)
                 break
             stop.wait(max(0, 1 / 30 - (time.monotonic() - started)))
     except Exception as error:

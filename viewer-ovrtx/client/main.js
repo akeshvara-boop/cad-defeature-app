@@ -6,7 +6,7 @@ const status = (message) => { $('status').textContent = message; };
 async function disconnect() {
   ++generation;
   $('disconnect').disabled = true;
-  teardown = teardown.then(() => AppStreamer.terminate()).catch(() => {});
+  teardown = teardown.then(() => AppStreamer.terminate(false)).catch(() => {});
   await teardown;
   active = false;
   $('connect').disabled = false;
