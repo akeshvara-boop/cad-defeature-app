@@ -14,12 +14,12 @@ async function checkReadiness() {
     const response = await fetch('/v1/ovrtx/readiness?workflow_id=' + encodeURIComponent(workflowId), {cache: 'no-store'});
     if (!response.ok) throw new Error('Readiness service unavailable');
     const result = await response.json();
-    if (workflowId && result.workflow_id === workflowId && (!expectedAsset || expectedAsset === result.asset_id) && result.ready === true && result.host && Number.isInteger(result.port)) {
+    if (workflowId && expectedAsset && result.workflow_id === workflowId && expectedAsset === result.asset_id && result.ready === true && result.host && Number.isInteger(result.port)) {
       endpoint = result;
       $('host').value = result.host; $('port').value = result.port;
       $('connect').disabled = active;
     }
-    status(result.reason || 'Renderer not ready.');
+    status(!expectedAsset ? 'Confirm source units and up axis, then load this workflow’s CAD output.' : (result.reason || 'Renderer not ready.'));
   } catch { status('Readiness unavailable. Connect is disabled; open this viewer through the workbench API.'); }
   return endpoint;
 }
@@ -84,7 +84,7 @@ $('load').onclick = async () => {
   if (!workflowId || !$('units').value || !$('axis').value) {
     status('Select a workflow and confirm CAD source units and up axis.'); return;
   }
-  await disconnect(); firstError = '';
+  await disconnect(); firstError = ''; expectedAsset = null;
   $('load').disabled = true;
   try {
     status('Preparing the selected workflow output on Brev…');
